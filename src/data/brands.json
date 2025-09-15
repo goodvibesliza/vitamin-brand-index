@@ -1,0 +1,22 @@
+[
+  {
+    "brand": "NOW Foods",
+    "slug": "now-foods",
+    "parent_company": "NOW Health Group, Inc.",
+    "year_founded": 1968,
+    "hq": "Bloomingdale, IL, USA",
+    "manufacturing_locations": ["Bloomingdale, IL"],
+    "certifications": ["GMP"],
+    "ingredient_philosophy": "Evidence-first, clean-label.",
+    "proprietary_blends": "Limited",
+    "top_products": ["Magnesium Glycinate","Omega-3","Vitamin D3"],
+    "ownership_transparency": "High",
+    "testing_qa_notes": "Routine third-party testing.",
+    "recalls_notices": "None known",
+    "verification_status": "Prelim Verified",
+    "last_verified": "2025-09-14",
+    "sources": [
+      {"title":"Quality page","url":"https://example.com/quality","type":"Brand Site","note":"QA overview"}
+    ]
+  }
+]

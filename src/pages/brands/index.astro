@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getAllBrands } from '../../lib/data.js';
+const brands = getAllBrands();
+---
+<Base title="Brands – Vitamin Brand Checklist">
+  <h1 class="text-2xl font-semibold mb-4">Brands</h1>
+  {brands.length === 0 ? (
+    <p>No brands yet. Add to <code>src/data/brands.json</code>.</p>
+  ) : (
+    <ul class="list-disc pl-5 space-y-1">
+      {brands.map((b) => (
+        <li><a class="underline" href={`/brands/${b.slug}/`}>{b.brand}</a></li>
+      ))}
+    </ul>
+  )}
+</Base>

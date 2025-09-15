@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+const params = new URLSearchParams(Astro.request.url.split('?')[1] || '');
+const prefill = params.get('brand') || '';
+---
+<Base title="Suggest a correction">
+  <h1 class="text-2xl font-semibold">Suggest a correction</h1>
+  <form name="correction" method="POST" data-netlify="true" class="mt-4 space-y-3">
+    <input type="hidden" name="form-name" value="correction" />
+    <label class="block">Brand
+      <input class="border p-2 w-full" name="brand" value={prefill} required />
+    </label>
+    <label class="block">Your role
+      <select class="border p-2 w-full" name="role">
+        <option>Consumer</option><option>Retailer</option><option>Brand</option><option>Other</option>
+      </select>
+    </label>
+    <label class="block">Message
+      <textarea class="border p-2 w-full" name="message" required></textarea>
+    </label>
+    <label class="block">Link (optional)
+      <input class="border p-2 w-full" name="url" />
+    </label>
+    <button class="border px-4 py-2" type="submit">Send</button>
+  </form>
+</Base>

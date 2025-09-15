@@ -1,0 +1,13 @@
+---
+import Base from "../../../layouts/Base.astro";
+const { slug } = Astro.params;
+const title = `Post: ${slug} • Vitamin Brand Checklist`;
+const description = "Placeholder post";
+const canonical = `https://vitaminbrandindex.com/blog/${slug}/`;
+---
+<Base {title} {description} {canonical}>
+  <section class="container stack-lg">
+    <h1>Coming soon</h1>
+    <p class="lead">Blog post “{slug}” will be published soon.</p>
+  </section>
+</Base>
