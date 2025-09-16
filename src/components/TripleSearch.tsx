@@ -239,11 +239,9 @@ export default function TripleSearch({
             onSubmit={handleBrandSubmit}
           />
           <div className="stack">
-            {brandResults.slice(0, 6).map((b) => (
-              <ResultBlockBrand key={b.slug} b={b} />
-            ))}
-            <a className="link" href={`/brands/?q=${encodeURIComponent(qBrand)}`}>
-              View all results →
+            {/* Homepage: simplify — only link to full directory */}
+            <a className="link" href="/brands/">
+              View all Brands
             </a>
           </div>
         </div>
@@ -259,9 +257,9 @@ export default function TripleSearch({
             }}
           />
           <div className="stack">
-            {topProduct && <ResultBlockProduct key={topProduct.slug} p={topProduct} />}
-            <a className="link" href={`/products/?q=${encodeURIComponent(qProduct)}`}>
-              View all results →
+            {/* Homepage: no previews, just link */}
+            <a className="link" href="/products/">
+              View all Products
             </a>
           </div>
         </div>
@@ -277,22 +275,9 @@ export default function TripleSearch({
             }}
           />
           <div className="stack">
-            {qAttr.trim() ? (
-              <>
-                <h3>Brands</h3>
-                {attrBrandMatches.slice(0, 6).map((b) => (
-                  <ResultBlockBrand key={b.slug} b={b} />
-                ))}
-                <h3>Products</h3>
-                {attrProductMatches.slice(0, 6).map((p) => (
-                  <ResultBlockProduct key={p.slug} p={p} />
-                ))}
-              </>
-            ) : (
-              <p className="lead">Type an attribute above to see matches.</p>
-            )}
-            <a className="link" href={`/search/attributes?q=${encodeURIComponent(qAttr)}`}>
-              View all results →
+            {/* Simplified: direct link only */}
+            <a className="link" href="/search/attributes">
+              View all Attributes
             </a>
           </div>
         </div>
