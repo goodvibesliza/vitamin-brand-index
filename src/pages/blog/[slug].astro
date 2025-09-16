@@ -1,9 +1,13 @@
 ---
-import Base from "../../../layouts/Base.astro";
+import Base from "../../layouts/Base.astro";
 const { slug } = Astro.params;
 const title = `Post: ${slug} • Vitamin Brand Checklist`;
 const description = "Placeholder post";
 const canonical = `https://vitaminbrandindex.com/blog/${slug}/`;
+
+export async function getStaticPaths() {
+  return [];
+}
 ---
 <Base {title} {description} {canonical}>
   <section class="container stack-lg">

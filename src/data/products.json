@@ -1,0 +1,9 @@
+[
+  { "name": "Magnesium Glycinate", "slug": "magnesium-glycinate", "aliases": ["magnesium", "mg glycinate", "mag glycinate"] },
+  { "name": "Vitamin D3", "slug": "vitamin-d3", "aliases": ["vitamin d", "cholecalciferol", "vit d"] },
+  { "name": "Vitamin C", "slug": "vitamin-c", "aliases": ["ascorbic acid", "vit c"] },
+  { "name": "Omega-3 Fish Oil", "slug": "omega-3-fish-oil", "aliases": ["omega 3", "dha", "epa", "fish oil"] },
+  { "name": "Probiotic", "slug": "probiotic", "aliases": ["lactobacillus", "bifidobacterium"] },
+  { "name": "Collagen Peptides", "slug": "collagen-peptides", "aliases": ["collagen"] },
+  { "name": "Prenatal Multivitamin", "slug": "prenatal-multivitamin", "aliases": ["prenatal", "multi-vitamin"] }
+]

@@ -59,8 +59,10 @@ const fuseOptions: IFuseOptions<Product> = {
   ],
 };
 
-export default function ProductDirectory({ products }: { products: Product[] }) {
-  const [query, setQuery] = useState<string>("");
+export default function ProductDirectory(
+  { products, initialQuery = "" }: { products: Product[]; initialQuery?: string }
+) {
+  const [query, setQuery] = useState<string>(initialQuery);
   const [selectedCats, setSelectedCats] = useState<string[]>([]);
 
   const categoryIndex = useMemo(() => buildCategoryIndex(products), [products]);

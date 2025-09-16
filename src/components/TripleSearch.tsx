@@ -4,6 +4,13 @@ import SearchBar from "./SearchBar";
 import ResultBlockBrand from "./ResultBlockBrand";
 import ResultBlockProduct from "./ResultBlockProduct";
 
+// lightweight Plausible helper
+function track(event: string, props: any) {
+  try {
+    (window as any).plausible?.(event, { props });
+  } catch {}
+}
+
 /** Data shapes (match your JSON keys we actually use here) */
 type Brand = {
   brand: string;
@@ -127,7 +134,10 @@ export default function TripleSearch({
             label="Search brands"
             placeholder="e.g., certified, transparency, recall…"
             value={qBrand}
-            onChange={setQBrand}
+            onChange={(v) => {
+              setQBrand(v);
+              track("Search", { type: "brand", q: v });
+            }}
           />
           <div className="stack">
             {brandResults.slice(0, 6).map((b) => (
@@ -145,7 +155,10 @@ export default function TripleSearch({
             label="Search products"
             placeholder="e.g., magnesium glycinate, probiotic…"
             value={qProduct}
-            onChange={setQProduct}
+            onChange={(v) => {
+              setQProduct(v);
+              track("Search", { type: "product", q: v });
+            }}
           />
           <div className="stack">
             {productResults.slice(0, 6).map((p) => (
@@ -163,7 +176,10 @@ export default function TripleSearch({
             label="Search by attribute"
             placeholder='Try "women-owned" or "allergen-free"'
             value={qAttr}
-            onChange={setQAttr}
+            onChange={(v) => {
+              setQAttr(v);
+              track("Search", { type: "attribute", q: v });
+            }}
           />
           <div className="stack">
             {qAttr.trim() ? (

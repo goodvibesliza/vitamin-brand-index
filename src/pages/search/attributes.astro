@@ -1,0 +1,21 @@
+---
+import Base from "../../layouts/Base.astro";
+import AttributeResults from "../../components/AttributeResults";
+import brands from "../../data/brands.json";
+import products from "../../data/products.json";
+
+const q = Astro.url.searchParams.get("q") ?? "";
+const title = q ? `Attribute: ${q} • Vitamin Brand Checklist` : "Search by attribute • Vitamin Brand Checklist";
+const description = "Filter brands and products by attributes like women-owned or allergen-free.";
+const canonical = `https://vitaminbrandindex.com/search/attributes${q ? `?q=${encodeURIComponent(q)}` : ""}`;
+---
+<Base {title} {description} {canonical}>
+  <section class="container stack-lg">
+    <h1>Search by attribute</h1>
+    <form action="/search/attributes" method="get" class="stack" style="grid-template-columns:1fr auto;">
+      <input class="input" type="search" name="q" value={q} placeholder='Try "women-owned" or "allergen-free"' />
+      <button class="button" style="width:fit-content;">Search</button>
+    </form>
+    <AttributeResults client:load query={q} brands={brands} products={products} />
+  </section>
+</Base>

@@ -1,0 +1,18 @@
+---
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/brands/", label: "Brands" },
+  { href: "/products/", label: "Products" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/for-brands/", label: "For brands" },
+  { href: "/submit/", label: "Submit a brand" },
+];
+---
+<header style="position:sticky;top:0;background:#fff9fdcf;backdrop-filter:saturate(1.1) blur(6px);border-bottom:1px solid var(--border);z-index:50;">
+  <div class="container" style="display:flex;align-items:center;gap:1rem;">
+    <a href="/" style="font-weight:700;text-decoration:none;color:var(--text);">Vitamin Brand Checklist</a>
+    <nav style="margin-left:auto;display:flex;gap:1rem;flex-wrap:wrap;">
+      {nav.map((i) => <a href={i.href} style="text-decoration:none;color:var(--text)">{i.label}</a>)}
+    </nav>
+  </div>
+</header>

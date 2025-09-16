@@ -1,0 +1,35 @@
+---
+import Base from "../layouts/Base.astro";
+const title = "For Brands • Vitamin Brand Checklist";
+const description = "Get verified and help customers choose with confidence.";
+const canonical = "https://vitaminbrandindex.com/for-brands/";
+---
+<Base {title} {description} {canonical}>
+  <section class="hero hero-silk">
+    <div class="container-lg stack-lg" style="text-align:center">
+      <h1>Get Verified</h1>
+      <p class="lead">Verification highlights third-party testing, sourcing transparency, and recall history.</p>
+      <a class="button button-secondary" href="/submit/">Request verification →</a>
+    </div>
+  </section>
+  <section class="container stack-lg">
+    <h2>Simple, transparent pricing</h2>
+    <div class="grid-3">
+      <article class="card">
+        <h3>Listing</h3>
+        <p class="lead">Free</p>
+        <p>Basic brand facts and sources.</p>
+      </article>
+      <article class="card">
+        <h3>Verified</h3>
+        <p class="lead">$— / mo (placeholder)</p>
+        <p>Badge, deeper QA notes, and prioritized updates.</p>
+      </article>
+      <article class="card">
+        <h3>Partner</h3>
+        <p class="lead">$— / mo (placeholder)</p>
+        <p>Enhanced profile, affiliate integrations, and co-marketing.</p>
+      </article>
+    </div>
+  </section>
+</Base>

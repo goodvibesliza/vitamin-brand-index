@@ -1,0 +1,13 @@
+---
+import Base from "../layouts/Base.astro";
+const title = "Page not found • Vitamin Brand Checklist";
+const description = "That page doesn't exist.";
+const canonical = "https://vitaminbrandindex.com/404";
+---
+<Base {title} {description} {canonical}>
+  <section class="container stack-lg" style="text-align:center;">
+    <h1>404</h1>
+    <p class="lead">We couldn’t find that page.</p>
+    <a class="button" href="/">Go home →</a>
+  </section>
+</Base>

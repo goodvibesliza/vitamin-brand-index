@@ -22,7 +22,21 @@ export default function ResultBlockBrand({ b }: { b: Brand }) {
   const fmt = (v: any) => Array.isArray(v) ? v.join(", ") : (v ?? "—");
   return (
     <article className="block">
-      <h3><a className="link" href={`/brands/${b.slug}/`}>{b.brand}</a></h3>
+      <h3>
+        <a
+          className="link"
+          href={`/brands/${b.slug}/`}
+          onClick={() => {
+            try {
+              (window as any).plausible?.("Result Click", {
+                props: { type: "brand", id: b.slug },
+              });
+            } catch {}
+          }}
+        >
+          {b.brand}
+        </a>
+      </h3>
       <dl className="kv">
         <dt>Parent company</dt><dd>{fmt(b.parent_company)}</dd>
         <dt>Founded</dt><dd>{fmt(b.year_founded)}</dd>

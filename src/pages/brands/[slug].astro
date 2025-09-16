@@ -1,6 +1,7 @@
 ---
 import brands from "../../data/brands.json";
 import type { Brand } from "../../types/brand";
+import Base from "../../layouts/Base.astro";
 
 const { slug } = Astro.params;
 const brand: Brand | undefined = (brands as Brand[]).find(b => b.slug === slug);
@@ -13,17 +14,18 @@ if (!brand) {
 const pageTitle = `${brand!.brand} — Brand Profile`;
 const pageDescription = `Quick facts, sourcing signals, certifications, and verification status for ${brand!.brand}.`;
 const fmt = (v: unknown) => (Array.isArray(v) ? v.join(", ") : (v ?? "—"));
+
+const title = `${pageTitle} • Vitamin Brand Checklist`;
+const description = pageDescription;
+const canonical = `https://vitaminbrandindex.com/brands/${brand!.slug}/`;
+
+export async function getStaticPaths() {
+  return (brands).map((b) => ({ params: { slug: b.slug } }));
+}
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{pageTitle} • Vitamin Brand Checklist</title>
-    <meta name="description" content={pageDescription} />
-    <link rel="canonical" href={`https://your-domain.example/brands/${brand!.slug}/`} />
-  </head>
-  <body>
-    <main>
+<Base {title} {description} {canonical}>
+  <main>
       <header class="page-header">
         <h1>{brand!.brand}</h1>
         <p class="lead">{pageDescription}</p>
@@ -105,7 +107,7 @@ const fmt = (v: unknown) => (Array.isArray(v) ? v.join(", ") : (v ?? "—"));
           </ul>
         </section>
       </article>
-    </main>
+  </main>
 
     <style>
       :root {
@@ -130,5 +132,13 @@ const fmt = (v: unknown) => (Array.isArray(v) ? v.join(", ") : (v ?? "—"));
       .muted { color: var(--muted); }
       .columns { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: .25rem .75rem; margin: 0; padding-left: 1rem; }
     </style>
-  </body>
-</html>
+
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: brand?.brand,
+      url: `https://vitaminbrandindex.com/brands/${brand?.slug}/`
+    })}
+  </script>
+</Base>

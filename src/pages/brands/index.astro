@@ -14,4 +14,16 @@ const brands = getAllBrands();
       ))}
     </ul>
   )}
+
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: (brands || []).map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `https://vitaminbrandindex.com/brands/${b.slug}/`,
+      })),
+    })}
+  </script>
 </Base>

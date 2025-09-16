@@ -94,3 +94,31 @@ h2{ font-size: clamp(1.4rem, 2vw + .6rem, 2rem); }
   display:inline-block;border:1px solid var(--border);border-radius:999px;
   padding:.25rem .6rem;background:var(--primary-weak);color:#a13864;font-size:.85rem;margin:.2rem .3rem .2rem 0;
 }
+
+/* Active navigation link */
+a[aria-current="page"]{
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+/* Normalize search inputs */
+.input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 46px;
+  padding: 0 1rem;
+  border-radius: 999px;
+}
+
+/* Remove browser-specific search styling */
+input[type="search"]{
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration{
+  -webkit-appearance:none;
+}
