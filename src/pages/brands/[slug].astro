@@ -17,7 +17,8 @@ if (!brand) {
 
 const pageTitle = `${brand.brand} — Brand Profile`;
 const pageDescription = `Quick facts, sourcing signals, certifications, and verification status for ${brand.brand}.`;
-const fmt = (v) => (Array.isArray(v) ? v.join(', ') : (v ?? '—'));
+// helper to format values while avoiding nullish-coalescing (esbuild bug workaround)
+const fmt = (v) => (Array.isArray(v) ? v.join(', ') : (v != null ? v : '—'));
 
 const title = `${pageTitle} • Vitamin Brand Checklist`;
 const description = pageDescription;
@@ -27,6 +28,17 @@ const kw = normalize.extractKeywordsFromBrand(brand) || [];
 const certs = Array.isArray(brand.certifications) ? brand.certifications : [];
 const tags = Array.from(new Set(certs.concat(kw))).slice(0, 20);
 const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
+
+// Pre-build JSON-LD object without spread syntax (avoids esbuild parsing issues)
+const ldOrg = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: brand.brand,
+  url: `https://vitaminbrandindex.com/brands/${brand.slug}/`,
+};
+if (officialUrl) {
+  ldOrg.sameAs = [officialUrl];
+}
 ---
 
 <!-- Sanity check block requested -->
@@ -58,12 +70,14 @@ const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
             <dt>Parent company</dt><dd>{fmt(brand.parent_company)}</dd>
             <dt>Year founded</dt><dd>{fmt(brand.year_founded)}</dd>
             <dt>HQ</dt><dd>{fmt(brand.hq)}</dd>
-            {officialUrl && (
-              <>
-                <dt>Official website</dt>
-                <dd><a href={officialUrl} target="_blank" rel="noopener noreferrer">{officialUrl}</a></dd>
-              </>
-            )}
+            {officialUrl ? <dt>Official website</dt> : null}
+            {officialUrl ? (
+              <dd>
+                <a href={officialUrl} target="_blank" rel="noopener noreferrer">
+                  {officialUrl}
+                </a>
+              </dd>
+            ) : null}
           </dl>
         </section>
 
@@ -193,9 +207,11 @@ const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
             .forEach((el) =>
               el.addEventListener('click', () => {
                 try {
-                  window.plausible?.('Tag Click', {
-                    props: { tag: el.dataset.tag, brand: brandName },
-                  });
+                      if (window && window.plausible) {
+                        window.plausible('Tag Click', {
+                          props: { tag: el.dataset.tag, brand: brandName },
+                        });
+                      }
                 } catch {}
               })
             );
@@ -210,12 +226,6 @@ const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
   </script>
 
   <script type="application/ld+json">
-    {JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: brand.brand,
-      url: `https://vitaminbrandindex.com/brands/${brand.slug}/`,
-      ...(officialUrl ? { sameAs: [officialUrl] } : {})
-    })}
+    {JSON.stringify(ldOrg)}
   </script>
 </Base>
