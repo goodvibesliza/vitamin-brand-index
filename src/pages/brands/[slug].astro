@@ -1,16 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
-export async function getStaticPaths() { return []; }
-const title = 'Sanity';
-const description = '';
-const canonical = '/';
----
+import brands from '../../data/brands.json';
+import * as normalize from '../../lib/normalizeAttributes';
+import extractOfficialSite from '../../lib/extractOfficialSite';
 
-<Base {title} {description} {canonical}>
-  <main><h1>Sanity check</h1></main>
-</Base>
-
-const { default: extractOfficialSite } = await import('../../lib/extractOfficialSite');
+export async function getStaticPaths() {
+  return brands.map((b) => ({ params: { slug: b.slug } }));
+}
 
 const { slug } = Astro.params;
 const brand = brands.find((b) => b.slug === slug);
@@ -27,16 +23,14 @@ const title = `${pageTitle} • Vitamin Brand Checklist`;
 const description = pageDescription;
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
 
-export async function getStaticPaths() {
-  return brands.map((b) => ({ params: { slug: b.slug } }));
-}
-
 const kw = normalize.extractKeywordsFromBrand(brand) || [];
 const certs = Array.isArray(brand.certifications) ? brand.certifications : [];
 const tags = Array.from(new Set(certs.concat(kw))).slice(0, 20);
 const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
-
 ---
+
+<!-- Sanity check block requested -->
+<!-- <Base {title} {description} {canonical}><main><h1>Sanity check</h1></main></Base> -->
 
 <Base {title} {description} {canonical}>
   <main>
@@ -191,16 +185,15 @@ const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
   <!-- Plausible tag-click tracking (no hydration) -->
   <script>
     (() => {
-      // brand name injected from server for analytics
       const brandName = {JSON.stringify(brand.brand)};
       const run = () => {
         try {
           document
-            .querySelectorAll(".tag-badge")
+            .querySelectorAll('.tag-badge')
             .forEach((el) =>
-              el.addEventListener("click", () => {
+              el.addEventListener('click', () => {
                 try {
-                  window.plausible?.("Tag Click", {
+                  window.plausible?.('Tag Click', {
                     props: { tag: el.dataset.tag, brand: brandName },
                   });
                 } catch {}
@@ -208,8 +201,8 @@ const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
             );
         } catch {}
       };
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", run, { once: true });
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run, { once: true });
       } else {
         run();
       }
@@ -218,8 +211,8 @@ const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
 
   <script type="application/ld+json">
     {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
       name: brand.brand,
       url: `https://vitaminbrandindex.com/brands/${brand.slug}/`,
       ...(officialUrl ? { sameAs: [officialUrl] } : {})
