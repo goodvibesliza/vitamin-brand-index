@@ -9,7 +9,6 @@ const { slug } = Astro.params;
 const brand: Brand | undefined = (brands as Brand[]).find(b => b.slug === slug);
 
 if (!brand) {
-  // Soft 404 fallback for missing slugs
   Astro.redirect('/404');
 }
 
