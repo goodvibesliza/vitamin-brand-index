@@ -61,8 +61,8 @@ function parseArray(value) {
   // Deduplicate while preserving order
   const seen = new Set();
   return items.filter(item => {
-    if (seen.has(item.toLowerCase())) return false;
-    seen.add(item.toLowerCase());
+    if (seen.has(item)) return false;
+    seen.add(item);
     return true;
   });
 }
