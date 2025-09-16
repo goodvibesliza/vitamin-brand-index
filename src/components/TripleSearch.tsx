@@ -174,11 +174,24 @@ export default function TripleSearch({
     track('Search', { type: 'brand', q, resultCount: brandFuse.search(q).length });
 
     const slugified = toSlug(q);
-    const exact =
-      brands.find((b) => b.slug.toLowerCase() === slugified) ||
-      brands.find((b) => b.brand.toLowerCase() === q.toLowerCase());
-    if (exact) {
-      window.location.href = `/brands/${exact.slug}/`;
+
+    // 1) exact slug match
+    const exactBySlug = brands.find((b) => b.slug.toLowerCase() === slugified);
+
+    // 2) slugified brand-name match (handles punctuation & ® etc.)
+    const exactByNameSlug = exactBySlug
+      ? undefined
+      : brands.find((b) => toSlug(b.brand) === slugified);
+
+    // 3) first Fuse result (closest fuzzy match)
+    const firstFuse = exactBySlug || exactByNameSlug
+      ? undefined
+      : brandFuse.search(q)[0]?.item;
+
+    const target = exactBySlug ?? exactByNameSlug ?? firstFuse;
+
+    if (target) {
+      window.location.href = `/brands/${target.slug}/`;
     } else {
       window.location.href = `/brands/?q=${encodeURIComponent(q)}`;
     }
