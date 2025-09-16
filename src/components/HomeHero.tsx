@@ -8,9 +8,9 @@ export default function HomeHero() {
           <div style={{letterSpacing:".18em", fontSize:".85rem", color:"#9aa3b2"}}>
             PRE-PURCHASE CHECKLIST
           </div>
-          <h1><em>A single right choice</em> gets you better results.</h1>
+          <h1>Vitamin Brand Index</h1>
           <p className="lead">
-            We research brands and products so you don’t waste money—or end up with sawdust in a capsule.
+            Independent brand and product facts verified by industry experts. We research brands and products so you don’t waste money...or end up with sawdust in a capsule.
           </p>
         </div>
         <div className="stack" style={{gap:".6rem"}}>
