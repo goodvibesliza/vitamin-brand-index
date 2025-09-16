@@ -52,7 +52,7 @@ const fmt = (v: unknown) => (Array.isArray(v) ? v.join(", ") : (v ?? "—"));
           <h2>Products & Certifications</h2>
           <dl class="kv">
             <dt>Top products</dt><dd>{fmt(brand!.top_products)}</dd>
-            <dt>Certifications</dt><dd>{fmt(brand!.certifications)}</dd>
+            <dt>Certifications</dt><dd>{fmt(brand!.certification)}</dd>
             <dt>Ownership transparency</dt><dd>{fmt(brand!.ownership_transparency)}</dd>
           </dl>
         </section>
@@ -81,28 +81,31 @@ const fmt = (v: unknown) => (Array.isArray(v) ? v.join(", ") : (v ?? "—"));
           </dl>
         </section>
 
-        <section class="card subtle">
-          <h2>Coming soon (from Notion)</h2>
-          <p class="muted">
-            We have placeholders for additional fields present in the internal Notion database so we can wire them up when the API sync is enabled. These do not block MVP.
-          </p>
-          <ul class="columns">
-            <li>Allergen-free</li>
-            <li>Assembled in</li>
-            <li>Ingredient sourcing</li>
-            <li>Glass or Plastic?</li>
-            <li>In-house testing lab</li>
-            <li>Made in USA?</li>
-            <li>Product categories</li>
-            <li>Product formats</li>
-            <li>Non-profit partners</li>
-            <li>Sustainability</li>
-            <li>Unique offering</li>
-            <li>Verified by</li>
-            <li>Status of entry</li>
-            <li>Freshness / badges</li>
-            <li>Woman owned?</li>
-          </ul>
+        <section class="card">
+          <h2>Additional details</h2>
+          <dl class="kv">
+            <!-- Booleans -->
+            <dt>Self manufactured</dt><dd>{fmt(brand!.self_manufactured)}</dd>
+            <dt>In-house testing</dt><dd>{fmt(brand!.in_house_testing)}</dd>
+            <dt>Made in USA</dt><dd>{fmt(brand!.made_in_usa)}</dd>
+            <dt>Proprietary blends</dt><dd>{fmt(brand!.proprietary_blends)}</dd>
+            <dt>Woman-owned</dt><dd>{fmt(brand!.woman_owned)}</dd>
+            <dt>Vegan</dt><dd>{fmt(brand!.vegan)}</dd>
+            <dt>Allergen-free</dt><dd>{fmt(brand!.allergen_free)}</dd>
+            <dt>Clinically tested</dt><dd>{fmt(brand!.clinically_tested)}</dd>
+
+            <!-- Strings -->
+            <dt>Assembled in</dt><dd>{fmt(brand!.assembled_in)}</dd>
+            <dt>Ingredient sourcing</dt><dd>{fmt(brand!.ingredient_sourcing)}</dd>
+            <dt>Glass or plastic</dt><dd>{fmt(brand!.glass_or_plastic)}</dd>
+            <dt>Sustainability</dt><dd>{fmt(brand!.sustainablity)}</dd>
+            <dt>Non-profit partner</dt><dd>{fmt(brand!.non_profit_partner)}</dd>
+            <dt>Unique offering</dt><dd>{fmt(brand!.unique_offering)}</dd>
+
+            <!-- Arrays -->
+            <dt>Product categories</dt><dd>{fmt(brand!.product_categories)}</dd>
+            <dt>Product types</dt><dd>{fmt(brand!.product_types)}</dd>
+          </dl>
         </section>
       </article>
     </main>

@@ -8,10 +8,9 @@ import ResultBlockProduct from "./ResultBlockProduct";
 type Brand = {
   brand: string;
   slug: string;
-  certifications?: string[];
+  certification?: string[];
   ingredient_philosophy?: string | null;
   ownership_transparency?: string | null;
-  testing_qa_notes?: string | null;
   recalls_notices?: string | null;
   sources?: string[];
 };
@@ -29,7 +28,7 @@ const brandFuseOptions: Fuse.IFuseOptions<Brand> = {
   includeScore: false,
   keys: [
     { name: "brand", weight: 0.7 },
-    { name: "certifications", weight: 0.2 },
+    { name: "certification", weight: 0.2 },
     { name: "ingredient_philosophy", weight: 0.1 },
   ],
 };
@@ -79,10 +78,9 @@ export default function TripleSearch({
     return brands.filter((b) => {
       const hay = [
         b.brand,
-        ...(b.certifications ?? []),
+        ...(b.certification ?? []),
         b.ingredient_philosophy ?? "",
         b.ownership_transparency ?? "",
-        b.testing_qa_notes ?? "",
         b.recalls_notices ?? "",
         ...(b.sources ?? []),
       ].join(" ");

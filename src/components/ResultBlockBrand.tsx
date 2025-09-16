@@ -6,12 +6,11 @@ type Brand = {
   year_founded?: number | null;
   hq?: string | null;
   manufacturing_locations?: string[];
-  certifications?: string[];
+  certification?: string[];
   ingredient_philosophy?: string | null;
   proprietary_blends?: string | null;
   top_products?: string[];
   ownership_transparency?: string | null;
-  testing_qa_notes?: string | null;
   recalls_notices?: string | null;
   verification_status?: string | null;
   last_verified?: string | null;
@@ -28,11 +27,10 @@ export default function ResultBlockBrand({ b }: { b: Brand }) {
         <dt>Founded</dt><dd>{fmt(b.year_founded)}</dd>
         <dt>HQ</dt><dd>{fmt(b.hq)}</dd>
         <dt>Manufacturing</dt><dd>{fmt(b.manufacturing_locations)}</dd>
-        <dt>Certifications</dt><dd>{fmt(b.certifications)}</dd>
+        <dt>Certifications</dt><dd>{fmt(b.certification)}</dd>
         <dt>Ingredients</dt><dd>{fmt(b.ingredient_philosophy)}</dd>
         <dt>Proprietary blends</dt><dd>{fmt(b.proprietary_blends)}</dd>
         <dt>Ownership transparency</dt><dd>{fmt(b.ownership_transparency)}</dd>
-        <dt>Testing / QA</dt><dd>{fmt(b.testing_qa_notes)}</dd>
         <dt>Recalls</dt><dd>{fmt(b.recalls_notices)}</dd>
         <dt>Verification</dt><dd>{fmt(b.verification_status)} (as of {fmt(b.last_verified)})</dd>
       </dl>
