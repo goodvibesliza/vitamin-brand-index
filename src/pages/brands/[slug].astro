@@ -1,8 +1,15 @@
 ---
-const __a = 1;
-const __b = 2;
-const __c = 3;
 import Base from '../../layouts/Base.astro';
+export async function getStaticPaths() { return []; }
+const title = 'Sanity';
+const description = '';
+const canonical = '/';
+---
+
+<Base {title} {description} {canonical}>
+  <main><h1>Sanity check</h1></main>
+</Base>
+
 const { default: extractOfficialSite } = await import('../../lib/extractOfficialSite');
 
 const { slug } = Astro.params;
