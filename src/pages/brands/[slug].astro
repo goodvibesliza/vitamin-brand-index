@@ -1,30 +1,28 @@
 ---
-import brands from "../../data/brands.json";
-import Base from "../../layouts/Base.astro";
-import * as normalize from "../../lib/normalizeAttributes";
-import extractOfficialSite from "../../lib/extractOfficialSite";
+import Base from '../../layouts/Base.astro';
+import extractOfficialSite from '../../lib/extractOfficialSite';
+import * as normalize from '../../lib/normalizeAttributes';
+import brands from '../../data/brands.json';
 
 const { slug } = Astro.params;
 const brand = brands.find((b) => b.slug === slug);
 
 if (!brand) {
-  // Soft 404 fallback for missing slugs
   Astro.redirect('/404');
 }
 
 const pageTitle = `${brand.brand} — Brand Profile`;
 const pageDescription = `Quick facts, sourcing signals, certifications, and verification status for ${brand.brand}.`;
-const fmt = (v) => (Array.isArray(v) ? v.join(", ") : (v ?? "—"));
+const fmt = (v) => (Array.isArray(v) ? v.join(', ') : (v ?? '—'));
 
 const title = `${pageTitle} • Vitamin Brand Checklist`;
 const description = pageDescription;
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
 
 export async function getStaticPaths() {
-  return (brands).map((b) => ({ params: { slug: b.slug } }));
+  return brands.map((b) => ({ params: { slug: b.slug } }));
 }
 
-/* tags: combine explicit certs with normalized keyword extraction */
 const tags = Array.from(
   new Set([...(brand.certifications ?? []), ...normalize.extractKeywordsFromBrand(brand)])
 ).slice(0, 20);
