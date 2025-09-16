@@ -1,7 +1,6 @@
 ---
-
+const __noop = 0;
 import Base from '../../layouts/Base.astro';
-// dynamic imports avoid static-analysis parse issues
 const normalize = await import('../../lib/normalizeAttributes');
 const { default: brands } = await import('../../data/brands.json');
 const { default: extractOfficialSite } = await import('../../lib/extractOfficialSite');
