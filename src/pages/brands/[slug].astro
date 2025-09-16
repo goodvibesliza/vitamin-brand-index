@@ -1,24 +1,24 @@
 ---
 import brands from "../../data/brands.json";
 import Base from "../../layouts/Base.astro";
-import { extractKeywordsFromBrand } from "../../lib/normalizeAttributes";
+import * as normalize from "../../lib/normalizeAttributes";
 import extractOfficialSite from "../../lib/extractOfficialSite";
 
 const { slug } = Astro.params;
-const brand = (brands as any[]).find((b) => b.slug === slug);
+const brand = brands.find((b) => b.slug === slug);
 
 if (!brand) {
   // Soft 404 fallback for missing slugs
   Astro.redirect('/404');
 }
 
-const pageTitle = `${brand!.brand} — Brand Profile`;
-const pageDescription = `Quick facts, sourcing signals, certifications, and verification status for ${brand!.brand}.`;
-const fmt = (v: unknown) => (Array.isArray(v) ? v.join(", ") : (v ?? "—"));
+const pageTitle = `${brand.brand} — Brand Profile`;
+const pageDescription = `Quick facts, sourcing signals, certifications, and verification status for ${brand.brand}.`;
+const fmt = (v) => (Array.isArray(v) ? v.join(", ") : (v ?? "—"));
 
 const title = `${pageTitle} • Vitamin Brand Checklist`;
 const description = pageDescription;
-const canonical = `https://vitaminbrandindex.com/brands/${brand!.slug}/`;
+const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
 
 export async function getStaticPaths() {
   return (brands).map((b) => ({ params: { slug: b.slug } }));
@@ -26,16 +26,16 @@ export async function getStaticPaths() {
 
 /* tags: combine explicit certs with normalized keyword extraction */
 const tags = Array.from(
-  new Set([...(brand!.certifications ?? []), ...extractKeywordsFromBrand(brand!)])
+  new Set([...(brand.certifications ?? []), ...normalize.extractKeywordsFromBrand(brand)])
 ).slice(0, 20);
-const officialUrl = extractOfficialSite(brand!.sources ?? [], brand!.brand);
+const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
 
 ---
 
 <Base {title} {description} {canonical}>
   <main>
       <header class="page-header">
-        <h1>{brand!.brand}</h1>
+        <h1>{brand.brand}</h1>
         <p class="lead">{pageDescription}</p>
       </header>
 
@@ -55,9 +55,9 @@ const officialUrl = extractOfficialSite(brand!.sources ?? [], brand!.brand);
         <section class="card">
           <h2>Overview</h2>
           <dl class="kv">
-            <dt>Parent company</dt><dd>{fmt(brand!.parent_company)}</dd>
-            <dt>Year founded</dt><dd>{fmt(brand!.year_founded)}</dd>
-            <dt>HQ</dt><dd>{fmt(brand!.hq)}</dd>
+            <dt>Parent company</dt><dd>{fmt(brand.parent_company)}</dd>
+            <dt>Year founded</dt><dd>{fmt(brand.year_founded)}</dd>
+            <dt>HQ</dt><dd>{fmt(brand.hq)}</dd>
             {officialUrl && (
               <>
                 <dt>Official website</dt>
@@ -70,39 +70,39 @@ const officialUrl = extractOfficialSite(brand!.sources ?? [], brand!.brand);
         <section class="card">
           <h2>Manufacturing & Sourcing</h2>
           <dl class="kv">
-            <dt>Manufacturing locations</dt><dd>{fmt(brand!.manufacturing_locations)}</dd>
-            <dt>Ingredient philosophy</dt><dd>{fmt(brand!.ingredient_philosophy)}</dd>
-            <dt>Proprietary blends</dt><dd>{fmt(brand!.proprietary_blends)}</dd>
+            <dt>Manufacturing locations</dt><dd>{fmt(brand.manufacturing_locations)}</dd>
+            <dt>Ingredient philosophy</dt><dd>{fmt(brand.ingredient_philosophy)}</dd>
+            <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
           </dl>
         </section>
 
         <section class="card">
           <h2>Products & Certifications</h2>
           <dl class="kv">
-            <dt>Top products</dt><dd>{fmt(brand!.top_products)}</dd>
-            <dt>Certifications</dt><dd>{fmt(brand!.certifications)}</dd>
-            <dt>Ownership transparency</dt><dd>{fmt(brand!.ownership_transparency)}</dd>
+            <dt>Top products</dt><dd>{fmt(brand.top_products)}</dd>
+            <dt>Certifications</dt><dd>{fmt(brand.certifications)}</dd>
+            <dt>Ownership transparency</dt><dd>{fmt(brand.ownership_transparency)}</dd>
           </dl>
         </section>
 
         <section class="card">
           <h2>Quality, Testing & Notices</h2>
           <dl class="kv">
-            <dt>Testing / QA notes</dt><dd>{fmt(brand!.testing_qa_notes)}</dd>
-            <dt>Recalls / notices</dt><dd>{fmt(brand!.recalls_notices)}</dd>
+            <dt>Testing / QA notes</dt><dd>{fmt(brand.testing_qa_notes)}</dd>
+            <dt>Recalls / notices</dt><dd>{fmt(brand.recalls_notices)}</dd>
           </dl>
         </section>
 
         <section class="card">
           <h2>Verification</h2>
           <dl class="kv">
-            <dt>Status</dt><dd>{fmt(brand!.verification_status)}</dd>
-            <dt>Last verified</dt><dd>{fmt(brand!.last_verified)}</dd>
+            <dt>Status</dt><dd>{fmt(brand.verification_status)}</dd>
+            <dt>Last verified</dt><dd>{fmt(brand.last_verified)}</dd>
             <dt>Sources</dt>
             <dd>
-              {Array.isArray(brand!.sources) && brand!.sources.length
+              {Array.isArray(brand.sources) && brand.sources.length
                 ? <ul class="sources">
-                    {brand!.sources.map((u) => <li><a href={u} rel="nofollow noreferrer" target="_blank">{u}</a></li>)}
+                    {brand.sources.map((u) => <li><a href={u} rel="nofollow noreferrer" target="_blank">{u}</a></li>)}
                   </ul>
                 : "—"}
             </dd>
@@ -186,7 +186,7 @@ const officialUrl = extractOfficialSite(brand!.sources ?? [], brand!.brand);
   <script>
     (() => {
       // brand name injected from server for analytics
-      const brandName = {JSON.stringify(brand!.brand)};
+      const brandName = {JSON.stringify(brand.brand)};
       const run = () => {
         try {
           document
@@ -214,8 +214,8 @@ const officialUrl = extractOfficialSite(brand!.sources ?? [], brand!.brand);
     {JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: brand?.brand,
-      url: `https://vitaminbrandindex.com/brands/${brand?.slug}/`,
+      name: brand.brand,
+      url: `https://vitaminbrandindex.com/brands/${brand.slug}/`,
       ...(officialUrl ? { sameAs: [officialUrl] } : {})
     })}
   </script>
