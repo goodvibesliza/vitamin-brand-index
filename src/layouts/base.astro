@@ -21,7 +21,9 @@ import "../styles/base.css";
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Plausible -->
-    <script defer data-domain="vitaminbrandindex.com" src="https://plausible.io/js/script.js"></script>
+    {import.meta.env.PROD && (
+      <script defer data-domain="vitaminbrandindex.com" src="https://plausible.io/js/script.js"></script>
+    )}
   </head>
   <body>
     <slot />
