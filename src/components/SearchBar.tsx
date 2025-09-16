@@ -5,11 +5,13 @@ export default function SearchBar({
   placeholder,
   value,
   onChange,
+  onSubmit,
 }: {
   label: string;
   placeholder: string;
   value: string;
   onChange: (v: string) => void;
+  onSubmit?: () => void;
 }) {
   return (
     <div className="stack">
@@ -20,6 +22,11 @@ export default function SearchBar({
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && onSubmit) {
+            onSubmit();
+          }
+        }}
         aria-label={label}
       />
     </div>

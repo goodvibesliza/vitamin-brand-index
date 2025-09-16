@@ -11,7 +11,9 @@ const canonical = `https://vitaminbrandindex.com/search/attributes${q ? `?q=${en
 ---
 <Base {title} {description} {canonical}>
   <section class="container stack-lg">
-    <h1>Search by attribute</h1>
+    {q.trim()
+      ? <h1>Results for “{q}”</h1>
+      : <h1>Search by attribute</h1>}
     <form action="/search/attributes" method="get" class="stack" style="grid-template-columns:1fr auto;">
       <input class="input" type="search" name="q" value={q} placeholder='Try "women-owned" or "allergen-free"' />
       <button class="button" style="width:fit-content;">Search</button>

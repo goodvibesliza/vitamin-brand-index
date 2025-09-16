@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 type Brand = {
   brand: string; slug: string; certifications?: string[]; ingredient_philosophy?: string|null;
@@ -14,6 +14,11 @@ function rxFrom(q:string){ try{ return new RegExp(q.trim().replace(/[-\s]+/g,"[-
 export default function AttributeResults({ query, brands, products }:{
   query: string; brands: Brand[]; products: Product[];
 }) {
+  /* --------------- state for client-side refine & show-more --------------- */
+  const [refine, setRefine] = useState<string>("");
+  const [showMoreBrands, setShowMoreBrands] = useState<boolean>(false);
+  const [showMoreProducts, setShowMoreProducts] = useState<boolean>(false);
+
   const rx = rxFrom(query);
   const isWO = /women[-\s]?owned/i.test(query);
   const isAF = /allergen[-\s]?free/i.test(query);
@@ -38,12 +43,54 @@ export default function AttributeResults({ query, brands, products }:{
     return <p className="lead">Enter an attribute like <strong>women-owned</strong> or <strong>allergen-free</strong>.</p>;
   }
 
+  /* ---------- apply refine filter ---------- */
+  const refineRx = refine.trim() ? rxFrom(refine) : null;
+  const filteredBrandMatches = useMemo(()=>(
+    refineRx ? brandMatches.filter(b=>refineRx!.test(b.brand)) : brandMatches
+  ),[refineRx, brandMatches]);
+  const filteredProductMatches = useMemo(()=>(
+    refineRx ? productMatches.filter(p=>refineRx!.test(p.name)) : productMatches
+  ),[refineRx, productMatches]);
+
+  /* limit to 50 unless showMore is true */
+  const MAX = 50;
+  const brandsToShow = showMoreBrands ? filteredBrandMatches : filteredBrandMatches.slice(0, MAX);
+  const productsToShow = showMoreProducts ? filteredProductMatches : filteredProductMatches.slice(0, MAX);
+
   return (
     <div className="stack-lg">
-      <h2>Brands ({brandMatches.length})</h2>
-      <div className="stack">{brandMatches.map((b)=> <ResultBlockBrand key={b.slug} b={b} />)}</div>
-      <h2>Products ({productMatches.length})</h2>
-      <div className="stack">{productMatches.map((p)=> <ResultBlockProduct key={p.slug} p={p} />)}</div>
+      {/* refine input */}
+      <input
+        className="input"
+        type="search"
+        placeholder="Refine these results..."
+        value={refine}
+        onChange={(e)=>{ setRefine(e.target.value); }}
+      />
+
+      <h2>
+        Brands <span className="badge">{filteredBrandMatches.length}</span>
+      </h2>
+      <div className="stack">
+        {brandsToShow.map((b)=> <ResultBlockBrand key={b.slug} b={b} />)}
+        {filteredBrandMatches.length>MAX && !showMoreBrands && (
+          <button className="button button-secondary" onClick={()=>setShowMoreBrands(true)}>
+            Show more
+          </button>
+        )}
+      </div>
+
+      <h2>
+        Products <span className="badge">{filteredProductMatches.length}</span>
+      </h2>
+      <div className="stack">
+        {productsToShow.map((p)=> <ResultBlockProduct key={p.slug} p={p} />)}
+        {filteredProductMatches.length>MAX && !showMoreProducts && (
+          <button className="button button-secondary" onClick={()=>setShowMoreProducts(true)}>
+            Show more
+          </button>
+        )}
+      </div>
     </div>
   );
 }
