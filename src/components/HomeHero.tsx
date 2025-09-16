@@ -6,11 +6,11 @@ export default function HomeHero() {
       <div className="container-lg stack-lg" style={{textAlign:"center"}}>
         <div className="stack" style={{gap:".6rem"}}>
           <div style={{letterSpacing:".18em", fontSize:".85rem", color:"#9aa3b2"}}>
-            PRE-PURCHASE CHECKLIST
+            PRE-PURCHASE INFO
           </div>
-          <h1>Vitamin Brand Index</h1>
+          <h1>A single right choice gets you better results.</h1>
           <p className="lead">
-            Independent brand and product facts verified by industry experts. We research brands and products so you don’t waste money...or end up with sawdust in a capsule.
+            Independent brand and product facts—so you pick what actually works. We research brands and products so you don’t waste money—or end up with sawdust in a capsule.
           </p>
         </div>
         <div className="stack" style={{gap:".6rem"}}>
