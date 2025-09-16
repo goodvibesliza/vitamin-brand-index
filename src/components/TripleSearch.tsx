@@ -1,8 +1,16 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Fuse from "fuse.js";
+import type { IFuseOptions } from "fuse.js";
 import SearchBar from "./SearchBar";
 import ResultBlockBrand from "./ResultBlockBrand";
 import ResultBlockProduct from "./ResultBlockProduct";
+
+// lightweight Plausible helper
+function track(event: string, props: any) {
+  try {
+    (window as any).plausible?.(event, { props });
+  } catch {}
+}
 
 /** Data shapes (match your JSON keys we actually use here) */
 type Brand = {
@@ -23,7 +31,7 @@ type Product = {
 };
 
 /** Fuse options */
-const brandFuseOptions: Fuse.IFuseOptions<Brand> = {
+const brandFuseOptions: IFuseOptions<Brand> = {
   threshold: 0.33,
   includeScore: false,
   keys: [
@@ -33,7 +41,7 @@ const brandFuseOptions: Fuse.IFuseOptions<Brand> = {
   ],
 };
 
-const productFuseOptions: Fuse.IFuseOptions<Product> = {
+const productFuseOptions: IFuseOptions<Product> = {
   threshold: 0.33,
   includeScore: false,
   keys: [
@@ -54,6 +62,16 @@ function safeRegexFromQuery(raw: string): RegExp | null {
   }
 }
 
+/** Turn arbitrary text into a URL-friendly slug */
+function toSlug(str: string): string {
+  return str
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "") // drop punctuation
+    .replace(/\s+/g, "-") // spaces -> hyphen
+    .replace(/-+/g, "-");
+}
+
 export default function TripleSearch({
   brands,
   products,
@@ -64,6 +82,37 @@ export default function TripleSearch({
   const [qBrand, setQBrand] = useState<string>("");
   const [qProduct, setQProduct] = useState<string>("");
   const [qAttr, setQAttr] = useState<string>("");
+
+  /* ---------- rotating placeholder for brand search ---------- */
+  const exampleBrands = useMemo(() => {
+    const preferred = ["Ritual", "Thorne", "NOW Foods", "Garden of Life", "Nature Made"];
+    const found: string[] = [];
+    preferred.forEach((name) => {
+      const hit = brands.find((b) => b.brand.toLowerCase() === name.toLowerCase());
+      if (hit) found.push(hit.brand);
+    });
+    // fallback: first few brands in list
+    brands.forEach((b) => {
+      if (found.length < 5 && !found.includes(b.brand)) found.push(b.brand);
+    });
+    return found.slice(0, 5);
+  }, [brands]);
+
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+
+  useEffect(() => {
+    if (exampleBrands.length < 2) return;
+    const id = setInterval(
+      () => setPlaceholderIndex((i) => (i + 1) % exampleBrands.length),
+      3000
+    );
+    return () => clearInterval(id);
+  }, [exampleBrands]);
+
+  const brandPlaceholder =
+    exampleBrands.length > 0
+      ? `e.g., ${exampleBrands[placeholderIndex]}`
+      : "Ritual, Thorne, NOW …";
 
   const brandFuse = useMemo(() => new Fuse(brands, brandFuseOptions), [brands]);
   const productFuse = useMemo(() => new Fuse(products, productFuseOptions), [products]);
@@ -116,6 +165,65 @@ export default function TripleSearch({
     return q ? productFuse.search(q).map((r) => r.item) : products.slice(0, 6);
   }, [qProduct, productFuse, products]);
 
+  /* ---------- submit handler for brand search ---------- */
+  function handleBrandSubmit() {
+    const q = qBrand.trim();
+    if (!q) return;
+
+    // Track search before navigation
+    track('Search', { type: 'brand', q, resultCount: brandFuse.search(q).length });
+
+    const slugified = toSlug(q);
+    const exact =
+      brands.find((b) => b.slug.toLowerCase() === slugified) ||
+      brands.find((b) => b.brand.toLowerCase() === q.toLowerCase());
+    if (exact) {
+      window.location.href = `/brands/${exact.slug}/`;
+    } else {
+      window.location.href = `/brands/?q=${encodeURIComponent(q)}`;
+    }
+  }
+
+  // Debounced tracking effects
+  useEffect(() => { 
+    const q = qBrand.trim(); 
+    if(!q) return; 
+    const h = setTimeout(()=>{ 
+      const resultCount = brandFuse.search(q).length; 
+      track('Search', { type: 'brand', q, resultCount }); 
+    }, 400); 
+    return ()=>clearTimeout(h); 
+  }, [qBrand, brandFuse]);
+
+  useEffect(() => { 
+    const q = qProduct.trim(); 
+    if(!q) return; 
+    const h = setTimeout(()=>{ 
+      const resultCount = productFuse.search(q).length; 
+      track('Search', { type: 'product', q, resultCount }); 
+    }, 400); 
+    return ()=>clearTimeout(h); 
+  }, [qProduct, productFuse]);
+
+  useEffect(() => { 
+    const q = qAttr.trim(); 
+    if(!q) return; 
+    const h = setTimeout(()=>{ 
+      const resultCount = attrBrandMatches.length + attrProductMatches.length; 
+      track('Search', { type: 'attribute', q, resultCount }); 
+    }, 400); 
+    return ()=>clearTimeout(h); 
+  }, [qAttr, attrBrandMatches, attrProductMatches]);
+
+  /** Single product to display in Products column */
+  const topProduct: Product | undefined = useMemo(() => {
+    const q = qProduct.trim();
+    if (q) {
+      return productResults[0];
+    }
+    return productResults[0] ?? products[0];
+  }, [qProduct, productResults, products]);
+
   return (
     <section className="container stack-lg" aria-label="Search blocks">
       <div className="grid-3">
@@ -123,9 +231,12 @@ export default function TripleSearch({
         <div className="stack">
           <SearchBar
             label="Search brands"
-            placeholder="e.g., certified, transparency, recall…"
+            placeholder={brandPlaceholder}
             value={qBrand}
-            onChange={setQBrand}
+            onChange={(v) => {
+              setQBrand(v);
+            }}
+            onSubmit={handleBrandSubmit}
           />
           <div className="stack">
             {brandResults.slice(0, 6).map((b) => (
@@ -143,12 +254,12 @@ export default function TripleSearch({
             label="Search products"
             placeholder="e.g., magnesium glycinate, probiotic…"
             value={qProduct}
-            onChange={setQProduct}
+            onChange={(v) => {
+              setQProduct(v);
+            }}
           />
           <div className="stack">
-            {productResults.slice(0, 6).map((p) => (
-              <ResultBlockProduct key={p.slug} p={p} />
-            ))}
+            {topProduct && <ResultBlockProduct key={topProduct.slug} p={topProduct} />}
             <a className="link" href={`/products/?q=${encodeURIComponent(qProduct)}`}>
               View all results →
             </a>
@@ -161,7 +272,9 @@ export default function TripleSearch({
             label="Search by attribute"
             placeholder='Try "women-owned" or "allergen-free"'
             value={qAttr}
-            onChange={setQAttr}
+            onChange={(v) => {
+              setQAttr(v);
+            }}
           />
           <div className="stack">
             {qAttr.trim() ? (
