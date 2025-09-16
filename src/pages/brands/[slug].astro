@@ -1,8 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
-import extractOfficialSite from '../../lib/extractOfficialSite';
-import * as normalize from '../../lib/normalizeAttributes';
-import brands from '../../data/brands.json';
+// dynamic imports avoid static-analysis parse issues
+const normalize = await import('../../lib/normalizeAttributes');
+const { default: brands } = await import('../../data/brands.json');
+const { default: extractOfficialSite } = await import('../../lib/extractOfficialSite');
 
 const { slug } = Astro.params;
 const brand = brands.find((b) => b.slug === slug);
@@ -23,9 +24,9 @@ export async function getStaticPaths() {
   return brands.map((b) => ({ params: { slug: b.slug } }));
 }
 
-const tags = Array.from(
-  new Set([...(brand.certifications ?? []), ...normalize.extractKeywordsFromBrand(brand)])
-).slice(0, 20);
+const kw = normalize.extractKeywordsFromBrand(brand) || [];
+const certs = Array.isArray(brand.certifications) ? brand.certifications : [];
+const tags = Array.from(new Set(certs.concat(kw))).slice(0, 20);
 const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
 
 ---
