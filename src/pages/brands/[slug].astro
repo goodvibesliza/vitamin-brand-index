@@ -1,231 +1,108 @@
 ---
 import Base from '../../layouts/Base.astro';
-import brands from '../../data/brands.json';
-import * as normalize from '../../lib/normalizeAttributes';
-import extractOfficialSite from '../../lib/extractOfficialSite';
+import { getAllBrands } from '../../lib/data.js';
 
 export async function getStaticPaths() {
+  const brands = getAllBrands();
   return brands.map((b) => ({ params: { slug: b.slug } }));
 }
 
 const { slug } = Astro.params;
+const brands = getAllBrands();
 const brand = brands.find((b) => b.slug === slug);
-
 if (!brand) {
   Astro.redirect('/404');
 }
 
 const pageTitle = `${brand.brand} — Brand Profile`;
-const pageDescription = `Quick facts, sourcing signals, certifications, and verification status for ${brand.brand}.`;
-// helper to format values while avoiding nullish-coalescing (esbuild bug workaround)
-const fmt = (v) => (Array.isArray(v) ? v.join(', ') : (v != null ? v : '—'));
-
 const title = `${pageTitle} • Vitamin Brand Checklist`;
-const description = pageDescription;
+const description = `Quick facts, sourcing signals, and certifications for ${brand.brand}.`;
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
 
-const kw = normalize.extractKeywordsFromBrand(brand) || [];
-const certs = Array.isArray(brand.certifications) ? brand.certifications : [];
-const tags = Array.from(new Set(certs.concat(kw))).slice(0, 20);
-const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
-
-// Pre-build JSON-LD object without spread syntax (avoids esbuild parsing issues)
-const ldOrg = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: brand.brand,
-  url: `https://vitaminbrandindex.com/brands/${brand.slug}/`,
-};
-if (officialUrl) {
-  ldOrg.sameAs = [officialUrl];
+function fmt(v) {
+  if (Array.isArray(v)) return v.join(', ');
+  return v != null && v !== '' ? v : '—';
 }
 ---
-
-<!-- Sanity check block requested -->
-<!-- <Base {title} {description} {canonical}><main><h1>Sanity check</h1></main></Base> -->
-
 <Base {title} {description} {canonical}>
   <main>
-      <header class="page-header">
-        <h1>{brand.brand}</h1>
-        <p class="lead">{pageDescription}</p>
-      </header>
+    <header class="page-header">
+      <h1>{brand.brand}</h1>
+      <p class="lead">{description}</p>
+    </header>
 
-      {tags.length ? (
-        <section class="tags">
-          {tags.map((t) => (
-            <a
-              class="badge tag-badge"
-              data-tag={t}
-              href={`/search/attributes?q=${encodeURIComponent(t)}`}
-            >{t}</a>
-          ))}
-        </section>
-      ) : null}
+    <article class="brand">
+      <section class="card">
+        <h2>Overview</h2>
+        <dl class="kv">
+          <dt>Parent company</dt><dd>{fmt(brand.parent_company)}</dd>
+          <dt>Year founded</dt><dd>{fmt(brand.year_founded)}</dd>
+          <dt>HQ</dt><dd>{fmt(brand.hq)}</dd>
+        </dl>
+      </section>
 
-      <article class="brand">
-        <section class="card">
-          <h2>Overview</h2>
-          <dl class="kv">
-            <dt>Parent company</dt><dd>{fmt(brand.parent_company)}</dd>
-            <dt>Year founded</dt><dd>{fmt(brand.year_founded)}</dd>
-            <dt>HQ</dt><dd>{fmt(brand.hq)}</dd>
-            {officialUrl ? <dt>Official website</dt> : null}
-            {officialUrl ? (
-              <dd>
-                <a href={officialUrl} target="_blank" rel="noopener noreferrer">
-                  {officialUrl}
-                </a>
-              </dd>
-            ) : null}
-          </dl>
-        </section>
+      <section class="card">
+        <h2>Manufacturing & Sourcing</h2>
+        <dl class="kv">
+          <dt>Manufacturing locations</dt><dd>{fmt(brand.manufacturing_locations)}</dd>
+          <dt>Ingredient philosophy</dt><dd>{fmt(brand.ingredient_philosophy)}</dd>
+          <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
+        </dl>
+      </section>
 
-        <section class="card">
-          <h2>Manufacturing & Sourcing</h2>
-          <dl class="kv">
-            <dt>Manufacturing locations</dt><dd>{fmt(brand.manufacturing_locations)}</dd>
-            <dt>Ingredient philosophy</dt><dd>{fmt(brand.ingredient_philosophy)}</dd>
-            <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
-          </dl>
-        </section>
+      <section class="card">
+        <h2>Products & Certifications</h2>
+        <dl class="kv">
+          <dt>Top products</dt><dd>{fmt(brand.top_products)}</dd>
+          <dt>Certifications</dt><dd>{fmt(brand.certifications)}</dd>
+          <dt>Ownership transparency</dt><dd>{fmt(brand.ownership_transparency)}</dd>
+        </dl>
+      </section>
 
-        <section class="card">
-          <h2>Products & Certifications</h2>
-          <dl class="kv">
-            <dt>Top products</dt><dd>{fmt(brand.top_products)}</dd>
-            <dt>Certifications</dt><dd>{fmt(brand.certifications)}</dd>
-            <dt>Ownership transparency</dt><dd>{fmt(brand.ownership_transparency)}</dd>
-          </dl>
-        </section>
+      <section class="card">
+        <h2>Quality, Testing & Notices</h2>
+        <dl class="kv">
+          <dt>Testing / QA notes</dt><dd>{fmt(brand.testing_qa_notes)}</dd>
+          <dt>Recalls / notices</dt><dd>{fmt(brand.recalls_notices)}</dd>
+        </dl>
+      </section>
 
-        <section class="card">
-          <h2>Quality, Testing & Notices</h2>
-          <dl class="kv">
-            <dt>Testing / QA notes</dt><dd>{fmt(brand.testing_qa_notes)}</dd>
-            <dt>Recalls / notices</dt><dd>{fmt(brand.recalls_notices)}</dd>
-          </dl>
-        </section>
-
-        <section class="card">
-          <h2>Verification</h2>
-          <dl class="kv">
-            <dt>Status</dt><dd>{fmt(brand.verification_status)}</dd>
-            <dt>Last verified</dt><dd>{fmt(brand.last_verified)}</dd>
-            <dt>Sources</dt>
-            <dd>
-              {Array.isArray(brand.sources) && brand.sources.length
-                ? <ul class="sources">
-                    {brand.sources.map((u) => <li><a href={u} rel="nofollow noreferrer" target="_blank">{u}</a></li>)}
-                  </ul>
-                : "—"}
-            </dd>
-          </dl>
-        </section>
-
-        <section class="card subtle">
-          <h2>Coming soon (from Notion)</h2>
-          <p class="muted">
-            We have placeholders for additional fields present in the internal Notion database so we can wire them up when the API sync is enabled. These do not block MVP.
-          </p>
-          <ul class="columns">
-            <li>Allergen-free</li>
-            <li>Assembled in</li>
-            <li>Ingredient sourcing</li>
-            <li>Glass or Plastic?</li>
-            <li>In-house testing lab</li>
-            <li>Made in USA?</li>
-            <li>Product categories</li>
-            <li>Product formats</li>
-            <li>Non-profit partners</li>
-            <li>Sustainability</li>
-            <li>Unique offering</li>
-            <li>Verified by</li>
-            <li>Status of entry</li>
-            <li>Freshness / badges</li>
-            <li>Woman owned?</li>
-          </ul>
-        </section>
-      </article>
+      <section class="card subtle">
+        <h2>Coming soon (from Notion)</h2>
+        <ul class="columns">
+          <li>Allergen-free</li>
+          <li>Assembled in</li>
+          <li>Ingredient sourcing</li>
+          <li>Glass or Plastic?</li>
+          <li>In-house testing lab</li>
+          <li>Made in USA?</li>
+          <li>Product categories</li>
+          <li>Product formats</li>
+          <li>Non-profit partners</li>
+          <li>Sustainability</li>
+          <li>Unique offering</li>
+          <li>Verified by</li>
+          <li>Status of entry</li>
+          <li>Freshness / badges</li>
+          <li>Woman owned?</li>
+        </ul>
+      </section>
+    </article>
   </main>
 
-    <style>
-      :root {
-        --bg: #ffffff;
-        --text: #111314;
-        --muted: #6b7280;
-        --border: #e5e7eb;
-        --accent: #0ea5e9;
-      }
-      html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-      .page-header { padding: 2rem 1rem 1rem; max-width: 980px; margin: 0 auto; }
-      .page-header h1 { margin: 0 0 .25rem; font-size: 2rem; }
-      .lead { margin: 0; color: var(--muted); }
-      /* two-column card grid */
-      .brand {
-        max-width: 980px;
-        margin: 0 auto;
-        padding: 1rem;
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .card { border: 1px solid var(--border); border-radius: 12px; padding: 1rem; background: #fff; }
-      .card h2 { margin: 0 0 .75rem; font-size: 1.25rem; }
-      .kv { display: grid; grid-template-columns: 220px 1fr; gap: .35rem .75rem; }
-      .kv dt { color: var(--muted); }
-      .kv dd { margin: 0; }
-      .sources { margin: 0; padding-left: 1.2rem; }
-      .subtle { background: #fafafa; }
-      .muted { color: var(--muted); }
-      .columns { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: .25rem .75rem; margin: 0; padding-left: 1rem; }
-
-      /* responsive: stack cards on small screens */
-      @media (max-width: 980px){
-        .brand{ grid-template-columns: 1fr; }
-      }
-
-      /* tag badge row */
-      .tags{
-        display:flex;
-        flex-wrap:wrap;
-        gap:.4rem;
-        padding:0 1rem;
-        max-width:980px;
-        margin:0 auto .5rem;
-      }
-    </style>
-
-  <!-- Plausible tag-click tracking (no hydration) -->
-  <script>
-    (() => {
-      const brandName = {JSON.stringify(brand.brand)};
-      const run = () => {
-        try {
-          document
-            .querySelectorAll('.tag-badge')
-            .forEach((el) =>
-              el.addEventListener('click', () => {
-                try {
-                      if (window && window.plausible) {
-                        window.plausible('Tag Click', {
-                          props: { tag: el.dataset.tag, brand: brandName },
-                        });
-                      }
-                } catch {}
-              })
-            );
-        } catch {}
-      };
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', run, { once: true });
-      } else {
-        run();
-      }
-    })();
-  </script>
-
-  <script type="application/ld+json">
-    {JSON.stringify(ldOrg)}
-  </script>
+  <style>
+    :root { --bg:#fff; --text:#111314; --muted:#6b7280; --border:#e5e7eb; }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .page-header{padding:2rem 1rem 1rem;max-width:980px;margin:0 auto}
+    .page-header h1{margin:0 0 .25rem;font-size:2rem}
+    .lead{margin:0;color:var(--muted)}
+    .brand{max-width:980px;margin:0 auto;padding:1rem;display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(0,1fr))}
+    .card{border:1px solid var(--border);border-radius:12px;padding:1rem;background:#fff}
+    .card h2{margin:0 0 .75rem;font-size:1.25rem}
+    .kv{display:grid;grid-template-columns:220px 1fr;gap:.35rem .75rem}
+    .kv dt{color:var(--muted)}
+    .kv dd{margin:0}
+    .columns{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.25rem .75rem;margin:0;padding-left:1rem}
+    @media (max-width:980px){.brand{grid-template-columns:1fr}}
+  </style>
 </Base>

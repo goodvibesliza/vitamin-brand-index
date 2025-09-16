@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import Fuse from "fuse.js";
+import type { IFuseOptions } from "fuse.js";
 import SearchBar from "./SearchBar";
 import ResultBlockBrand from "./ResultBlockBrand";
 import ResultBlockProduct from "./ResultBlockProduct";
@@ -31,7 +32,7 @@ type Product = {
 };
 
 /** Fuse options */
-const brandFuseOptions: Fuse.IFuseOptions<Brand> = {
+const brandFuseOptions: IFuseOptions<Brand> = {
   threshold: 0.33,
   includeScore: false,
   keys: [
@@ -41,7 +42,7 @@ const brandFuseOptions: Fuse.IFuseOptions<Brand> = {
   ],
 };
 
-const productFuseOptions: Fuse.IFuseOptions<Product> = {
+const productFuseOptions: IFuseOptions<Product> = {
   threshold: 0.33,
   includeScore: false,
   keys: [
