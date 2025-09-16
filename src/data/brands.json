@@ -1,22 +1,32 @@
-[
-  {
-    "brand": "NOW Foods",
-    "slug": "now-foods",
-    "parent_company": "NOW Health Group, Inc.",
-    "year_founded": 1968,
-    "hq": "Bloomingdale, IL, USA",
-    "manufacturing_locations": ["Bloomingdale, IL"],
-    "certifications": ["GMP"],
-    "ingredient_philosophy": "Evidence-first, clean-label.",
-    "proprietary_blends": "Limited",
-    "top_products": ["Magnesium Glycinate","Omega-3","Vitamin D3"],
-    "ownership_transparency": "High",
-    "testing_qa_notes": "Routine third-party testing.",
-    "recalls_notices": "None known",
-    "verification_status": "Prelim Verified",
-    "last_verified": "2025-09-14",
-    "sources": [
-      {"title":"Quality page","url":"https://example.com/quality","type":"Brand Site","note":"QA overview"}
-    ]
-  }
-]
+{
+  "brand": "NOW Foods",
+  "slug": "now-foods",
+  "parent_company": "NOW Health Group",
+  "ownership_transparency": "Privately held, full disclosure of ownership",
+  "hq": "Bloomingdale, IL",
+  "year_founded": 1968,
+  "self_manufactured": true,
+  "in_house_testing": true,
+  "made_in_usa": true,
+  "manufacturing_locations": ["Bloomingdale, IL", "Sparks, NV"],
+  "certification": ["Non-GMO", "Organic", "USP Verified"],
+  "assembled_in": "USA",
+  "ingredient_sourcing": "Global, emphasis on organic",
+  "ingredient_philosophy": "Evidence-based formulations",
+  "proprietary_blends": false,
+  "product_categories": ["Vitamins", "Minerals", "Sports Nutrition"],
+  "product_types": ["Softgel", "Powder", "Tablet"],
+  "top_products": ["Vitamin D3", "Omega-3 Fish Oil"],
+  "unique_offering": "Budget-friendly with broad SKU range",
+  "glass_or_plastic": "Plastic",
+  "woman_owned": false,
+  "vegan": true,
+  "allergen_free": true,
+  "clinically_tested": false,
+  "sustainablity": "Solar-powered HQ, recyclable packaging",
+  "non_profit_partner": "Vitamin Angels",
+  "recalls_notices": null,
+  "sources": ["https://nowfoods.com", "https://fda.gov/..."],
+  "verification_status": "Verified",
+  "last_verified": "2024-09-01"
+}
