@@ -24,7 +24,18 @@ function fmt(v) {
   if (Array.isArray(v)) return v.join(', ');
   return v != null && v !== '' ? v : '—';
 }
+
+function fmtBool(v) {
+  if (v === true) return 'Yes';
+  if (v === false) return 'No';
+  return '—';
+}
 ---
+/* backwards-compat certs & sources helpers  */
+const certs = brand.certification ?? brand.certifications;
+const sourceList = Array.isArray(brand.sources)
+  ? brand.sources.map((s) => (typeof s === 'string' ? s : s?.url).trim()).filter(Boolean)
+  : [];
 
 <Base {title} {description} {canonical}>
   <main>
@@ -49,6 +60,13 @@ function fmt(v) {
           <dt>Manufacturing locations</dt><dd>{fmt(brand.manufacturing_locations)}</dd>
           <dt>Ingredient philosophy</dt><dd>{fmt(brand.ingredient_philosophy)}</dd>
           <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
+          <dt>Assembled in</dt><dd>{fmt(brand.assembled_in)}</dd>
+          <dt>Ingredient sourcing</dt><dd>{fmt(brand.ingredient_sourcing)}</dd>
+          <dt>Self-manufactured</dt><dd>{fmtBool(brand.self_manufactured)}</dd>
+          <dt>In-house testing</dt><dd>{fmtBool(brand.in_house_testing)}</dd>
+          <dt>Made in USA</dt><dd>{fmtBool(brand.made_in_usa)}</dd>
+          <dt>Packaging (glass/plastic)</dt><dd>{fmt(brand.glass_or_plastic)}</dd>
+          <dt>Sustainability</dt><dd>{fmt(brand.sustainablity)}</dd>
         </dl>
       </section>
 
@@ -56,19 +74,44 @@ function fmt(v) {
         <h2>Products & Certifications</h2>
         <dl class="kv">
           <dt>Top products</dt><dd>{fmt(brand.top_products)}</dd>
-          <dt>Certifications</dt><dd>{fmt(brand.certification)}</dd>
+          <dt>Certifications</dt><dd>{fmt(certs)}</dd>
           <dt>Ownership transparency</dt><dd>{fmt(brand.ownership_transparency)}</dd>
+          <dt>Product categories</dt><dd>{fmt(brand.product_categories)}</dd>
+          <dt>Product types</dt><dd>{fmt(brand.product_types)}</dd>
         </dl>
       </section>
 
       <section class="card">
         <h2>Quality, Testing & Notices</h2>
         <dl class="kv">
+          {brand.testing_qa_notes && (
+            <>
+              <dt>Testing / QA notes</dt><dd>{fmt(brand.testing_qa_notes)}</dd>
+            </>
+          )}
           <dt>Recalls / notices</dt><dd>{fmt(brand.recalls_notices)}</dd>
         </dl>
       </section>
 
-      <!-- Placeholder section removed -->
+      {(brand.verification_status || sourceList.length) && (
+        <section class="card">
+          <h2>Verification</h2>
+          <dl class="kv">
+            <dt>Status</dt><dd>{fmt(brand.verification_status)}</dd>
+            <dt>Last verified</dt><dd>{fmt(brand.last_verified)}</dd>
+          </dl>
+          {sourceList.length > 0 && (
+            <div style="margin-top:.5rem">
+              <strong>Sources</strong>
+              <ul class="sources">
+                {sourceList.map((u) => (
+                  <li><a href={u} target="_blank" rel="noopener noreferrer nofollow">{u}</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      )}
     </article>
   </main>
 
@@ -84,6 +127,7 @@ function fmt(v) {
     .kv{display:grid;grid-template-columns:220px 1fr;gap:.35rem .75rem}
     .kv dt{color:var(--muted)}
     .kv dd{margin:0}
+    .sources{margin:0;padding-left:1.2rem}
     .columns{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.25rem .75rem;margin:0;padding-left:1rem}
     @media (max-width:980px){.brand{grid-template-columns:1fr}}
   </style>
