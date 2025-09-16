@@ -14,21 +14,22 @@ export default function SearchBar({
   onSubmit?: () => void;
 }) {
   return (
-    <div className="stack">
-      <label style={{fontWeight:600}}>{label}</label>
+    <form
+      className="stack"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit?.();
+      }}
+    >
+      <label style={{ fontWeight: 600 }}>{label}</label>
       <input
         className="input"
         type="search"
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && onSubmit) {
-            onSubmit();
-          }
-        }}
         aria-label={label}
       />
-    </div>
+    </form>
   );
 }

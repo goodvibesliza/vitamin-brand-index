@@ -171,10 +171,10 @@ export default function TripleSearch({
   function handleBrandSubmit() {
     const q = qBrand.trim();
     if (!q) return;
-    
+
     // Track search before navigation
     track('Search', { type: 'brand', q, resultCount: brandFuse.search(q).length });
-    
+
     const slugified = toSlug(q);
     const exact =
       brands.find((b) => b.slug.toLowerCase() === slugified) ||
@@ -217,6 +217,15 @@ export default function TripleSearch({
     return ()=>clearTimeout(h); 
   }, [qAttr, attrBrandMatches, attrProductMatches]);
 
+  /** Single product to display in Products column */
+  const topProduct: Product | undefined = useMemo(() => {
+    const q = qProduct.trim();
+    if (q) {
+      return productResults[0];
+    }
+    return productResults[0] ?? products[0];
+  }, [qProduct, productResults, products]);
+
   return (
     <section className="container stack-lg" aria-label="Search blocks">
       <div className="grid-3">
@@ -252,9 +261,7 @@ export default function TripleSearch({
             }}
           />
           <div className="stack">
-            {productResults.slice(0, 6).map((p) => (
-              <ResultBlockProduct key={p.slug} p={p} />
-            ))}
+            {topProduct && <ResultBlockProduct key={topProduct.slug} p={topProduct} />}
             <a className="link" href={`/products/?q=${encodeURIComponent(qProduct)}`}>
               View all results →
             </a>
