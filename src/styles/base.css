@@ -105,3 +105,6 @@ h2{ font-size: clamp(1.4rem, 2vw + .6rem, 2rem); }
 .sources{margin:0;padding-left:1.2rem}
 .columns{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.25rem .75rem;margin:0;padding-left:1rem}
 @media (max-width:980px){.brand{grid-template-columns:1fr}}
+
+/* Wider definition list on brand detail pages */
+.brand .kv{ grid-template-columns:220px 1fr }
