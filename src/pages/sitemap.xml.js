@@ -7,9 +7,10 @@ export async function GET() {
     `${base}/`,
     `${base}/brands/`,
     `${base}/products/`,
-    `${base}/blog/`,
-    `${base}/for-brands/`,
-    `${base}/submit/`,
+    `${base}/attributes/`,
+    `${base}/newsletter/`,
+    `${base}/disclaimer/`,
+    `${base}/404`,
     ...brands.map((b) => `${base}/brands/${b.slug}/`),
     ...products.map((p) => `${base}/products/${p.slug}/`),
   ];

@@ -16,10 +16,9 @@ function track(event: string, props: any) {
 type Brand = {
   brand: string;
   slug: string;
-  certifications?: string[];
+  certification?: string[];
   ingredient_philosophy?: string | null;
   ownership_transparency?: string | null;
-  testing_qa_notes?: string | null;
   recalls_notices?: string | null;
   sources?: string[];
 };
@@ -37,7 +36,7 @@ const brandFuseOptions: IFuseOptions<Brand> = {
   includeScore: false,
   keys: [
     { name: "brand", weight: 0.7 },
-    { name: "certifications", weight: 0.2 },
+    { name: "certification", weight: 0.2 },
     { name: "ingredient_philosophy", weight: 0.1 },
   ],
 };
@@ -128,10 +127,9 @@ export default function TripleSearch({
     return brands.filter((b) => {
       const hay = [
         b.brand,
-        ...(b.certifications ?? []),
+        ...(b.certification ?? []),
         b.ingredient_philosophy ?? "",
         b.ownership_transparency ?? "",
-        b.testing_qa_notes ?? "",
         b.recalls_notices ?? "",
         ...(b.sources ?? []),
       ].join(" ");
@@ -176,11 +174,24 @@ export default function TripleSearch({
     track('Search', { type: 'brand', q, resultCount: brandFuse.search(q).length });
 
     const slugified = toSlug(q);
-    const exact =
-      brands.find((b) => b.slug.toLowerCase() === slugified) ||
-      brands.find((b) => b.brand.toLowerCase() === q.toLowerCase());
-    if (exact) {
-      window.location.href = `/brands/${exact.slug}/`;
+
+    // 1) exact slug match
+    const exactBySlug = brands.find((b) => b.slug.toLowerCase() === slugified);
+
+    // 2) slugified brand-name match (handles punctuation & ® etc.)
+    const exactByNameSlug = exactBySlug
+      ? undefined
+      : brands.find((b) => toSlug(b.brand) === slugified);
+
+    // 3) first Fuse result (closest fuzzy match)
+    const firstFuse = exactBySlug || exactByNameSlug
+      ? undefined
+      : brandFuse.search(q)[0]?.item;
+
+    const target = exactBySlug ?? exactByNameSlug ?? firstFuse;
+
+    if (target) {
+      window.location.href = `/brands/${target.slug}/`;
     } else {
       window.location.href = `/brands/?q=${encodeURIComponent(q)}`;
     }
@@ -241,11 +252,9 @@ export default function TripleSearch({
             onSubmit={handleBrandSubmit}
           />
           <div className="stack">
-            {brandResults.slice(0, 6).map((b) => (
-              <ResultBlockBrand key={b.slug} b={b} />
-            ))}
-            <a className="link" href={`/brands/?q=${encodeURIComponent(qBrand)}`}>
-              View all results →
+            {/* Homepage: simplify — only link to full directory */}
+            <a className="link" href="/brands/">
+              View all Brands
             </a>
           </div>
         </div>
@@ -261,9 +270,9 @@ export default function TripleSearch({
             }}
           />
           <div className="stack">
-            {topProduct && <ResultBlockProduct key={topProduct.slug} p={topProduct} />}
-            <a className="link" href={`/products/?q=${encodeURIComponent(qProduct)}`}>
-              View all results →
+            {/* Homepage: no previews, just link */}
+            <a className="link" href="/products/">
+              View all Products
             </a>
           </div>
         </div>
@@ -279,22 +288,9 @@ export default function TripleSearch({
             }}
           />
           <div className="stack">
-            {qAttr.trim() ? (
-              <>
-                <h3>Brands</h3>
-                {attrBrandMatches.slice(0, 6).map((b) => (
-                  <ResultBlockBrand key={b.slug} b={b} />
-                ))}
-                <h3>Products</h3>
-                {attrProductMatches.slice(0, 6).map((p) => (
-                  <ResultBlockProduct key={p.slug} p={p} />
-                ))}
-              </>
-            ) : (
-              <p className="lead">Type an attribute above to see matches.</p>
-            )}
-            <a className="link" href={`/search/attributes?q=${encodeURIComponent(qAttr)}`}>
-              View all results →
+            {/* Simplified: direct link only */}
+            <a className="link" href="/search/attributes">
+              View all Attributes
             </a>
           </div>
         </div>
