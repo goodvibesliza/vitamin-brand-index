@@ -1,8 +1,20 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
 
+import react from '@astrojs/react';
+// @ts-ignore
+import tailwindcss from '@tailwindcss/vite';
+
+// https://astro.build/config
 export default defineConfig({
-  integrations: [react(), tailwind()]
+  // Enable React islands
+  integrations: [react()],
+
+  vite: {
+    plugins: [tailwindcss()],
+    build: {
+      // Bundle all CSS into a single file to avoid per-page chunks like _slug_.css
+      cssCodeSplit: false,
+    },
+  },
 });

@@ -4,9 +4,8 @@ const {
   description = "Natural brands. Real facts. No hype.",
   canonical = "https://vitaminbrandindex.com/",
 } = Astro.props;
-import SiteHeader from "../components/SiteHeader.astro";
-import SiteFooter from "../components/SiteFooter.astro";
 import "../styles/base.css";
+import SiteFooter from "../components/SiteFooter.astro";
 ---
 <html lang="en">
   <head>
@@ -23,14 +22,34 @@ import "../styles/base.css";
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Plausible -->
-    <script defer data-domain="vitaminbrandindex.com" src="https://plausible.io/js/script.js"></script>
+    {import.meta.env.PROD && (
+      <script defer data-domain="vitaminbrandindex.com" src="https://plausible.io/js/script.js"></script>
+    )}
+
+    <!-- Remove stale per-page CSS (blog placeholder) -->
+    <script is:inline>
+      try {
+        document.querySelectorAll('link[rel="stylesheet"]').forEach((lnk) => {
+          const href = lnk.getAttribute('href') || '';
+          if (href.startsWith('/_astro/_post_') || href.startsWith('/_astro/_slug_')) {
+            lnk.remove();
+          }
+        });
+      } catch {}
+    </script>
   </head>
   <body>
-    <!-- Global nav -->
-    <SiteHeader />
-    <!-- Page content -->
+    <header>
+      <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+        <a href="/" style="font-weight:600;text-decoration:none;color:inherit;">Vitamin&nbsp;Brand&nbsp;Checklist</a>
+        <nav class="stack" style="display:flex;gap:1.25rem;">
+          <a class="link" href="/for-brands/">For Brands</a>
+          <a class="link" href="/submit/">Submit a Brand</a>
+        </nav>
+      </div>
+    </header>
     <slot />
-    <!-- Footer -->
+
     <SiteFooter />
   </body>
 </html>

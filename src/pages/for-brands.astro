@@ -1,35 +1,41 @@
 ---
 import Base from "../layouts/Base.astro";
 const title = "For Brands • Vitamin Brand Checklist";
-const description = "Get verified and help customers choose with confidence.";
+const description = "Verification info for supplement brands";
 const canonical = "https://vitaminbrandindex.com/for-brands/";
 ---
 <Base {title} {description} {canonical}>
-  <section class="hero hero-silk">
-    <div class="container-lg stack-lg" style="text-align:center">
-      <h1>Get Verified</h1>
-      <p class="lead">Verification highlights third-party testing, sourcing transparency, and recall history.</p>
-      <a class="button button-secondary" href="/submit/">Request verification →</a>
-    </div>
-  </section>
-  <section class="container stack-lg">
-    <h2>Simple, transparent pricing</h2>
-    <div class="grid-3">
-      <article class="card">
-        <h3>Listing</h3>
-        <p class="lead">Free</p>
-        <p>Basic brand facts and sources.</p>
-      </article>
-      <article class="card">
-        <h3>Verified</h3>
-        <p class="lead">$— / mo (placeholder)</p>
-        <p>Badge, deeper QA notes, and prioritized updates.</p>
-      </article>
-      <article class="card">
-        <h3>Partner</h3>
-        <p class="lead">$— / mo (placeholder)</p>
-        <p>Enhanced profile, affiliate integrations, and co-marketing.</p>
-      </article>
-    </div>
-  </section>
+  <main class="container stack-lg">
+    <header class="page-header">
+      <h1>For Brands</h1>
+      <p class="lead">Get your brand verified and featured in our independent directory.</p>
+    </header>
+    
+    <section class="stack">
+      <p>
+        The Vitamin Brand Index provides transparent, fact-based information about supplement brands to help consumers make informed decisions. We compile data from public sources, third-party certifications, and directly from brands.
+      </p>
+      
+      <p>
+        If you represent a brand and would like to:
+      </p>
+      
+      <ul>
+        <li>Submit your brand for inclusion in our directory</li>
+        <li>Update or correct information about your brand</li>
+        <li>Provide additional verification documentation</li>
+        <li>Request removal of outdated information</li>
+      </ul>
+      
+      <div class="stack" style="margin-top:1.5rem;">
+        <p>
+          <a href="/submit/" class="button">Submit a Brand</a>
+        </p>
+        
+        <p>
+          For other inquiries, please contact us at <a href="mailto:verify@vitaminbrandindex.com" class="link">verify@vitaminbrandindex.com</a>
+        </p>
+      </div>
+    </section>
+  </main>
 </Base>

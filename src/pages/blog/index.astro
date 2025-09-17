@@ -1,22 +1,49 @@
 ---
 import Base from "../../layouts/Base.astro";
-const title = "Blog • Vitamin Brand Checklist";
-const description = "Notes, product investigations, and industry news.";
+const title = "Newsletter • Vitamin Brand Checklist";
+const description = "Get updates on new brand verifications and product investigations.";
 const canonical = "https://vitaminbrandindex.com/blog/";
 ---
 <Base {title} {description} {canonical}>
-  <section class="container stack-lg">
-    <h1>Blog</h1>
-    <p class="lead">We’re publishing soon. For now, here are placeholder posts.</p>
-    <div class="stack">
-      <article class="card">
-        <h2>Coming soon: How we verify brand claims</h2>
-        <p class="lead">Our process for separating marketing fluff from verifiable facts.</p>
-      </article>
-      <article class="card">
-        <h2>Recalls and notices: what matters vs noise</h2>
-        <p class="lead">A simple checklist consumers can use today.</p>
-      </article>
-    </div>
+  <section class="container stack-lg" style="text-align:center">
+    <h1>Newsletter</h1>
+    <p class="lead">Join our list to get notified when we publish new brand verifications and deep-dive product investigations.</p>
+
+    <form
+      name="newsletter"
+      method="POST"
+      data-netlify="true"
+      class="card stack"
+      style="max-width:420px;margin:0 auto"
+    >
+      <input type="hidden" name="form-name" value="newsletter" />
+
+      <label>
+        <span class="sr-only">Email</span>
+        <input
+          class="input"
+          type="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+        />
+      </label>
+
+      <label>
+        <span class="sr-only">Name</span>
+        <input
+          class="input"
+          type="text"
+          name="name"
+          placeholder="Name (optional)"
+        />
+      </label>
+
+      <button class="button" type="submit">Subscribe</button>
+    </form>
+
+    <p style="font-size:.85rem;color:var(--muted);margin-top:1rem">
+      We send email occasionally. Unsubscribe anytime.
+    </p>
   </section>
 </Base>

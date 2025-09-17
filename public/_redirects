@@ -1,0 +1,3 @@
+/blog  /newsletter  301
+/blog/*  /newsletter  301
+

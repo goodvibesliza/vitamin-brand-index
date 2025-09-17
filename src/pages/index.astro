@@ -3,13 +3,18 @@ import Base from "../layouts/Base.astro";
 import HomeHero from "../components/HomeHero";
 import TripleSearch from "../components/TripleSearch";
 import brands from "../data/brands.json";
-import products from "../data/products.json";
 import { ldWebsite } from "../lib/jsonld";
 
 const title = "Vitamin Brand Checklist";
 const description = "Independent brand and product facts—so you pick what actually works.";
 const canonical = "https://vitaminbrandindex.com/";
 const jsonLd = ldWebsite({ base: canonical });
+
+// Dynamically import products.json so build/preview still works if the file is absent
+let products = [];
+try {
+  products = (await import("../data/products.json")).default;
+} catch {}
 ---
 <Base {title} {description} {canonical}>
   <HomeHero client:idle />
@@ -18,4 +23,5 @@ const jsonLd = ldWebsite({ base: canonical });
   <script type="application/ld+json">
     {JSON.stringify(jsonLd)}
   </script>
+
 </Base>

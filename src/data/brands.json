@@ -1,32 +1,131 @@
-{
-  "brand": "NOW Foods",
-  "slug": "now-foods",
-  "parent_company": "NOW Health Group",
-  "ownership_transparency": "Privately held, full disclosure of ownership",
-  "hq": "Bloomingdale, IL",
-  "year_founded": 1968,
-  "self_manufactured": true,
-  "in_house_testing": true,
-  "made_in_usa": true,
-  "manufacturing_locations": ["Bloomingdale, IL", "Sparks, NV"],
-  "certification": ["Non-GMO", "Organic", "USP Verified"],
-  "assembled_in": "USA",
-  "ingredient_sourcing": "Global, emphasis on organic",
-  "ingredient_philosophy": "Evidence-based formulations",
-  "proprietary_blends": false,
-  "product_categories": ["Vitamins", "Minerals", "Sports Nutrition"],
-  "product_types": ["Softgel", "Powder", "Tablet"],
-  "top_products": ["Vitamin D3", "Omega-3 Fish Oil"],
-  "unique_offering": "Budget-friendly with broad SKU range",
-  "glass_or_plastic": "Plastic",
-  "woman_owned": false,
-  "vegan": true,
-  "allergen_free": true,
-  "clinically_tested": false,
-  "sustainablity": "Solar-powered HQ, recyclable packaging",
-  "non_profit_partner": "Vitamin Angels",
-  "recalls_notices": null,
-  "sources": ["https://nowfoods.com", "https://fda.gov/..."],
-  "verification_status": "Verified",
-  "last_verified": "2024-09-01"
-}
+[
+  {
+    "sources": [],
+    "brand": "Garden of Life",
+    "slug": "garden-of-life",
+    "parent_company": "Nestle Health Sciences",
+    "ownership_transparency": "Low",
+    "self_manufactured": false,
+    "in_house_testing": false,
+    "made_in_usa": false,
+    "woman_owned": false
+  },
+  {
+    "sources": [],
+    "brand": "Jarrow Formulas",
+    "slug": "jarrow-formulas",
+    "self_manufactured": false,
+    "in_house_testing": false,
+    "made_in_usa": false,
+    "woman_owned": false
+  },
+  {
+    "sources": [],
+    "brand": "MegaFood",
+    "slug": "megafood",
+    "self_manufactured": false,
+    "in_house_testing": false,
+    "made_in_usa": false,
+    "woman_owned": false
+  },
+  {
+    "sources": [],
+    "brand": "New Chapter",
+    "slug": "new-chapter",
+    "self_manufactured": false,
+    "in_house_testing": false,
+    "made_in_usa": false,
+    "woman_owned": false
+  },
+  {
+    "sources": [],
+    "brand": "NOW Foods",
+    "slug": "now-foods",
+    "self_manufactured": false,
+    "in_house_testing": false,
+    "made_in_usa": false,
+    "woman_owned": false
+  },
+  {
+    "sources": [],
+    "brand": "Rescue Remedy - Bach",
+    "slug": "rescue-remedy-bach",
+    "parent_company": "Nelsons Homeopathic",
+    "ownership_transparency": "High",
+    "hq": "\"London, UK\"",
+    "year_founded": 1935,
+    "self_manufactured": true,
+    "in_house_testing": true,
+    "made_in_usa": false,
+    "manufacturing_locations": [
+      "Wimbledon",
+      "UK Germany USA"
+    ],
+    "certification": [
+      "IGEN Non-GMO",
+      "Limited Selection",
+      "Made with Non-GMO Ingredients"
+    ],
+    "assembled_in": "United Kingdom, Germany, USA, Switzerland",
+    "ingredient_sourcing": "European non-GMO only, Dr. Bach’s Original garden",
+    "product_categories": [
+      "Emotional Wellness",
+      "Sleep & Stress"
+    ],
+    "product_types": [
+      "Flower Essences",
+      "Gummies",
+      "Iron",
+      "Liquids"
+    ],
+    "top_products": [
+      "Stress and Sleep"
+    ],
+    "unique_offering": "Iron-rich water: Spatone Sourced from original research gardens.",
+    "glass_or_plastic": "Glass except for gummies",
+    "woman_owned": false,
+    "sustainablity": "No Certifications or Claims"
+  },
+  {
+    "sources": [],
+    "brand": "Solgar Vitamin & Herb",
+    "slug": "solgar-vitamin-herb",
+    "parent_company": "Nestle Health Sciences",
+    "ownership_transparency": "Low",
+    "hq": "\"Switzerland,\" \"NJ\"",
+    "year_founded": 1947,
+    "self_manufactured": true,
+    "in_house_testing": true,
+    "made_in_usa": true,
+    "manufacturing_locations": [
+      "NJ & NY USA"
+    ],
+    "certification": [
+      "IGEN Non-GMO",
+      "Limited Selection",
+      "NSF certified gluten-free"
+    ],
+    "assembled_in": "USA",
+    "ingredient_sourcing": "International",
+    "product_categories": [
+      "Antioxidants",
+      "Bone & Joint",
+      "Condition Specific",
+      "Sleep & Stress",
+      "Vitamins & Minerals"
+    ],
+    "product_types": [
+      "Capsules",
+      "Gummies",
+      "Iron",
+      "Tablets"
+    ],
+    "top_products": [
+      "Joint Formulas"
+    ],
+    "unique_offering": "Special in-house tableting technology allows for complete dissolution in stomach.",
+    "glass_or_plastic": "Glass except for gummies",
+    "woman_owned": false,
+    "sustainablity": "No Certifications or Claims"
+  }
+]
