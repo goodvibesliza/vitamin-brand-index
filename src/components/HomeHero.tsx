@@ -15,7 +15,7 @@ export default function HomeHero() {
     margin: 0
   }}
 >
-  A <em style={{ fontStyle: "italic", fontWeight: 600, opacity: 0.95 }}>single</em> right choice gets you better results.
+  A <em style={{ fontStyle: "italic", fontWeight: 600, opacity: 0.95 }}>single right choice</em> gets you better results.
 </h1>
           <p className="lead">
             Vitamin Brand Index helps you spot the difference between quality supplements
