@@ -1,7 +1,6 @@
 ---
-import Base from '../../layouts/base.astro';
+import Base from '../../layouts/Base.astro';
 import { getAllBrands } from '../../lib/data.js';
-import SidebarNewsletter from '../../components/SidebarNewsletter.astro';
 
 export async function getStaticPaths() {
   const brands = getAllBrands();
@@ -11,7 +10,6 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const brands = getAllBrands();
 const brand = brands.find((b) => b.slug === slug);
-
 if (!brand) {
   Astro.redirect('/404');
 }
@@ -25,19 +23,7 @@ function fmt(v) {
   if (Array.isArray(v)) return v.join(', ');
   return v != null && v !== '' ? v : '—';
 }
-
-function fmtBool(v) {
-  if (v === true) return 'Yes';
-  if (v === false) return 'No';
-  return '—';
-}
 ---
-/* backwards-compat certs & sources helpers  */
-const certs = brand.certification ?? brand.certifications;
-const sourceList = Array.isArray(brand.sources)
-  ? brand.sources.map((s) => (typeof s === 'string' ? s : s?.url).trim()).filter(Boolean)
-  : [];
-
 <Base {title} {description} {canonical}>
   <main>
     <header class="page-header">
@@ -45,8 +31,7 @@ const sourceList = Array.isArray(brand.sources)
       <p class="lead">{description}</p>
     </header>
 
-    <div class="brand-layout">
-      <article class="brand">
+    <article class="brand">
       <section class="card">
         <h2>Overview</h2>
         <dl class="kv">
@@ -62,13 +47,6 @@ const sourceList = Array.isArray(brand.sources)
           <dt>Manufacturing locations</dt><dd>{fmt(brand.manufacturing_locations)}</dd>
           <dt>Ingredient philosophy</dt><dd>{fmt(brand.ingredient_philosophy)}</dd>
           <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
-          <dt>Assembled in</dt><dd>{fmt(brand.assembled_in)}</dd>
-          <dt>Ingredient sourcing</dt><dd>{fmt(brand.ingredient_sourcing)}</dd>
-          <dt>Self-manufactured</dt><dd>{fmtBool(brand.self_manufactured)}</dd>
-          <dt>In-house testing</dt><dd>{fmtBool(brand.in_house_testing)}</dd>
-          <dt>Made in USA</dt><dd>{fmtBool(brand.made_in_usa)}</dd>
-          <dt>Packaging (glass/plastic)</dt><dd>{fmt(brand.glass_or_plastic)}</dd>
-          <dt>Sustainability</dt><dd>{fmt(brand.sustainablity)}</dd>
         </dl>
       </section>
 
@@ -76,48 +54,40 @@ const sourceList = Array.isArray(brand.sources)
         <h2>Products & Certifications</h2>
         <dl class="kv">
           <dt>Top products</dt><dd>{fmt(brand.top_products)}</dd>
-          <dt>Certifications</dt><dd>{fmt(certs)}</dd>
+          <dt>Certifications</dt><dd>{fmt(brand.certifications)}</dd>
           <dt>Ownership transparency</dt><dd>{fmt(brand.ownership_transparency)}</dd>
-          <dt>Product categories</dt><dd>{fmt(brand.product_categories)}</dd>
-          <dt>Product types</dt><dd>{fmt(brand.product_types)}</dd>
         </dl>
       </section>
 
       <section class="card">
         <h2>Quality, Testing & Notices</h2>
         <dl class="kv">
-          {brand.testing_qa_notes && (
-            <>
-              <dt>Testing / QA notes</dt><dd>{fmt(brand.testing_qa_notes)}</dd>
-            </>
-          )}
+          <dt>Testing / QA notes</dt><dd>{fmt(brand.testing_qa_notes)}</dd>
           <dt>Recalls / notices</dt><dd>{fmt(brand.recalls_notices)}</dd>
         </dl>
       </section>
 
-      {(brand.verification_status || sourceList.length) && (
-        <section class="card">
-          <h2>Verification</h2>
-          <dl class="kv">
-            <dt>Status</dt><dd>{fmt(brand.verification_status)}</dd>
-            <dt>Last verified</dt><dd>{fmt(brand.last_verified)}</dd>
-          </dl>
-          {sourceList.length > 0 && (
-            <div style="margin-top:.5rem">
-              <strong>Sources</strong>
-              <ul class="sources">
-                {sourceList.map((u) => (
-                  <li><a href={u} target="_blank" rel="noopener noreferrer nofollow">{u}</a></li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
-      )}
-      </article>
-      <aside class="brand-aside">
-        <SidebarNewsletter />
-      </aside>
-    </div>
+      <section class="card subtle">
+        <h2>Coming soon (from Notion)</h2>
+        <ul class="columns">
+          <li>Allergen-free</li>
+          <li>Assembled in</li>
+          <li>Ingredient sourcing</li>
+          <li>Glass or Plastic?</li>
+          <li>In-house testing lab</li>
+          <li>Made in USA?</li>
+          <li>Product categories</li>
+          <li>Product formats</li>
+          <li>Non-profit partners</li>
+          <li>Sustainability</li>
+          <li>Unique offering</li>
+          <li>Verified by</li>
+          <li>Status of entry</li>
+          <li>Freshness / badges</li>
+          <li>Woman owned?</li>
+        </ul>
+      </section>
+    </article>
   </main>
+
 </Base>
