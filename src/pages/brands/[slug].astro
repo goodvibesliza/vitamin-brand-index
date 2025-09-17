@@ -21,6 +21,8 @@ const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
 
 function fmt(v) {
   if (Array.isArray(v)) return v.join(', ');
+  if (typeof v === 'boolean') return v ? 'Yes' : 'No';
+  if (typeof v === 'string') return v.replace(/\"/g, '') || '—';
   return v != null && v !== '' ? v : '—';
 }
 ---
@@ -38,55 +40,57 @@ function fmt(v) {
           <dt>Parent company</dt><dd>{fmt(brand.parent_company)}</dd>
           <dt>Year founded</dt><dd>{fmt(brand.year_founded)}</dd>
           <dt>HQ</dt><dd>{fmt(brand.hq)}</dd>
+          <dt>Ownership transparency</dt><dd>{fmt(brand.ownership_transparency)}</dd>
+          <dt>Woman owned</dt><dd>{fmt(brand.woman_owned)}</dd>
         </dl>
       </section>
 
+      <!-- Manufacturing & Sourcing -->
       <section class="card">
-        <h2>Manufacturing & Sourcing</h2>
+        <h2>Manufacturing &amp; Sourcing</h2>
         <dl class="kv">
           <dt>Manufacturing locations</dt><dd>{fmt(brand.manufacturing_locations)}</dd>
-          <dt>Ingredient philosophy</dt><dd>{fmt(brand.ingredient_philosophy)}</dd>
-          <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
+          <dt>Assembled in</dt><dd>{fmt(brand.assembled_in)}</dd>
+          <dt>Ingredient sourcing</dt><dd>{fmt(brand.ingredient_sourcing)}</dd>
+          <dt>Made in USA</dt><dd>{fmt(brand.made_in_usa)}</dd>
         </dl>
       </section>
 
       <section class="card">
-        <h2>Products & Certifications</h2>
+        <h2>Sustainability</h2>
         <dl class="kv">
-          <dt>Top products</dt><dd>{fmt(brand.top_products)}</dd>
-          <dt>Certifications</dt><dd>{fmt(brand.certifications)}</dd>
-          <dt>Ownership transparency</dt><dd>{fmt(brand.ownership_transparency)}</dd>
+          <dt>Glass or plastic</dt><dd>{fmt(brand.glass_or_plastic)}</dd>
+          <dt>Sustainability</dt><dd>{fmt(brand.sustainability)}</dd>
         </dl>
       </section>
 
       <section class="card">
-        <h2>Quality, Testing & Notices</h2>
+        <h2>Testing</h2>
         <dl class="kv">
+          <dt>Self manufactured</dt><dd>{fmt(brand.self_manufactured)}</dd>
+          <dt>In-house testing</dt><dd>{fmt(brand.in_house_testing)}</dd>
           <dt>Testing / QA notes</dt><dd>{fmt(brand.testing_qa_notes)}</dd>
           <dt>Recalls / notices</dt><dd>{fmt(brand.recalls_notices)}</dd>
         </dl>
       </section>
 
-      <section class="card subtle">
-        <h2>Coming soon (from Notion)</h2>
-        <ul class="columns">
-          <li>Allergen-free</li>
-          <li>Assembled in</li>
-          <li>Ingredient sourcing</li>
-          <li>Glass or Plastic?</li>
-          <li>In-house testing lab</li>
-          <li>Made in USA?</li>
-          <li>Product categories</li>
-          <li>Product formats</li>
-          <li>Non-profit partners</li>
-          <li>Sustainability</li>
-          <li>Unique offering</li>
-          <li>Verified by</li>
-          <li>Status of entry</li>
-          <li>Freshness / badges</li>
-          <li>Woman owned?</li>
-        </ul>
+      <section class="card">
+        <h2>Certifications</h2>
+        <dl class="kv">
+          <dt>Certifications</dt><dd>{fmt(brand.certifications ?? brand.certification)}</dd>
+        </dl>
       </section>
+
+      <section class="card">
+        <h2>Products</h2>
+        <dl class="kv">
+          <dt>Top products</dt><dd>{fmt(brand.top_products)}</dd>
+          <dt>Unique offering</dt><dd>{fmt(brand.unique_offering)}</dd>
+          <dt>Product categories</dt><dd>{fmt(brand.product_categories)}</dd>
+          <dt>Product formats</dt><dd>{fmt(brand.product_types)}</dd>
+        </dl>
+      </section>
+
     </article>
   </main>
 
