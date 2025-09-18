@@ -41,3 +41,46 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Forms
+
+This project uses **Formspree** for two public-facing forms:
+
+* **Request an Edit**  
+* **Submit a Brand**
+
+### Setup
+
+1. In Formspree, create two forms (Project or Personal):  
+   &nbsp;&nbsp;• *Request Edit*  
+   &nbsp;&nbsp;• *Submit Brand*
+2. Copy each form’s endpoint URL (looks like `https://formspree.io/f/XXXXXXX`).
+3. Add the endpoints as environment variables—either in a local `.env` file or in your hosting provider’s env settings:
+
+   ```env
+   # .env
+   FORMSPREE_EDIT_ID=https://formspree.io/f/XXXXXXXX
+   FORMSPREE_SUBMIT_ID=https://formspree.io/f/XXXXXXXX
+   ```
+
+   If you prefer using Vite-exposed variables, the app also accepts:
+
+   ```env
+   PUBLIC_FORMSPREE_EDIT_ID=XXXXXXXX    # or full URL
+   PUBLIC_FORMSPREE_SUBMIT_ID=XXXXXXXX  # or full URL
+   ```
+
+### Notes
+
+* Both forms include basic spam protection:  
+  &nbsp;&nbsp;• A hidden *honeypot* field  
+  &nbsp;&nbsp;• A client-side *time gate* (must spend a few seconds on the page)
+* Successful submissions redirect to `/for-brands/thanks?type=edit` or `/for-brands/thanks?type=submit`.
+* Plausible Analytics events fired on success:  
+  &nbsp;&nbsp;• `edit_request_success`  
+  &nbsp;&nbsp;• `brand_submit_success`
+
+### Privacy
+
+Submissions are processed by **Formspree**. Review their privacy policy for details on data handling.  
+If your site has its own privacy policy, link to it (e.g., in the footer or near each form) so users understand how their information is used.

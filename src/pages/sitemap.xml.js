@@ -1,22 +1,53 @@
-import brands from "../data/brands.json";
-import products from "../data/products.json";
+import { getAllBrands } from '../lib/data.js';
 
 export async function GET() {
-  const base = "https://vitaminbrandindex.com";
-  const urls = [
-    `${base}/`,
-    `${base}/brands/`,
-    `${base}/products/`,
-    `${base}/attributes/`,
-    `${base}/newsletter/`,
-    `${base}/disclaimer/`,
-    `${base}/404`,
-    ...brands.map((b) => `${base}/brands/${b.slug}/`),
-    ...products.map((p) => `${base}/products/${p.slug}/`),
+  const baseUrl = 'https://vitaminbrandindex.com';
+  const currentDate = new Date().toISOString();
+  
+  // Get all brands for individual brand pages
+  const brands = getAllBrands();
+  
+  // Define static routes to include
+  const staticRoutes = [
+    '/',
+    '/brands/',
+    '/attributes',
+    '/for-brands',
+    '/for-brands/request-edit',
+    '/for-brands/submit-brand',
+    '/for-brands/thanks'
   ];
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    ${urls.map((u) => `<url><loc>${u}</loc></url>`).join("")}
-  </urlset>`;
-  return new Response(xml, { headers: { "Content-Type": "application/xml" } });
+  
+  // Start XML content
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+  
+  // Add static routes
+  for (const route of staticRoutes) {
+    xml += `
+  <url>
+    <loc>${baseUrl}${route}</loc>
+    <lastmod>${currentDate}</lastmod>
+  </url>`;
+  }
+  
+  // Add brand detail pages
+  for (const brand of brands) {
+    xml += `
+  <url>
+    <loc>${baseUrl}/brands/${brand.slug}/</loc>
+    <lastmod>${currentDate}</lastmod>
+  </url>`;
+  }
+  
+  // Close XML
+  xml += `
+</urlset>`;
+  
+  // Return XML with proper content type
+  return new Response(xml, {
+    headers: {
+      'Content-Type': 'application/xml'
+    }
+  });
 }

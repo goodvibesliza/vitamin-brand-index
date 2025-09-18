@@ -53,6 +53,15 @@ function parseBoolean(value) {
 }
 
 function parseArray(value) {
+
+// Strip Notion backlinks or other parentheses content from brand ref
+function normalizeBrandRef(ref) {
+  if (!ref) return '';
+  // Remove any parenthetical portion e.g. "Brand (https://notion.so/...)"
+  const cleaned = ref.split('(')[0];
+  return normalizeWhitespace(cleaned).toLowerCase();
+}
+
   if (value === undefined || value === null || value === '') return [];
   
   const normalized = harmonizePunctuation(normalizeWhitespace(value));
@@ -519,17 +528,18 @@ async function processFiles(options) {
   // Process sources
   for (const row of sourcesData) {
     stats.sourcesProcessed++;
-    
-    const brandRef = row[sourceBrandKey];
+
+    const brandRefRaw = row[sourceBrandKey];
+    const brandRef = brandRefRaw ? normalizeBrandRef(brandRefRaw) : '';
     if (!brandRef) {
       stats.sourcesOrphaned++;
       continue;
     }
     
     // Find matching brand
-    let brand = slugMap.get(brandRef.toLowerCase()) || 
-                brandNameMap.get(brandRef.toLowerCase()) ||
-                idMap.get(brandRef.trim());
+    let brand = slugMap.get(brandRef) ||
+                brandNameMap.get(brandRef) ||
+                idMap.get(brandRefRaw ? brandRefRaw.trim() : '');
     
     if (!brand) {
       stats.sourcesOrphaned++;
@@ -537,7 +547,7 @@ async function processFiles(options) {
     }
     
     // Get URL
-    const url = row.url;
+    const url = row.url || row.URL || row.Url;
     if (!url) {
       continue;
     }
@@ -551,11 +561,24 @@ async function processFiles(options) {
     
     // Create canonical key for deduplication
     const canonicalKey = getCanonicalUrlKey(normalizedUrl);
-    
-    // Deduplicate URLs using canonical form
-    const urlKeys = brand.sources.map(getCanonicalUrlKey);
-    if (!urlKeys.includes(canonicalKey)) {
-      brand.sources.push(normalizedUrl);
+
+    // Gather existing canonical keys (string or object)
+    const existingKeys = brand.sources.map(s => {
+      if (typeof s === 'string') return getCanonicalUrlKey(s);
+      if (s && typeof s.url === 'string') return getCanonicalUrlKey(s.url);
+      return '';
+    });
+
+    if (!existingKeys.includes(canonicalKey)) {
+      // Determine title
+      const rawTitle = row['Source Title'] || row.title || row.Title;
+      const normalizedTitle = rawTitle ? harmonizePunctuation(normalizeWhitespace(rawTitle)) : '';
+
+      if (normalizedTitle && normalizedTitle.toLowerCase() !== normalizedUrl.toLowerCase()) {
+        brand.sources.push({ url: normalizedUrl, title: normalizedTitle });
+      } else {
+        brand.sources.push(normalizedUrl);
+      }
     }
   }
   

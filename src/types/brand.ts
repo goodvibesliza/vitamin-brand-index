@@ -12,6 +12,10 @@ export type Brand = {
   parent_company?: string;
   ownership_transparency?: string;
   hq?: string;
+  /* Dates (normalized YYYY-MM-DD) */
+  last_updated?: string;     // preferred canonical field
+  latest_update?: string;    // legacy fallback
+  updated_at?: string;       // legacy fallback
   assembled_in?: string;
   ingredient_sourcing?: string;
   ingredient_philosophy?: string;
@@ -42,5 +46,10 @@ export type Brand = {
   product_categories?: string[];
   product_types?: string[];
   top_products?: string[];
-  sources?: string[];
+  /** 
+   * List of citation URLs or objects with explicit titles.
+   * Accepts plain string URLs for brevity or objects of shape:
+   *   { url: string; title?: string }
+   */
+  sources?: (string | { url: string; title?: string })[];
 };

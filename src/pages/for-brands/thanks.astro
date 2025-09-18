@@ -1,0 +1,51 @@
+---
+import Base from "../../layouts/Base.astro";
+
+const title = "Thanks — we've received your request.";
+const description = "Thanks for your submission";
+const canonical = "https://vitaminbrandindex.com/for-brands/thanks";
+
+// Get query parameters
+const params = new URLSearchParams(Astro.url.search);
+const type = params.get('type');
+---
+
+<Base {title} {description} {canonical}>
+  <main class="container stack-lg">
+    <header class="page-header">
+      <h1>Thanks — we've received your request.</h1>
+    </header>
+
+    <section class="stack">
+      {type === 'edit' && (
+        <p>Thanks for helping us keep brand information accurate. We’ll review and follow up if needed.</p>
+      )}
+      {type === 'submit' && (
+        <p>Thanks for submitting your brand. Our team will review and reach out with next steps.</p>
+      )}
+      {!type && (
+        <p>Thanks — we’ve received your request.</p>
+      )}
+
+      <nav class="stack" style="margin-top:1rem;">
+        <a href="/" class="link">← Home</a>
+        <a href="/brands" class="link">Brand Directory</a>
+      </nav>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // Fire Plausible event on page load for successful submissions
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get('type');
+    
+    // Fire appropriate event based on submission type
+    if (type === 'edit' && typeof window.plausible === 'function') {
+      window.plausible('edit_request_success');
+    } else if (type === 'submit' && typeof window.plausible === 'function') {
+      window.plausible('brand_submit_success');
+    }
+  });
+</script>

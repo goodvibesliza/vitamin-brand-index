@@ -17,6 +17,8 @@ export const NOTION_TO_JSON_MAPPING = [
   { notion: "Verification Status", json: "verification_status" },
   { notion: "Verification Date", json: "last_verified" },
   { notion: "Latest Update", json: "last_updated" },
+  // Sources can be stored either as plain URL strings or objects:
+  //   { url: "https://brand.com", title: "Official site" }
   { notion: "Sources", json: "sources[]" },
 
   // Not in JSON yet — we show non-blocking placeholders on the page

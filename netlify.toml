@@ -4,3 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Formspree endpoint for “Request an Edit” form
+  FORMSPREE_EDIT_ID = "mjkeqnvy"
+  # Formspree endpoint for “Submit a Brand” form
+  FORMSPREE_SUBMIT_ID = "mandryap"

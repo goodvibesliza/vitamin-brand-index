@@ -1,7 +1,6 @@
 [
   {
     "sources": [],
-    "last_updated": "2025-09-18",
     "brand": "Garden of Life",
     "slug": "garden-of-life",
     "parent_company": "Nestle Health Sciences",
@@ -13,7 +12,6 @@
   },
   {
     "sources": [],
-    "last_updated": "2025-09-18",
     "brand": "Jarrow Formulas",
     "slug": "jarrow-formulas",
     "self_manufactured": false,
@@ -23,7 +21,6 @@
   },
   {
     "sources": [],
-    "last_updated": "2025-09-18",
     "brand": "MegaFood",
     "slug": "megafood",
     "self_manufactured": false,
@@ -33,7 +30,6 @@
   },
   {
     "sources": [],
-    "last_updated": "2025-09-18",
     "brand": "New Chapter",
     "slug": "new-chapter",
     "self_manufactured": false,
@@ -43,7 +39,6 @@
   },
   {
     "sources": [],
-    "last_updated": "2025-09-18",
     "brand": "NOW Foods",
     "slug": "now-foods",
     "self_manufactured": false,
@@ -53,7 +48,6 @@
   },
   {
     "sources": [],
-    "last_updated": "2025-09-18",
     "brand": "Rescue Remedy - Bach",
     "slug": "rescue-remedy-bach",
     "parent_company": "Nelsons Homeopathic",
@@ -67,7 +61,7 @@
       "Wimbledon",
       "UK Germany USA"
     ],
-    "certifications": [
+    "certification": [
       "IGEN Non-GMO",
       "Limited Selection",
       "Made with Non-GMO Ingredients"
@@ -90,11 +84,10 @@
     "unique_offering": "Iron-rich water: Spatone Sourced from original research gardens.",
     "glass_or_plastic": "Glass except for gummies",
     "woman_owned": false,
-    "sustainability": "No Certifications or Claims"
+    "sustainablity": "No Certifications or Claims"
   },
   {
     "sources": [],
-    "last_updated": "2025-09-18",
     "brand": "Solgar Vitamin & Herb",
     "slug": "solgar-vitamin-herb",
     "parent_company": "Nestle Health Sciences",
@@ -107,7 +100,7 @@
     "manufacturing_locations": [
       "NJ & NY USA"
     ],
-    "certifications": [
+    "certification": [
       "IGEN Non-GMO",
       "Limited Selection",
       "NSF certified gluten-free"
@@ -133,6 +126,6 @@
     "unique_offering": "Special in-house tableting technology allows for complete dissolution in stomach.",
     "glass_or_plastic": "Glass except for gummies",
     "woman_owned": false,
-    "sustainability": "No Certifications or Claims"
+    "sustainablity": "No Certifications or Claims"
   }
 ]

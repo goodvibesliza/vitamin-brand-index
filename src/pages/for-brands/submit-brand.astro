@@ -1,0 +1,309 @@
+---
+import Base from "../../layouts/Base.astro";
+import ForBrandsIntro from "../../components/ForBrandsIntro.astro";
+
+const title = "Submit a Brand for Review";
+const description = "Submit your brand for inclusion in our directory";
+const canonical = "https://vitaminbrandindex.com/for-brands/submit-brand";
+
+// Check if form endpoint is available
+const SUBMIT_ID = import.meta.env.PUBLIC_FORMSPREE_SUBMIT_ID || import.meta.env.FORMSPREE_SUBMIT_ID;
+const hasEndpoint = Boolean(SUBMIT_ID);
+const endpoint = hasEndpoint ? `https://formspree.io/f/${SUBMIT_ID}` : '#';
+---
+
+<Base {title} {description} {canonical}>
+  <ForBrandsIntro />
+  
+  <main class="container stack-lg">
+    <h2>Submit your brand</h2>
+    
+    {!hasEndpoint && (
+      <div class="card" style="background: var(--bg-petal-2); border-color: var(--primary);">
+        <p>Form temporarily unavailable; please email <a href="mailto:hello@vitaminbrandindex.com" class="link">hello@vitaminbrandindex.com</a>.</p>
+      </div>
+    )}
+    
+    <form id="submit-form" method="POST" action={endpoint} data-endpoint={endpoint} class="stack">
+      <div class="form-group">
+        <label for="brand_name">Brand name <span class="required">*</span></label>
+        <input type="text" name="brand_name" id="brand_name" class="input" required aria-describedby="brand-name-error">
+        <div class="field-error" id="brand-name-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="official_website">Official website URL <span class="required">*</span></label>
+        <input type="url" name="official_website" id="official_website" class="input" placeholder="https://..." required aria-describedby="website-error">
+        <div class="field-error" id="website-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="contact_email">Primary contact email <span class="required">*</span></label>
+        <input type="email" name="contact_email" id="contact_email" class="input" required aria-describedby="contact-email-error">
+        <div class="field-error" id="contact-email-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="name">Your name <span class="required">*</span></label>
+        <input type="text" name="name" id="name" class="input" required aria-describedby="name-error">
+        <div class="field-error" id="name-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="role">Your role <span class="required">*</span></label>
+        <select name="role" id="role" class="input" required aria-describedby="role-error">
+          <option value="">Please select...</option>
+          <option value="Founder">Founder</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Regulatory">Regulatory</option>
+          <option value="Agency">Agency</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="field-error" id="role-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="headquarters">Headquarters (City, Country)</label>
+        <input type="text" name="headquarters" id="headquarters" class="input" aria-describedby="headquarters-error">
+        <div class="field-error" id="headquarters-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="manufacturing_locations">Manufacturing locations</label>
+        <textarea name="manufacturing_locations" id="manufacturing_locations" class="input" rows="3" aria-describedby="manufacturing-help manufacturing-error"></textarea>
+        <small id="manufacturing-help">City/State/Country; one per line</small>
+        <div class="field-error" id="manufacturing-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label>Certifications</label>
+        <div class="checkbox-group" aria-describedby="certifications-error">
+          <label><input type="checkbox" name="certifications[]" value="Organic"> Organic</label>
+          <label><input type="checkbox" name="certifications[]" value="Non-GMO"> Non-GMO</label>
+          <label><input type="checkbox" name="certifications[]" value="USP Verified"> USP Verified</label>
+          <label><input type="checkbox" name="certifications[]" value="NSF"> NSF</label>
+          <label><input type="checkbox" name="certifications[]" value="B-Corp"> B-Corp</label>
+        </div>
+        <div class="form-group" style="margin-top: 0.5rem;">
+          <label for="certifications_other">Other certifications</label>
+          <input type="text" name="certifications_other" id="certifications_other" class="input" aria-describedby="certifications-error">
+        </div>
+        <div class="field-error" id="certifications-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="verification_docs">Verification docs link</label>
+        <input type="url" name="verification_docs" id="verification_docs" class="input" placeholder="https://..." aria-describedby="verification-help verification-error">
+        <small id="verification-help">Drive/Dropbox link if available</small>
+        <div class="field-error" id="verification-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="categories">Categories / product types</label>
+        <textarea name="categories" id="categories" class="input" rows="3" aria-describedby="categories-help categories-error"></textarea>
+        <small id="categories-help">e.g., Vitamins, Minerals; Softgel, Powder...</small>
+        <div class="field-error" id="categories-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="comments">Comments <span class="required">*</span></label>
+        <textarea name="comments" id="comments" class="input" rows="5" required aria-describedby="comments-help comments-error"></textarea>
+        <small id="comments-help">Tell us what makes your brand unique, and any context for review.</small>
+        <div class="field-error" id="comments-error" aria-live="polite"></div>
+      </div>
+      
+      <div class="form-group">
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" name="consent_to_contact" value="true" required aria-describedby="consent-error"> 
+            <span>I consent to being contacted about this submission <span class="required">*</span></span>
+          </label>
+        </div>
+        <div class="field-error" id="consent-error" aria-live="polite"></div>
+      </div>
+      
+      <!-- Honeypot field -->
+      <div class="honeypot-field" style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;">
+        <label for="company_website">Company Website</label>
+        <input type="text" name="company_website" id="company_website" tabindex="-1" autocomplete="off">
+      </div>
+      
+      <!-- Hidden fields -->
+      <input type="hidden" name="page_url" id="page_url">
+      <input type="hidden" name="referrer" id="referrer">
+      <input type="hidden" name="timestamp" id="timestamp">
+      <input type="hidden" name="_redirect" value="/for-brands/thanks?type=submit">
+      
+      <div class="form-group">
+        <button type="submit" class="button" id="submit-button" disabled={!hasEndpoint}>Submit brand</button>
+        <div class="field-error" id="form-error" aria-live="assertive"></div>
+      </div>
+    </form>
+  </main>
+</Base>
+
+<style>
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .required {
+    color: var(--primary);
+  }
+  
+  small {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--muted);
+  }
+  
+  .checkbox-group, .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .checkbox-group label, .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+    margin-bottom: 0;
+  }
+  
+  .field-error {
+    color: #d32f2f;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    min-height: 1rem;
+  }
+  
+  textarea.input {
+    height: auto;
+    border-radius: var(--radius);
+    padding: 0.75rem;
+  }
+  
+  select.input {
+    padding-right: 2rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    appearance: none;
+  }
+</style>
+
+<script is:inline>
+  // Track page load time for spam prevention
+  const pageLoadTime = Date.now();
+  
+  // Populate hidden fields
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('page_url').value = window.location.href;
+    document.getElementById('referrer').value = document.referrer;
+    document.getElementById('timestamp').value = new Date().toISOString();
+    
+    // Enable submit button after DOM load
+    const submitButton = document.getElementById('submit-button');
+    if (!submitButton.hasAttribute('disabled')) {
+      submitButton.removeAttribute('disabled');
+    }
+  });
+  
+  // Form validation and submission handling
+  const form = document.getElementById('submit-form');
+  const FORM_ENDPOINT = form.dataset.endpoint || '#';
+  form.addEventListener('submit', (e) => {
+
+    // Clear previous errors
+    document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+    
+    // Check if honeypot is filled
+    const honeypot = document.getElementById('company_website');
+    if (honeypot.value) {
+      e.preventDefault();
+      document.getElementById('form-error').textContent = 'Form submission failed.';
+      return;
+    }
+    
+    // Check if form was submitted too quickly (spam prevention)
+    const timeElapsed = Date.now() - pageLoadTime;
+    if (timeElapsed < 3000) {
+      e.preventDefault();
+      document.getElementById('form-error').textContent = 'Please review the form before submitting.';
+      return;
+    }
+    
+    // Validate required fields
+    let isValid = true;
+    
+    // Check other required fields (HTML5 validation will handle most, this is a backup)
+    const requiredFields = form.querySelectorAll('[required]');
+    requiredFields.forEach(field => {
+      if (!field.value) {
+        const errorId = field.id + '-error';
+        const errorElement = document.getElementById(errorId) || 
+                            document.getElementById(field.id.replace('_', '-') + '-error');
+        if (errorElement) {
+          errorElement.textContent = 'This field is required.';
+        }
+        isValid = false;
+      }
+    });
+    
+    if (!isValid) {
+      e.preventDefault();
+      return;
+    }
+    
+    // All basic checks passed – switch to AJAX submission
+    e.preventDefault();
+
+    // Track form submit attempt
+    if (typeof window.plausible === 'function') {
+      window.plausible('brand_submit_attempt');
+    }
+
+    const submitBtn = document.getElementById('submit-button');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.textContent = 'Submitting…';
+    submitBtn.disabled = true;
+
+    fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    }).then(async (resp) => {
+      if (resp.ok) {
+        window.location.href = '/for-brands/thanks?type=submit';
+        return;
+      }
+
+      // Failure
+      if (resp.status === 404) {
+        throw new Error('Form not found. Please verify the Formspree form ID or Allowed Domains.');
+      }
+
+      // Try to parse Formspree error JSON
+      let msg = 'Submission failed. Please try again.';
+      try {
+        const data = await resp.json();
+        if (data && data.errors && data.errors.length) {
+          msg = data.errors[0].message || msg;
+        }
+      } catch { /* ignore parse errors */ }
+      throw new Error(msg);
+    }).catch(err => {
+      document.getElementById('form-error').textContent = err.message;
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+    });
+  });
+</script>
