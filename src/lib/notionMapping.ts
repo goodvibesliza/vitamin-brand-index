@@ -16,7 +16,8 @@ export const NOTION_TO_JSON_MAPPING = [
   { notion: "Recalls/Notices", json: "recalls_notices" },
   { notion: "Verification Status", json: "verification_status" },
   { notion: "Verification Date", json: "last_verified" },
-  { notion: "Sources (relation)", json: "sources[]" },
+  { notion: "Latest Update", json: "last_updated" },
+  { notion: "Sources", json: "sources[]" },
 
   // Not in JSON yet — we show non-blocking placeholders on the page
   { notion: "Allergen-free", json: "(planned)" },

@@ -91,6 +91,22 @@ function fmt(v) {
         </dl>
       </section>
 
+      <section class="card">
+        <h2>Updates &amp; Sources</h2>
+        <dl class="kv">
+          <dt>Last updated</dt><dd>{fmt(brand.last_updated ?? brand.updated_at)}</dd>
+        </dl>
+        {Array.isArray(brand.sources) && brand.sources.length > 0 && (
+          <ul class="columns">
+            {brand.sources.map((s) => (
+              typeof s === 'string'
+                ? <li><a href={s} target="_blank" rel="noopener noreferrer">{s}</a></li>
+                : <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title ?? s.url}</a></li>
+            ))}
+          </ul>
+        )}
+      </section>
+
     </article>
   </main>
 
