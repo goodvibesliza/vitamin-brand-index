@@ -1,34 +1,76 @@
 ---
+const year = new Date().getFullYear();
+const linkedin = import.meta.env.LINKEDIN_URL;
+
+// Detect optional legal pages using Vite's compile-time glob
+const hasTerms =
+  Object.keys(import.meta.glob('../pages/terms.{astro,md,mdx}')).length > 0 ||
+  Object.keys(import.meta.glob('../pages/terms/**/index.{astro,md,mdx}')).length > 0;
+
+const hasPrivacy =
+  Object.keys(import.meta.glob('../pages/privacy.{astro,md,mdx}')).length > 0 ||
+  Object.keys(import.meta.glob('../pages/privacy/**/index.{astro,md,mdx}')).length > 0;
+
+const hasDpa =
+  Object.keys(import.meta.glob('../pages/dpa.{astro,md,mdx}')).length > 0 ||
+  Object.keys(import.meta.glob('../pages/dpa/**/index.{astro,md,mdx}')).length > 0;
 ---
 <footer role="contentinfo">
-  <div class="container stack-lg" style="text-align:center">
-    <!-- top bar ----------------------------------------------------------- -->
-    <div
-      class="container"
-      style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;"
-    >
-      <div>© {new Date().getFullYear()} Vitamin Brand Index</div>
-      <div style="color:var(--muted)">Independent facts. No hype.</div>
-    </div>
-
-    <!-- Footer links in two columns -------------------------------------- -->
-    <div
-      aria-label="Footer links"
-      style="margin-top:1rem;display:flex;gap:1.5rem;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;"
-    >
-      <nav aria-label="For brands" style="flex:1 1 220px;text-align:left;">
-        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem;">
+  <div class="footer">
+    <div class="footer-grid">
+      <!-- Left: For Brands links -->
+      <nav aria-label="Brand actions" class="footer-col-left">
+        <h2 class="sr-only">Brand actions</h2>
+        <ul class="footer-links">
           <li><a class="link" href="/for-brands/request-edit">Request an edit</a></li>
           <li><a class="link" href="/for-brands/submit-brand">Submit a brand</a></li>
         </ul>
       </nav>
-      <div style="flex:1 1 220px;text-align:left;">
-        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem;">
-          <li><a class="link" href="/newsletter/">Newsletter</a></li>
-          <li><a class="link" href="/disclaimer/">Disclaimer</a></li>
-        </ul>
+
+      <!-- Center: Brand + social + CTA -->
+      <div class="footer-center">
+        <a href="/" class="brand-mark">Vitamin&nbsp;Brand&nbsp;Index</a>
+        {linkedin && (
+          <a href={linkedin} aria-label="LinkedIn" rel="me noopener" target="_blank" class="social">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.83v2.11h.05c.53-1 1.83-2.11 3.77-2.11 4.03 0 4.78 2.65 4.78 6.1V24h-3.99v-6.76c0-1.61-.03-3.68-2.24-3.68-2.24 0-2.58 1.75-2.58 3.56V24H8V8.5z"/>
+            </svg>
+          </a>
+        )}
+        <a href="/newsletter/" id="footer-cta" class="button" role="button">Get updates →</a>
+      </div>
+
+      <!-- Right: Legal links (conditional) -->
+      {(hasTerms || hasPrivacy || hasDpa) && (
+        <nav aria-label="Legal" class="footer-col-right">
+          <h2 class="sr-only">Legal</h2>
+          <ul class="footer-links">
+            {hasTerms && (<li><a class="link" href="/terms/">Terms of Service</a></li>)}
+            {hasPrivacy && (<li><a class="link" href="/privacy/">Privacy Policy</a></li>)}
+            {hasDpa && (<li><a class="link" href="/dpa/">Data Processing Agreement</a></li>)}
+          </ul>
+        </nav>
+      )}
+    </div>
+
+    <!-- Bottom: Copyright + Disclaimer -->
+    <div class="footer-bottom">
+      <div class="copyright">© {year} Vitamin Brand Index. All rights reserved.</div>
+      <div class="footer-disclaimer">
+        <strong>Disclaimer:</strong> This directory is for informational purposes only. All brand and product information is compiled from publicly available sources such as official company websites, third-party certifications, and industry registries. While we make every effort to keep information accurate and current, details may change and may not reflect the most up-to-date company data. This site does not provide medical advice. Always verify information directly with the brand and consult qualified health professionals before making purchasing decisions.
       </div>
     </div>
   </div>
-</footer>
 
+  <script is:inline>
+    // CTA tracking (respects reduced motion; no animation here)
+    const cta = document.getElementById('footer-cta');
+    if (cta) {
+      cta.addEventListener('click', () => {
+        if (typeof window.plausible === 'function') {
+          window.plausible('footer_cta_click', { props: { cta: 'newsletter' } });
+        }
+      });
+    }
+  </script>
+</footer>

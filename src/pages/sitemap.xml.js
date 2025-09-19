@@ -12,6 +12,7 @@ export async function GET() {
     '/',
     '/brands/',
     '/attributes',
+    '/privacy',
     '/for-brands',
     '/for-brands/request-edit',
     '/for-brands/submit-brand',
