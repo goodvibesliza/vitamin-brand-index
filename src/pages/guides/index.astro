@@ -1,0 +1,60 @@
+---
+import Base from "../../layouts/Base.astro";
+import "../../styles/guides.css";
+import { getAllGuides } from "../../lib/guidesData.js";
+
+// Load guides from temporary hard-coded data (bypassing content collection)
+const guides = getAllGuides();
+
+// SEO metadata
+const title = "Guides – Vitamin Brand Index";
+const description = "Expert guides on vitamin brands, manufacturing, and quality standards.";
+const canonical = "https://vitaminbrandindex.com/guides/";
+---
+
+<Base {title} {description} {canonical}>
+  <div class="guides-container">
+    <div class="page-header">
+      <h1>Guides</h1>
+      <p class="lead">Expert resources on vitamin quality, manufacturing, and industry standards.</p>
+    </div>
+
+    {guides.length === 0 ? (
+      <div class="empty">
+        <p>No guides available yet. Check back soon for expert content on vitamin brands.</p>
+      </div>
+    ) : (
+      <div class="directory">
+        <div class="grid">
+          {guides.map((guide) => (
+            <a href={`/guides/${guide.data.slug}/`} class="card-link">
+              <div class="card">
+                <h3>{guide.data.title}</h3>
+                <p>{guide.data.summary}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "headline": "Vitamin Brand Guides",
+      "description": "Expert guides on vitamin brands, manufacturing, and quality standards.",
+      "url": "https://vitaminbrandindex.com/guides/",
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": guides.map((guide, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "url": `https://vitaminbrandindex.com/guides/${guide.data.slug}/`,
+          "name": guide.data.title
+        }))
+      }
+    })}
+  </script>
+</Base>

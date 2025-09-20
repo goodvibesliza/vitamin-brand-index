@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import HomeHero from "../components/HomeHero";
 import TripleSearch from "../components/TripleSearch";
+import GuideChips from "../components/GuideChips";
 import brands from "../data/brands.json";
 import { ldWebsite } from "../lib/jsonld";
 
@@ -19,6 +20,7 @@ try {
 <Base {title} {description} {canonical}>
   <HomeHero client:idle />
   <TripleSearch client:load brands={brands} products={products} />
+  <GuideChips client:only="react" />
 
   <script type="application/ld+json">
     {JSON.stringify(jsonLd)}
