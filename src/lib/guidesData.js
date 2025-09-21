@@ -9,10 +9,10 @@ const guides = [
     id: "certifications.mdx",
     slug: "certifications",
     data: {
-      title: "Vitamin and Supplement Certifications Explained",
+      title: "Certifications",
       slug: "certifications",
       headingKey: "certifications",
-      summary: "Decipher the alphabet soup of seals on supplement labels - NSF, USP, GMP, organic, and more - so you can separate rigorous quality marks from marketing fluff."
+      summary: "Why do third-party ceritification badges on supplement labels - NSF, USP, GMP, organic, and more - matter?"
     },
     // Simple render function that returns an empty component
     render: async () => ({ Content: () => null })
@@ -21,10 +21,10 @@ const guides = [
     id: "clinical-evidence.mdx",
     slug: "clinical-evidence",
     data: {
-      title: "Clinical Evidence & Testing: What Really Proves a Supplement Works?",
+      title: "Clinically Studied Licensed Ingredients",
       slug: "clinical-evidence",
       headingKey: "clinical_evidence",
-      summary: "Understand the difference between ingredient research and finished-product trials, which study designs carry the most weight, and how to vet clinical claims on supplement labels."
+      summary: "Understand why brands use licensed indgredients to carry claims on supplement labels."
     },
     render: async () => ({ Content: () => null })
   },
@@ -32,7 +32,7 @@ const guides = [
     id: "in-house-testing.mdx",
     slug: "in-house-testing",
     data: {
-      title: "In-House Testing Benefits",
+      title: "In-House Testing",
       slug: "in-house-testing",
       headingKey: "in_house_testing",
       summary: "Why running quality tests inside your own facility can raise standards and boost consumer trust."
@@ -43,7 +43,7 @@ const guides = [
     id: "manufacturing-location.mdx",
     slug: "manufacturing-location",
     data: {
-      title: "Choosing a Vitamin Manufacturing Location",
+      title: "Manufacturing",
       slug: "manufacturing-location",
       headingKey: "manufacturing_locations",
       summary: "Key factors to consider when selecting where your vitamins are produced, from regulatory oversight to supply-chain transparency."
@@ -54,7 +54,7 @@ const guides = [
     id: "made-in-usa.mdx",
     slug: "made-in-usa",
     data: {
-      title: 'Decoding "Made in USA" Claims on Supplements',
+      title: '"Made in USA"',
       slug: "made-in-usa",
       headingKey: "made_in_usa",
       summary: 'Learn the legal definition of a "Made in USA" label, how it applies to dietary supplements, and the clues that reveal a product\'s true manufacturing origin.'
@@ -76,10 +76,10 @@ const guides = [
     id: "proprietary-blends.mdx",
     slug: "proprietary-blends",
     data: {
-      title: "Demystifying Proprietary Blends",
+      title: "Proprietary Blends",
       slug: "proprietary-blends",
       headingKey: "proprietary_blends",
-      summary: "Proprietary blends let supplement companies hide exact ingredient doses—here's why that matters for efficacy, transparency, and safety."
+      summary: "Proprietary blends let supplement companies hide exact ingredient doses, here's why that matters for efficacy, transparency, and safety."
     },
     render: async () => ({ Content: () => null })
   },
@@ -87,7 +87,7 @@ const guides = [
     id: "sustainability.mdx",
     slug: "sustainability",
     data: {
-      title: "Sustainability Practices in the Supplement Industry",
+      title: "Sustainability",
       slug: "sustainability",
       headingKey: "sustainability",
       summary: "From carbon-neutral factories to zero-waste packaging, learn how to tell if a supplement brand's eco claims are real or just recycled marketing."
@@ -98,7 +98,7 @@ const guides = [
     id: "sourcing.mdx",
     slug: "sourcing",
     data: {
-      title: "Ingredient Sourcing & Quality",
+      title: "Ingredient Sourcing",
       slug: "sourcing",
       headingKey: "sourcing",
       summary: "How raw-material origins, supply-chain transparency, and ethical practices determine the potency and safety of your supplements."
@@ -131,7 +131,7 @@ const guides = [
       slug: "self-manufactured",
       headingKey: "self_manufactured",
       summary:
-        "Most supplement brands outsource production. Discover why brands that own their own manufacturing—'self-manufactured'—offer stronger quality control, accountability, and consistency."
+        "Most supplement brands outsource production. Discover why brands that own their own manufacturing (self-manufactured) offer stronger quality control, accountability, and consistency."
     },
     render: async () => ({ Content: () => null })
   }

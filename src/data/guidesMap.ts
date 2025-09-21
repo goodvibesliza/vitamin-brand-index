@@ -27,13 +27,10 @@ export const guidesMap: GuidesMap = {
   ownership: {
     label: "Brand Ownership & Transparency",
     slug: "ownership"
-  },
-  manufacturing: {
-    label: "Manufacturing Standards",
-    slug: "manufacturing-location"
+
   },
   manufacturing_locations: {
-    label: "Choosing a Manufacturing Location",
+    label: "Manufacturing Location",
     slug: "manufacturing-location"
   },
   in_house_testing: {
@@ -45,11 +42,11 @@ export const guidesMap: GuidesMap = {
     slug: "made-in-usa"
   },
   certifications: {
-    label: "Vitamin Certifications Explained",
+    label: "Certifications Explained",
     slug: "certifications"
   },
   sourcing: {
-    label: "Ingredient Sourcing & Quality",
+    label: "Ingredient Sourcing",
     slug: "sourcing"
   },
   proprietary_blends: {
@@ -65,11 +62,11 @@ export const guidesMap: GuidesMap = {
     slug: "self-manufactured"
   },
   clinical_evidence: {
-    label: "Clinical Evidence & Testing",
+    label: "Clinical Evidence",
     slug: "clinical-evidence"
   },
   sustainability: {
-    label: "Sustainability Practices",
+    label: "Sustainability",
     slug: "sustainability"
   },
   recalls_notices: {
