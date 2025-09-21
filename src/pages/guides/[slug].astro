@@ -2,35 +2,39 @@
 // Import required components and utilities
 import Base from '../../layouts/Base.astro';
 import "../../styles/guides.css";
-import { getAllGuides, getGuideBySlug } from '../../lib/guidesData.js';
+import { getCollection, getEntry } from 'astro:content';
 
 // Define the static paths for all guides
 export async function getStaticPaths() {
-  // Get all guides from our hard-coded JS module
-  const guides = getAllGuides();
+  // Get all guides from the content collection
+  const guides = await getCollection('guides');
   
   // Return the params for each guide
   return guides.map(guide => ({
-    params: { slug: guide.data.slug }
+    params: { slug: guide.slug }
   }));
 }
 
 // Get the current slug from URL params
 const { slug } = Astro.params;
 
-// Look up the guide by slug
-const guide = getGuideBySlug(slug);
+// Look up the guide by slug from content collection
+const guide = await getEntry('guides', slug);
 
 // Handle 404 if guide not found
 if (!guide) {
   return Astro.redirect('/404');
 }
 
+// Get the rendered content
+const { Content } = await guide.render();
+
 // SEO metadata
 const pageTitle = guide.data.title;
 const title = `${pageTitle} • Vitamin Brand Index`;
 const description = guide.data.summary;
-const canonical = `https://vitaminbrandindex.com/guides/${guide.data.slug}/`;
+const site = Astro.site?.href ?? 'https://vitaminbrandindex.com/';
+const canonical = new URL(`/guides/${slug}/`, site).toString();
 ---
 
 <Base {title} {description} {canonical}>
@@ -45,13 +49,7 @@ const canonical = `https://vitaminbrandindex.com/guides/${guide.data.slug}/`;
     </nav>
 
     <article class="guide-content">
-      <p>This is a placeholder for the guide content. The actual MDX content will be displayed once the content collection parsing issues are resolved.</p>
-      
-      <h2>Guide Information</h2>
-      <ul>
-        <li><strong>Title:</strong> {guide.data.title}</li>
-        <li><strong>Key:</strong> {guide.data.headingKey}</li>
-      </ul>
+      <Content />
     </article>
   </main>
 
