@@ -17,12 +17,12 @@ export default function HomeHero() {
             }}
           >
             A <em style={{ fontStyle: "italic", fontWeight: 400, color: "#000" }}>single right choice</em><br />
-            gets your better results.
+            gets you better results.
           </h1>
           <p className="lead" style={{ fontSize: "1.6rem", lineHeight: 1.35 }}>
-            Vitamin Brand Index helps you spot the difference<br />
+            Vitamin Brand Index helps you choose<br />
             between quality supplements and a bottle of sawdust...<br />
-            putting the power of informed choice in your hands.
+            the power of informed choice is in your hands.
           </p>
         </div>
       </div>
