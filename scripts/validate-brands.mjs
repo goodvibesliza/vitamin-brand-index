@@ -52,9 +52,7 @@ function main() {
     }
     
     // Check if testing_qa_notes exists
-    if (brand.hasOwnProperty('testing_qa_notes')) {
-      brandsWithTestingNotes++;
-      
+    if (Object.prototype.hasOwnProperty.call(brand, 'testing_qa_notes')) {
       const testingNotes = brand.testing_qa_notes;
       
       // Validation 1: Must be a string
@@ -68,6 +66,9 @@ function main() {
         validationErrors.push(`${slug}: testing_qa_notes cannot be empty or whitespace-only`);
         continue;
       }
+      
+      // Count only valid, non-empty notes
+      brandsWithTestingNotes++;
     }
   }
   
@@ -77,14 +78,14 @@ function main() {
   console.log(`   Brands with testing_qa_notes: ${brandsWithTestingNotes}`);
   
   if (validationErrors.length > 0) {
-    console.error(`\\n❌ Validation failed with ${validationErrors.length} error(s):`);
+    console.error(`\n❌ Validation failed with ${validationErrors.length} error(s):`);
     validationErrors.forEach(error => {
       console.error(`   • ${error}`);
     });
     process.exit(1);
   }
   
-  console.log('\\n✅ All brand data validation passed!');
+  console.log('\n✅ All brand data validation passed!');
   process.exit(0);
 }
 

@@ -50,7 +50,7 @@ function main() {
     }
     
     // Check if testing_qa_notes exists and has content
-    const hasTestingNotes = brand.hasOwnProperty('testing_qa_notes') && 
+    const hasTestingNotes = Object.prototype.hasOwnProperty.call(brand, 'testing_qa_notes') && 
                            typeof brand.testing_qa_notes === 'string' && 
                            brand.testing_qa_notes.trim() !== '';
     
@@ -65,6 +65,8 @@ function main() {
   function formatBrandList(brandList, maxCount = 30) {
     const displayCount = Math.min(brandList.length, maxCount);
     const items = brandList
+      .slice() // don't mutate input
+      .sort((a,b) => a.slug.localeCompare(b.slug))
       .slice(0, displayCount)
       .map(b => `   • ${b.slug} (${b.brand})`)
       .join('\n');

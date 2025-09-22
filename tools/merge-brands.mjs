@@ -52,8 +52,6 @@ function parseBoolean(value) {
   return null;
 }
 
-function parseArray(value) {
-
 // Strip Notion backlinks or other parentheses content from brand ref
 function normalizeBrandRef(ref) {
   if (!ref) return '';
@@ -62,6 +60,7 @@ function normalizeBrandRef(ref) {
   return normalizeWhitespace(cleaned).toLowerCase();
 }
 
+function parseArray(value) {
   if (value === undefined || value === null || value === '') return [];
   
   const normalized = harmonizePunctuation(normalizeWhitespace(value));
