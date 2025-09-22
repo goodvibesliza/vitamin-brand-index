@@ -60,6 +60,21 @@ function formatTestingNotes(notes) {
   // Join paragraphs with HTML paragraph tags
   return formattedParagraphs.map(p => `<p>${p}</p>`).join('');
 }
+
+/**
+ * Format certifications as simple HTML boxes (server-side fallback)
+ */
+function formatCertifications(certifications) {
+  if (!certifications || !Array.isArray(certifications) || certifications.length === 0) {
+    return '—';
+  }
+  
+  const boxes = certifications.map(cert => 
+    `<span class="cert-box">${cert}</span>`
+  ).join(' ');
+  
+  return `<div class="cert-boxes">${boxes}</div>`;
+}
 ---
 
 <Base {title} {description} {canonical}>
@@ -84,6 +99,35 @@ function formatTestingNotes(notes) {
     .guide-link:hover {
       background: var(--primary);
       color: #fff;
+    }
+    /* Certification boxes styling */
+    .cert-boxes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0;
+    }
+    .cert-box {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 4px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #495057;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .cert-box:hover {
+      background: #e9ecef;
+      border-color: #dee2e6;
+      color: #212529;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     /* Ensure two-column brand layout on desktop */
     .brand {
@@ -150,7 +194,7 @@ function formatTestingNotes(notes) {
       <section class="card">
         <h2>Certifications</h2>
         <dl class="kv">
-          <dt set:html={`Certifications${getGuideLink('certifications')}`}></dt><dd><CertificationBoxes certifications={brand.certifications ?? brand.certification} client:load /></dd>
+          <dt set:html={`Certifications${getGuideLink('certifications')}`}></dt><dd set:html={formatCertifications(brand.certifications ?? brand.certification)}></dd>
         </dl>
       </section>
 

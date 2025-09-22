@@ -5,7 +5,11 @@ interface CertificationBoxesProps {
 }
 
 export default function CertificationBoxes({ certifications }: CertificationBoxesProps) {
+  // Debug logging
+  console.log('CertificationBoxes received:', certifications, typeof certifications);
+  
   if (!certifications || certifications.length === 0) {
+    console.log('No certifications found, showing dash');
     return <span style={{ color: '#9aa3b2' }}>—</span>;
   }
 
