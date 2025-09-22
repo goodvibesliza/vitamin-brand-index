@@ -38,10 +38,12 @@ export type Brand = {
   self_manufactured?: boolean;
   in_house_testing?: boolean;
   made_in_usa?: boolean;
-  proprietary_blends?: boolean;
   woman_owned?: boolean;
-  vegan?: boolean;
-  allergen_free?: boolean;
+  
+  /* Text-based status fields (no longer booleans) */
+  proprietary_blends?: string;
+  vegan?: string;
+  allergen_free?: string;
 
   /* Arrays */
   manufacturing_locations?: string[];
