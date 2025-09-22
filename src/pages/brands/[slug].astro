@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getAllBrands } from '../../lib/data.js';
 import { guidesMap } from '../../data/guidesMap';
+import CertificationBoxes from '../../components/CertificationBoxes.tsx';
 
 export async function getStaticPaths() {
   const brands = getAllBrands();
@@ -149,7 +150,7 @@ function formatTestingNotes(notes) {
       <section class="card">
         <h2>Certifications</h2>
         <dl class="kv">
-          <dt set:html={`Certifications${getGuideLink('certifications')}`}></dt><dd>{fmt(brand.certifications ?? brand.certification)}</dd>
+          <dt set:html={`Certifications${getGuideLink('certifications')}`}></dt><dd><CertificationBoxes certifications={brand.certifications ?? brand.certification} client:load /></dd>
         </dl>
       </section>
 
@@ -158,7 +159,7 @@ function formatTestingNotes(notes) {
         <dl class="kv">
           <dt>Most popular</dt><dd>{fmt(brand.most_popular)}</dd>
           <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
-          <dt>Subscription</dt><dd>{fmt(brand.subscription)}</dd>
+          <dt>Licensed Ingredients</dt><dd>{fmt(brand.clinically_tested)}</dd>
         </dl>
       </section>
 
