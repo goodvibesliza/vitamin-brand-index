@@ -8,8 +8,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
- * Human-readable report for testing_qa_notes coverage
- * Helps Liza spot check data after each merge
+ * Generate and print a human-readable coverage report for `testing_qa_notes` across brands.
+ *
+ * Reads ../src/data/brands.json (relative to this script), validates it is an array of brand
+ * objects, and categorizes each well-formed brand (has `slug` and `brand`) into those that
+ * have non-empty `testing_qa_notes` and those that do not. Prints two lists (showing up to 30
+ * items each, with an ellipsis if more exist), a summary with total count and coverage percentage,
+ * and a status indicator:
+ *   - 🟢 Good coverage for >= 80%
+ *   - 🟡 Moderate coverage for 50–79%
+ *   - 🔴 Low coverage for < 50%
+ *
+ * Exits the process with code 1 if the file is missing, cannot be parsed as JSON, or does not
+ * contain an array.
+ *
+ * @returns {void}
  */
 
 function main() {
@@ -61,7 +74,17 @@ function main() {
     }
   }
   
-  // Helper function to format brand list
+  /**
+   * Format a list of brands into a human-readable, sorted bullet list with optional truncation.
+   *
+   * Returns a string containing up to `maxCount` lines of the form "   • slug (brand)", sorted by slug.
+   * If the provided list contains more items than `maxCount`, a trailing line ("   … and N more") indicates how many were omitted.
+   * This function does not mutate the input array.
+   *
+   * @param {{slug: string, brand: string}[]} brandList - Array of brand objects; each should include `slug` and `brand`.
+   * @param {number} [maxCount=30] - Maximum number of items to include in the returned string.
+   * @returns {string} The formatted brand list (possibly truncated) ready for console output.
+   */
   function formatBrandList(brandList, maxCount = 30) {
     const displayCount = Math.min(brandList.length, maxCount);
     const items = brandList

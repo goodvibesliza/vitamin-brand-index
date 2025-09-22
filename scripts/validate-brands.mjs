@@ -8,8 +8,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
- * Validation script for brand data quality
- * Fails CI if testing_qa_notes has invalid data types or empty content
+ * Validate the project's src/data/brands.json for required fields and quality rules.
+ *
+ * Reads and parses ../src/data/brands.json (relative to this script). Ensures the file
+ * exists and contains an array of brand objects. For each brand:
+ * - requires a non-empty `slug` field;
+ * - if `testing_qa_notes` is present it must be a non-empty string (not whitespace-only).
+ *
+ * Reports a summary to stdout/stderr and exits the process with code 0 on success or 1 on any validation error
+ * (also exits with code 1 on file-read/parse errors or if the top-level JSON is not an array).
  */
 
 function main() {
