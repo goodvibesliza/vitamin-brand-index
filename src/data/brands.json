@@ -482,6 +482,7 @@
     "unique_offering": "Iron-rich water: Spatone Sourced from original research gardens.",
     "glass_or_plastic": "Glass",
     "woman_owned": false,
+    "clinically_tested": "Affron Saffron, Ester-C, KSM Ashwagandha, NovaSol Curcumin, SunTheanine",
     "sustainability": "No Certifications or Claims"
   },
   {
@@ -531,6 +532,7 @@
     "glass_or_plastic": "Glass",
     "woman_owned": false,
     "allergen_free": false,
+    "clinically_tested": "KSM Ashwagandha, S'affrinside",
     "sustainability": "100% Renewable Energy, Carbon-Neutral, Certified B-Corp",
     "testing_qa_notes": "Testing Standards: Each batch undergoes a comprehensive series of tests, including weight, physical attributes like shape and color, sterility, shelf-life and stability, melting point identification, dissolution testing for water-soluble vitamins, microbial contamination checks, and chemical analysis or potency assays for vitamins and minerals"
   }

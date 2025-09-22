@@ -28,6 +28,8 @@ export type Brand = {
   last_verified?: string; // normalised YYYY-MM-DD
   /** Free-text QA/testing notes pulled from Notion CSV column testing_qa_notes. */
   testing_qa_notes?: string;
+  /** Licensed/clinically-tested ingredients (comma-delimited names) */
+  clinically_tested?: string;
 
   /* Numbers */
   year_founded?: number;
@@ -40,7 +42,6 @@ export type Brand = {
   woman_owned?: boolean;
   vegan?: boolean;
   allergen_free?: boolean;
-  clinically_tested?: boolean;
 
   /* Arrays */
   manufacturing_locations?: string[];

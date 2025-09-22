@@ -18,7 +18,7 @@ const SCHEMA_FIELDS = [
 
 const BOOLEAN_FIELDS = [
   'self_manufactured', 'in_house_testing', 'made_in_usa', 'proprietary_blends',
-  'woman_owned', 'vegan', 'allergen_free', 'clinically_tested'
+  'woman_owned', 'vegan', 'allergen_free'
 ];
 
 const NUMBER_FIELDS = ['year_founded'];
