@@ -1,8 +1,10 @@
 ---
+// Handle both direct props and MDX frontmatter
+const frontmatter = Astro.props.frontmatter || {};
 const {
-  title = "Vitamin Brand Index",
-  description = "Natural brands. Real facts. No hype.",
-  canonical = "https://vitaminbrandindex.com/",
+  title = frontmatter.title || "Vitamin Brand Index",
+  description = frontmatter.description || "Natural brands. Real facts. No hype.",
+  canonical = frontmatter.canonical || "https://vitaminbrandindex.com/",
 } = Astro.props;
 import "../styles/base.css";
 import "../styles/typography.css";
