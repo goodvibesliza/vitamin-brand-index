@@ -41,6 +41,16 @@ function harmonizePunctuation(str) {
     .replace(/[–—]/g, "-");
 }
 
+/**
+ * Parse a loosely formatted boolean-like value into a boolean.
+ *
+ * Accepts strings (or values coercible to string) like "true", "yes", "y", "1" => true
+ * and "false", "no", "n", "0" => false. Treats null, undefined, and empty string as ambiguous
+ * and returns null; also returns null for any other unrecognized input.
+ *
+ * @param {*} value - The input to interpret as a boolean (commonly a string or raw CSV cell).
+ * @return {boolean|null} true or false for recognized values, or null when the value is empty/ambiguous/unrecognized.
+ */
 function parseBoolean(value) {
   if (value === undefined || value === null || value === '') return null;
   
@@ -52,7 +62,15 @@ function parseBoolean(value) {
   return null;
 }
 
-// Strip Notion backlinks or other parentheses content from brand ref
+/**
+ * Normalize a brand reference by removing trailing parenthetical content, collapsing whitespace, and lowercasing.
+ *
+ * If `ref` is falsy, returns an empty string. Parenthetical portions (e.g., "Brand (https://...)") are removed
+ * before trimming/collapsing whitespace and converting to lowercase.
+ *
+ * @param {string} ref - Raw brand reference string (may include parenthetical backlinks or metadata).
+ * @returns {string} Normalized, lowercase brand reference with no parenthetical suffix; empty string for falsy input.
+ */
 function normalizeBrandRef(ref) {
   if (!ref) return '';
   // Remove any parenthetical portion e.g. "Brand (https://notion.so/...)"
@@ -60,6 +78,15 @@ function normalizeBrandRef(ref) {
   return normalizeWhitespace(cleaned).toLowerCase();
 }
 
+/**
+ * Parse a comma- or semicolon-separated string into an ordered, deduplicated array of trimmed items.
+ *
+ * Normalizes whitespace and punctuation, splits on commas/semicolons, trims each item, removes empty entries,
+ * and preserves the first occurrence of duplicates. Returns an empty array for null, undefined, or empty input.
+ *
+ * @param {string|null|undefined} value - The input string containing delimited items.
+ * @returns {string[]} Array of normalized, unique items in original order.
+ */
 function parseArray(value) {
   if (value === undefined || value === null || value === '') return [];
   
@@ -75,6 +102,15 @@ function parseArray(value) {
   });
 }
 
+/**
+ * Parse a value as a base-10 integer, returning null for empty or invalid input.
+ *
+ * Accepts strings or numbers. Empty strings, null, or undefined return null.
+ * Leading/trailing/internal whitespace is normalized before parsing.
+ *
+ * @param {(string|number)} value - Value to parse as an integer.
+ * @returns {number|null} The parsed integer, or `null` if the value is empty or not a valid integer.
+ */
 function parseInteger(value) {
   if (value === undefined || value === null || value === '') return null;
   
@@ -84,6 +120,16 @@ function parseInteger(value) {
   return isNaN(parsed) ? null : parsed;
 }
 
+/**
+ * Normalize freeform testing notes into a compact, canonical string.
+ *
+ * Trims surrounding whitespace, converts CR and CRLF line endings to `\n`, and collapses
+ * runs of three or more consecutive newlines down to exactly two. Empty, null, or
+ * whitespace-only input returns `null`.
+ *
+ * @param {*} value - The input value (typically a string) containing testing notes.
+ * @returns {string|null} The normalized notes string, or `null` when the input is empty or nullish after normalization.
+ */
 function normalizeTestingNotes(value) {
   if (value === undefined || value === null || value === '') return null;
   
@@ -99,6 +145,14 @@ function normalizeTestingNotes(value) {
   return normalized === '' ? null : normalized;
 }
 
+/**
+ * Check whether a string is a valid HTTP(S) URL.
+ *
+ * Returns true only if `url` can be parsed as a URL and its protocol is `http:` or `https:`.
+ *
+ * @param {string} url - Input string to validate as a URL.
+ * @returns {boolean} True when `url` is a valid HTTP or HTTPS URL, false otherwise.
+ */
 function validateUrl(url) {
   if (!url) return false;
   
@@ -238,7 +292,15 @@ function parseArgs() {
   return options;
 }
 
-// Run acceptance tests
+/**
+ * Run internal self-tests for parsing and normalization helpers.
+ *
+ * Executes test cases for parseBoolean, parseArray, parseDate, normalizeUrl, and normalizeTestingNotes,
+ * logging any failures. If any test fails, the process is exited with code 1; otherwise the function
+ * completes successfully and logs a success message.
+ *
+ * @returns {void}
+ */
 function runTests() {
   console.log('Running self-tests...');
   let passed = true;
@@ -367,7 +429,34 @@ function findBrandRefKey(headers, preferredKey = null) {
   return null;
 }
 
-// Process CSV files and merge data
+/**
+ * Read, normalize, and merge brand, source, and optional verification CSVs into a JSON brands file.
+ *
+ * Processes the provided CSVs by validating required fields, normalizing values (booleans, numbers, arrays,
+ * URLs, dates, punctuation, and the new `testing_qa_notes` field), deduplicating sources, applying the latest
+ * verification status per brand, and writing the resulting array of brand objects to the specified output path.
+ *
+ * Important behavior:
+ * - Expects at minimum: options.brands (path), options.sources (path), and options.out (path).
+ * - If options.verifications is provided, verification rows are grouped per brand and the most recent
+ *   verification (by parsed date) updates the brand's `verification_status` and `last_verified`.
+ * - Unknown columns in the brands CSV are ignored with a warning.
+ * - Duplicate slugs are skipped.
+ * - When options.dryRun is true, output is written to a temporary file next to the target output path.
+ * - Returns an exit code number (0 success, 1 on errors or when strict mode triggers failure).
+ *
+ * @param {Object} options - Runtime options controlling input/output and behavior.
+ *   Required keys:
+ *     - brands: string path to the brands CSV.
+ *     - sources: string path to the sources CSV.
+ *     - out: string path for the output JSON file.
+ *   Optional keys:
+ *     - verifications: string path to the verifications CSV.
+ *     - dryRun: boolean (if true, write to a temporary file instead of the final output).
+ *     - strict: boolean (treat warnings as errors, causing a non-zero exit code).
+ *     - brandKey: preferred column name to use for matching brand references in sources/verifications.
+ * @returns {Promise<number>} Resolves to an exit code (0 on success, 1 on failure/strict violations).
+ */
 async function processFiles(options) {
   const warnings = [];
   const errors = [];
