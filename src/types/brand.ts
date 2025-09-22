@@ -26,6 +26,8 @@ export type Brand = {
   recalls_notices?: string;
   verification_status?: string;
   last_verified?: string; // normalised YYYY-MM-DD
+  /** Free-text QA/testing notes pulled from Notion CSV column testing_qa_notes. */
+  testing_qa_notes?: string;
 
   /* Numbers */
   year_founded?: number;

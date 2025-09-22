@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "validate:data": "node scripts/validate-brands.mjs",
+    "check:testing": "node scripts/check-testing-details.mjs"
   },
   "dependencies": {
     "@astrojs/react": "4.3.1",

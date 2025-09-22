@@ -13,7 +13,7 @@ const SCHEMA_FIELDS = [
   'proprietary_blends', 'product_categories', 'product_types', 'top_products',
   'unique_offering', 'glass_or_plastic', 'woman_owned', 'vegan', 'allergen_free',
   'clinically_tested', 'sustainablity', 'non_profit_partner', 'recalls_notices',
-  'sources', 'verification_status', 'last_verified'
+  'sources', 'verification_status', 'last_verified', 'testing_qa_notes'
 ];
 
 const BOOLEAN_FIELDS = [
@@ -83,6 +83,21 @@ function parseInteger(value) {
   const parsed = parseInt(normalized, 10);
   
   return isNaN(parsed) ? null : parsed;
+}
+
+function normalizeTestingNotes(value) {
+  if (value === undefined || value === null || value === '') return null;
+  
+  let normalized = value.toString().trim();
+  
+  // Convert Windows line breaks to \n
+  normalized = normalized.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  
+  // Collapse >2 consecutive newlines to exactly 2
+  normalized = normalized.replace(/\n{3,}/g, '\n\n');
+  
+  // Return null for empty strings after normalization
+  return normalized === '' ? null : normalized;
 }
 
 function validateUrl(url) {
@@ -302,6 +317,24 @@ function runTests() {
     }
   });
   
+  // Test testing_qa_notes normalization
+  const testingNotesTests = [
+    { input: '  Notes with spaces  ', expected: 'Notes with spaces' },
+    { input: 'Line 1\r\nLine 2\r\nLine 3', expected: 'Line 1\nLine 2\nLine 3' },
+    { input: 'Line 1\n\n\n\nLine 2', expected: 'Line 1\n\nLine 2' },
+    { input: '', expected: null },
+    { input: null, expected: null },
+    { input: '   ', expected: null }
+  ];
+  
+  testingNotesTests.forEach(test => {
+    const result = normalizeTestingNotes(test.input);
+    if (result !== test.expected) {
+      console.error(`❌ Testing notes normalization failed for "${test.input}": got ${result}, expected ${test.expected}`);
+      passed = false;
+    }
+  });
+  
   if (passed) {
     console.log('✅ All self-tests passed');
   } else {
@@ -503,6 +536,12 @@ async function processFiles(options) {
         if (arrayValue.length > 0) {
           brandObj[field] = arrayValue;
         }
+      } else if (field === 'testing_qa_notes') {
+        // Special handling for testing_qa_notes
+        const normalizedValue = normalizeTestingNotes(value);
+        if (normalizedValue !== null) {
+          brandObj[field] = normalizedValue;
+        }
       } else {
         // String fields
         brandObj[field] = harmonizePunctuation(normalizeWhitespace(value));
@@ -690,6 +729,9 @@ async function processFiles(options) {
     exitCode = 1;
   }
   
+  // Count brands with testing_qa_notes
+  const brandsWithTestingNotes = brands.filter(brand => brand.testing_qa_notes).length;
+  
   // Print summary
   console.log('\nSummary:');
   console.log(`Brands processed: ${stats.brandsProcessed}`);
@@ -702,6 +744,7 @@ async function processFiles(options) {
     console.log(`Verifications orphaned: ${stats.verificationsOrphaned}`);
   }
   console.log(`Duplicate slugs: ${stats.duplicateSlugs}`);
+  console.log(`testing_qa_notes present for ${brandsWithTestingNotes}/${brands.length} brands`);
   
   return exitCode;
 }

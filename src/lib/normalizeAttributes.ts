@@ -7,6 +7,7 @@ type Brand = {
   certifications?: string[];
   ingredient_philosophy?: string | null;
   ownership_transparency?: string | null;
+  /** Free-text QA/testing notes pulled from Notion CSV column testing_qa_notes. */
   testing_qa_notes?: string | null;
   proprietary_blends?: string | null;
   recalls_notices?: string | null;

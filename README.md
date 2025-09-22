@@ -84,3 +84,11 @@ This project uses **Formspree** for two public-facing forms:
 
 Submissions are processed by **Formspree**. Review their privacy policy for details on data handling.  
 If your site has its own privacy policy, link to it (e.g., in the footer or near each form) so users understand how their information is used.
+
+## Data
+
+### Notion/CSV Mapping
+
+The following fields are supported in CSV exports from Notion and mapped to brand records:
+
+* **testing_qa_notes → testing_qa_notes** (string, optional): free-text QA/testing notes shown under "Testing Q/A Notes" on brand pages.
