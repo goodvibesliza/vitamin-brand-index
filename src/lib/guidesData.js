@@ -40,17 +40,6 @@ const guides = [
     render: async () => ({ Content: () => null })
   },
   {
-    id: "manufacturing-location.mdx",
-    slug: "manufacturing-location",
-    data: {
-      title: "Manufacturing",
-      slug: "manufacturing-location",
-      headingKey: "manufacturing_locations",
-      summary: "Key factors to consider when selecting where your vitamins are produced, from regulatory oversight to supply-chain transparency."
-    },
-    render: async () => ({ Content: () => null })
-  },
-  {
     id: "made-in-usa.mdx",
     slug: "made-in-usa",
     data: {
