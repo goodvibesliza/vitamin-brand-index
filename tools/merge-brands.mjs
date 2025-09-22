@@ -12,7 +12,7 @@ const SCHEMA_FIELDS = [
   'certification', 'assembled_in', 'ingredient_sourcing', 'ingredient_philosophy',
   'proprietary_blends', 'product_categories', 'product_types', 'top_products',
   'unique_offering', 'glass_or_plastic', 'woman_owned', 'vegan', 'allergen_free',
-  'clinically_tested', 'sustainablity', 'non_profit_partner', 'recalls_notices',
+  'clinically_tested', 'sustainability', 'non_profit_partner', 'recalls_notices',
   'sources', 'verification_status', 'last_verified', 'testing_qa_notes'
 ];
 
@@ -544,6 +544,15 @@ async function processFiles(options) {
       } else {
         // String fields
         brandObj[field] = harmonizePunctuation(normalizeWhitespace(value));
+      }
+    }
+    
+    // Handle sustainability field migration (sustainablity -> sustainability)
+    if (!brandObj.sustainability && row.sustainablity) {
+      const legacyValue = row.sustainablity;
+      if (legacyValue && legacyValue.trim() !== '') {
+        brandObj.sustainability = harmonizePunctuation(normalizeWhitespace(legacyValue));
+        warnings.push(`Info: Migrated "${brandName}" sustainablity -> sustainability`);
       }
     }
     

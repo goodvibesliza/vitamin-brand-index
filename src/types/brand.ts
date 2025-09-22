@@ -21,7 +21,7 @@ export type Brand = {
   ingredient_philosophy?: string;
   unique_offering?: string;
   glass_or_plastic?: string;
-  sustainablity?: string; // (sic – matches CSV column)
+  sustainability?: string;
   non_profit_partner?: string;
   recalls_notices?: string;
   verification_status?: string;
