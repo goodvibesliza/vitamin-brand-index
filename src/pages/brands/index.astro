@@ -14,7 +14,7 @@ export async function getStaticPaths() {
   });
 }
 
-const { brand } = Astro.props;
+const brand = Astro.props?.brand ?? (getAllBrands?.() || [])[0];
 const title = `${brand.brand} - Vitamin Brand Index`;
 const description = `Quick facts, sourcing signals, and certifications for ${brand.brand}.`;
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
