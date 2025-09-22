@@ -1,29 +1,158 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getAllBrands } from '../../lib/data.js';
-const brands = getAllBrands();
----
-<Base title="Brands – Vitamin Brand Checklist">
-  <h1 class="text-2xl font-semibold mb-4">Brands</h1>
-  {brands.length === 0 ? (
-    <p>No brands yet. Add to <code>src/data/brands.json</code>.</p>
-  ) : (
-    <ul class="list-disc pl-5 space-y-1">
-      {brands.map((b) => (
-        <li><a class="underline" href={`/brands/${b.slug}/`}>{b.brand}</a></li>
-      ))}
-    </ul>
-  )}
+import { guidesMap } from '../../data/guidesMap';
 
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      itemListElement: (brands || []).map((b, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        url: `https://vitaminbrandindex.com/brands/${b.slug}/`,
-      })),
-    })}
-  </script>
+export async function getStaticPaths() {
+  const brands = getAllBrands();
+  
+  return brands.map((brand) => {
+    return {
+      params: { slug: brand.slug },
+      props: { brand },
+    };
+  });
+}
+
+const brand = Astro.props?.brand ?? (getAllBrands?.() || [])[0];
+const title = `${brand.brand} - Vitamin Brand Index`;
+const description = `Quick facts, sourcing signals, and certifications for ${brand.brand}.`;
+const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
+
+// Format a value for display, handling nulls, empty strings, etc.
+function fmt(v) {
+  if (v === null || v === undefined || v === '') return '—';
+  if (typeof v === 'string') return v.replace(/\"/g, '') || '—';
+  return v != null && v !== '' ? v : '—';
+}
+
+/**
+ * Return a tiny "?" citation-bubble link to the relevant guide,
+ * or an empty string if no guide exists for a given key.
+ */
+function getGuideLink(key) {
+  const g = guidesMap[key];
+  return g
+    ? `<a href="/guides/${g.slug}/" class="guide-link" aria-label="Why this matters" title="Why this matters">?</a>`
+    : '';
+}
+---
+
+<Base {title} {description} {canonical}>
+  <!-- Citation bubble styles -->
+  <style>
+    .guide-link {
+      display: inline-block;
+      width: 0.9em;
+      height: 0.9em;
+      line-height: 0.9em;
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text);
+      background: var(--border);
+      border-radius: 50%;
+      text-decoration: none;
+      margin-left: 0.25rem;
+      vertical-align: super;
+      transition: background .2s ease, color .2s ease;
+    }
+    .guide-link:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+  </style>
+
+  <main>
+    <header class="page-header">
+      <h1>{brand.brand}</h1>
+      <p class="lead">{brand.tagline || `Quick facts, sourcing signals, and certifications for ${brand.brand}.`}</p>
+    </header>
+
+    <div class="brand">
+      <!-- Overview -->
+      <section class="card">
+        <h2>Overview</h2>
+        <dl class="kv">
+          <dt>Parent company</dt><dd>{fmt(brand.parent_company)}</dd>
+          <dt>Year founded</dt><dd>{fmt(brand.year_founded)}</dd>
+          <dt>HQ</dt><dd>{fmt(brand.hq)}</dd>
+          <dt set:html={`Ownership transparency${getGuideLink('ownership')}`}></dt><dd>{fmt(brand.ownership_transparency)}</dd>
+          <dt>Woman owned</dt><dd>{fmt(brand.woman_owned)}</dd>
+        </dl>
+      </section>
+
+      <!-- Manufacturing & Sourcing -->
+      <section class="card">
+        <h2>Manufacturing &amp; Sourcing</h2>
+        <dl class="kv">
+          <dt set:html={`Manufacturing locations${getGuideLink('manufacturing_locations')}`}></dt><dd>{fmt(brand.manufacturing_locations)}</dd>
+          <dt>Assembled in</dt><dd>{fmt(brand.assembled_in)}</dd>
+          <dt set:html={`Ingredient sourcing${getGuideLink('sourcing')}`}></dt><dd>{fmt(brand.ingredient_sourcing)}</dd>
+          <dt set:html={`Made in USA${getGuideLink('made_in_usa')}`}></dt><dd>{fmt(brand.made_in_usa)}</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Sustainability</h2>
+        <dl class="kv">
+          <dt>Glass or plastic</dt><dd>{fmt(brand.glass_or_plastic)}</dd>
+          <dt set:html={`Sustainability${getGuideLink('sustainability')}`}></dt><dd>{fmt(brand.sustainability)}</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Testing</h2>
+        <dl class="kv">
+          <dt set:html={`Self manufactured${getGuideLink('self_manufactured')}`}></dt><dd>{fmt(brand.self_manufactured)}</dd>
+          <dt set:html={`In-house testing${getGuideLink('in_house_testing')}`}></dt><dd>{fmt(brand.in_house_testing)}</dd>
+          <dt>Testing / QA notes</dt><dd>{fmt(brand.testing_qa_notes)}</dd>
+          <dt set:html={`Recalls / notices${getGuideLink('recalls_notices')}`}></dt><dd>{fmt(brand.recalls_notices)}</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Certifications</h2>
+        <dl class="kv">
+          <dt set:html={`Certifications${getGuideLink('certifications')}`}></dt><dd>{fmt(brand.certifications ?? brand.certification)}</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Products</h2>
+        <dl class="kv">
+          <dt>Most popular</dt><dd>{fmt(brand.most_popular)}</dd>
+          <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
+          <dt>Subscription</dt><dd>{fmt(brand.subscription)}</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Pricing</h2>
+        <dl class="kv">
+          <dt>Price tier</dt><dd>{fmt(brand.price_tier)}</dd>
+          <dt>Price per serving</dt><dd>{fmt(brand.price_per_serving)}</dd>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Digital Experience</h2>
+        <dl class="kv">
+          <dt>Website</dt><dd>
+            {brand.website ? <a href={brand.website} target="_blank" rel="noopener noreferrer">{brand.website.replace(/^https?:\/\//, '')}</a> : '—'}
+          </dd>
+          <dt>App</dt><dd>{fmt(brand.app)}</dd>
+        </dl>
+      </section>
+    </div>
+
+    <footer class="page-footer">
+      <p>
+        <small>
+          Data last verified: {brand.last_verified || 'March 2024'}. 
+          Found an error? <a href="mailto:hello@vitaminbrandindex.com">Let us know</a>.
+        </small>
+      </p>
+    </footer>
+  </main>
 </Base>
