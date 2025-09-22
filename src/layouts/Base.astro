@@ -9,6 +9,8 @@ const {
 import "../styles/base.css";
 import "../styles/typography.css";
 import SiteFooter from "../components/SiteFooter.astro";
+import MethodologyLink from "../components/MethodologyLink.tsx";
+import MethodologyModal from "../components/MethodologyModal.tsx";
 ---
 <html lang="en">
   <head>
@@ -50,5 +52,9 @@ import SiteFooter from "../components/SiteFooter.astro";
     <slot />
 
     <SiteFooter />
+    
+    <!-- Progressive enhancement for methodology modal -->
+    <MethodologyModal client:load />
+    <MethodologyLink client:load />
   </body>
 </html>
