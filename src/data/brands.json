@@ -84,7 +84,8 @@
     "unique_offering": "Iron-rich water: Spatone Sourced from original research gardens.",
     "glass_or_plastic": "Glass except for gummies",
     "woman_owned": false,
-    "sustainablity": "No Certifications or Claims"
+    "clinically_tested": "Affron Saffron, Ester-C, KSM Ashwagandha, NovaSol Curcumin, SunTheanine",
+    "sustainability": "No Certifications or Claims"
   },
   {
     "sources": [],
@@ -126,6 +127,7 @@
     "unique_offering": "Special in-house tableting technology allows for complete dissolution in stomach.",
     "glass_or_plastic": "Glass except for gummies",
     "woman_owned": false,
-    "sustainablity": "No Certifications or Claims"
+    "clinically_tested": "KSM Ashwagandha, S'affrinside",
+    "sustainability": "No Certifications or Claims"
   }
 ]
