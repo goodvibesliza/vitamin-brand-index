@@ -1,0 +1,39 @@
+/* Typography system: Libre Baskerville for headings, system sans for body */
+:root{
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --font-serif: "Libre Baskerville", Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+/* Base body font */
+body{
+  font-family: var(--font-sans);
+}
+
+/* Headings */
+h1, h2, h3{
+  font-family: var(--font-serif);
+  margin: 0 0 .6em;
+}
+
+h1{
+  font-weight: 400;
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+h2{
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+h3{
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.25;
+}
+
+/* Ensure hero heading picks up serif without changing existing layout sizing */
+.hero h1{ font-family: var(--font-serif); }

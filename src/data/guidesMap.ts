@@ -29,10 +29,6 @@ export const guidesMap: GuidesMap = {
     slug: "ownership"
 
   },
-  manufacturing_locations: {
-    label: "Manufacturing Location",
-    slug: "manufacturing-location"
-  },
   in_house_testing: {
     label: "In-House Testing Benefits",
     slug: "in-house-testing"

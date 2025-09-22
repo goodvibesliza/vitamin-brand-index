@@ -5,6 +5,7 @@ const {
   canonical = "https://vitaminbrandindex.com/",
 } = Astro.props;
 import "../styles/base.css";
+import "../styles/typography.css";
 import SiteFooter from "../components/SiteFooter.astro";
 ---
 <html lang="en">
@@ -16,10 +17,10 @@ import SiteFooter from "../components/SiteFooter.astro";
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    <!-- CultureTest-adjacent fonts (serif headline + clean sans) -->
+    <!-- Font loading: Libre Baskerville for headings, with swap and limited weights -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
 
     <!-- Plausible -->
     {import.meta.env.PROD && (

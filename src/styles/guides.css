@@ -13,7 +13,6 @@
 .guide-content {
   max-width: 75ch;
   margin: 0 auto;
-  font-family: "Inter", system-ui, sans-serif;
   line-height: 1.7;
   font-size: 1.05rem;
   color: var(--text);
@@ -22,24 +21,14 @@
 .guide-content h1,
 .guide-content h2,
 .guide-content h3 {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
   margin-top: 2rem;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
 
-.guide-content h1 {
-  font-size: clamp(1.8rem, 3vw + 1rem, 2.5rem);
-}
-
 .guide-content h2 {
-  font-size: clamp(1.4rem, 2vw + 0.6rem, 1.8rem);
   border-bottom: 1px solid var(--border);
   padding-bottom: 0.5rem;
-}
-
-.guide-content h3 {
-  font-size: clamp(1.2rem, 1vw + 0.8rem, 1.5rem);
 }
 
 .guide-content p {
@@ -113,6 +102,8 @@
 }
 
 .card-link h3 {
+  font-family: var(--font-serif);
+  font-weight: 700;
   font-size: 1.25rem;
   margin: 0 0 0.75rem;
   color: var(--text);
