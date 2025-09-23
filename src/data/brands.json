@@ -20,7 +20,7 @@
     ],
     "ingredient_sourcing": "Ingredients grown on company farms, USA",
     "ingredient_philosophy": "fermentation and herb‑combining techniques to create formulas that are easy for the body to absorb",
-    "proprietary_blends": "Yes",
+    "proprietary_blends": true,
     "product_categories": [
       "Bone & Joint",
       "Collagen",
@@ -33,6 +33,12 @@
       "Vitamins & Minerals",
       "Weight Management"
     ],
+    "product_types": [
+      "Capsules",
+      "Gummies",
+      "Powders",
+      "Tablets"
+    ],
     "top_products": [
       "Collagen",
       "Probiotics",
@@ -41,11 +47,9 @@
     "unique_offering": "combines ancient nutrition principles with modern science and regenerative agriculture.",
     "glass_or_plastic": "Plastic",
     "woman_owned": false,
-    "vegan": "Some Vegan Products",
-    "allergen_free": "No",
-    "clinically_tested": "Not Specified",
+    "allergen_free": false,
     "sustainability": "R.A.N.C.H. Project, Regenerative Organic Certified®",
-    "testing_qa_notes": "Not Specified"
+    "testing_qa_notes": "None provided"
   },
   {
     "sources": [
@@ -77,7 +81,6 @@
     "assembled_in": "USA",
     "ingredient_sourcing": "International, USA",
     "ingredient_philosophy": "“Clean supplements,” natural-sourced ingredients; ethical, sustainable manufacturing.",
-    "proprietary_blends": "Limited",
     "product_categories": [
       "Antioxidants",
       "Bone & Joint",
@@ -90,6 +93,14 @@
       "Sport Performance",
       "Vitamins & Minerals"
     ],
+    "product_types": [
+      "Capsules",
+      "Chewables",
+      "Gummies",
+      "Liquids",
+      "Powders",
+      "Tablets"
+    ],
     "top_products": [
       "Bone & Joint Formulas",
       "Multivitamins",
@@ -98,12 +109,9 @@
     "unique_offering": "Target-Mins® mineral system; Coenzymated B-vitamins line; Gut Connection® (prebiotic + clinically studied actives);",
     "glass_or_plastic": "Glass",
     "woman_owned": false,
-    "vegan": "Some Vegan Products",
-    "allergen_free": "Most are Allergen-Free",
-    "clinically_tested": "ACTIValoe, Cinnulin PF, EpiCor, FruiteX-B, NeuroFactor, PreticX, Q-Gel, Quatrefolic, Setria, Sinetrol",
     "sustainability": "1% For the Planet, Certified B-Corp",
     "recalls_notices": "1. 2013 Iron not child-proof",
-    "testing_qa_notes": "Not Specified"
+    "testing_qa_notes": "None provided"
   },
   {
     "sources": [
@@ -112,6 +120,8 @@
     ],
     "brand": "Garden of Life",
     "slug": "garden-of-life",
+    "website": "https://www.gardenoflife.com",
+    "last_verified": "2025-09-17",
     "parent_company": "Nestle Health Sciences",
     "ownership_transparency": "Low",
     "hq": "Florida; Switzerland",
@@ -137,7 +147,6 @@
     "assembled_in": "Third-Party Locations",
     "ingredient_sourcing": "International, USA",
     "ingredient_philosophy": "They emphasise whole‑food ingredients, traceability and third‑party certifications, and avoid synthetic ingredients, artificial flavors or colorings, binders and fillers. Ingredients are sourced from organic fruits and herbs with full traceability.",
-    "proprietary_blends": "Limited",
     "product_categories": [
       "Collagen",
       "Condition Specific",
@@ -150,6 +159,13 @@
       "Sport Performance",
       "Vitamins & Minerals"
     ],
+    "product_types": [
+      "Capsules",
+      "Gummies",
+      "Liquids",
+      "Powders",
+      "Tablets"
+    ],
     "top_products": [
       "Multivitamins",
       "Probiotics",
@@ -158,12 +174,9 @@
     "unique_offering": "whole‑food‑based supplements, strict ingredient traceability and extensive third‑party certifications",
     "glass_or_plastic": "Glass",
     "woman_owned": false,
-    "vegan": "Some Vegan Products",
-    "allergen_free": "No",
-    "clinically_tested": "Actrisave®, Bacillus coagulans SNZ 1969™, Capsimax®, Chromax®, Clean Tablet Technology™, Liposomal Berberine, Organic Cognivia™, Organic NeuroFactor™, Organic Neurophenol®, Organic Svetol®, PoliSure™, Polycosanol, TurmiPure Gold®",
+    "allergen_free": false,
     "sustainability": "Carbon-Neutral, Certified B-Corp, Green-e Energy Certified, LEED Gold-Certified Buildings, Upcycled Certified",
-    "recalls_notices": "1. 2016 voluntary recall for certain RAW Meal Organic Shake & Meal products due to potential contamination with Salmonella Virchow 2. 2023, Garden of Life, LLC initiated a voluntary recall of several of its whole food dietary supplements due to the presence of undeclared soy, an allergen, in the products.",
-    "testing_qa_notes": "Not Specified"
+    "recalls_notices": "1. 2016 voluntary recall for certain RAW Meal Organic Shake & Meal products due to potential contamination with Salmonella Virchow 2. 2023, Garden of Life, LLC initiated a voluntary recall of several of its whole food dietary supplements due to the presence of undeclared soy, an allergen, in the products."
   },
   {
     "sources": [
@@ -194,7 +207,6 @@
     "assembled_in": "USA",
     "ingredient_sourcing": "International, USA",
     "ingredient_philosophy": "well‑crafted dietary supplement formulations based on sound scientific research can promote optimal health",
-    "proprietary_blends": "None",
     "product_categories": [
       "Antioxidants",
       "Bone & Joint",
@@ -202,6 +214,12 @@
       "Emotional Wellness",
       "Longevity",
       "Probiotics"
+    ],
+    "product_types": [
+      "Capsules",
+      "Chewables",
+      "Powders",
+      "Tablets"
     ],
     "top_products": [
       "Bone & Joint Formulas",
@@ -211,9 +229,6 @@
     "unique_offering": "Science‑based formulations and innovative products that were among the first of their kind. The company emphasises superior science, quality ingredients and rigorous testing.",
     "glass_or_plastic": "Plastic",
     "woman_owned": false,
-    "vegan": "Some Vegan Products",
-    "allergen_free": "Most are Allergen-Free",
-    "clinically_tested": "Aquamin®, BetterStevia®, Celadrin®, MenaQ7®, Sugarless Sugar™, UC‑II® Collagen",
     "sustainability": "No Certifications or Claims",
     "recalls_notices": "1. 2022 NAC, 2. 2020 Bone Broth",
     "testing_qa_notes": "state‑of‑the‑art analytical laboratory, and Jarrow tests products at several points during manufacturing and verifies purity through certified third‑party labs"
@@ -250,7 +265,6 @@
     "assembled_in": "USA",
     "ingredient_sourcing": "International, USA",
     "ingredient_philosophy": "FoodState Nutrients™ and a Slo‑Food Process™ pair nutrients with real foods",
-    "proprietary_blends": "Limited",
     "product_categories": [
       "Antioxidants",
       "Condition Specific",
@@ -263,6 +277,13 @@
       "Protein",
       "Vitamins & Minerals"
     ],
+    "product_types": [
+      "Capsules",
+      "Gummies",
+      "Liquids",
+      "Powders",
+      "Tablets"
+    ],
     "top_products": [
       "Iron",
       "Multivitamins",
@@ -271,9 +292,6 @@
     "unique_offering": "The only company to manufacture more than 36 individual nutrients using its proprietary Slo‑Food Process™",
     "glass_or_plastic": "Glass, Plastic",
     "woman_owned": false,
-    "vegan": "Some Vegan Products",
-    "allergen_free": "Allergen-Free",
-    "clinically_tested": "AstaPure®, Cognizin®, EVTene™, Lyc‑o‑Mato®, MBP®, Magtein®, StimuCal™",
     "sustainability": "1% For the Planet, Certified B-Corp, Zero-waste by 2030",
     "recalls_notices": "1. 2013 FoodState recalled about 7 400 bottles of MegaFood One Daily supplements because the glass bottles were not child‑resistant; the tablets contain iron, which can injure children if accidentally ingested, There were no injuries reported.",
     "testing_qa_notes": "Tests for heavy metals, contaminants, yeast, mold, identity and potency. Products are also tested for more than 150 pesticides."
@@ -313,7 +331,6 @@
     "assembled_in": "Vermont",
     "ingredient_sourcing": "International, USA",
     "ingredient_philosophy": "whole‑food ingredients, fermentation for better absorption and avoidance of synthetic fillers",
-    "proprietary_blends": "Limited",
     "product_categories": [
       "Bone & Joint",
       "Herbals",
@@ -321,6 +338,12 @@
       "Omega-3",
       "Probiotics",
       "Vitamins & Minerals"
+    ],
+    "product_types": [
+      "Capsules",
+      "Gummies",
+      "Liquids",
+      "Tablets"
     ],
     "top_products": [
       "Bone & Joint Formulas",
@@ -330,9 +353,7 @@
     "unique_offering": "fermenting nutrients with whole foods to make them more bioavailable, focusing on organic/non‑GMO sourcing",
     "glass_or_plastic": "Glass",
     "woman_owned": false,
-    "vegan": "Some Vegan Products",
-    "allergen_free": "No",
-    "clinically_tested": "Blood Builder™",
+    "allergen_free": false,
     "sustainability": "Certified B-Corp, Compost Recycle & Reuse Waste",
     "recalls_notices": "1. 2013 Probiotic may contain undeclared soy",
     "testing_qa_notes": "micro-tested in-house"
@@ -357,6 +378,7 @@
       "Illinois & Nevada"
     ],
     "certification": [
+      "CarnoSyn®",
       "Certified Gluten Free",
       "Cruelty Free",
       "EWG Verified®",
@@ -378,7 +400,6 @@
     "assembled_in": "USA",
     "ingredient_sourcing": "International, USA",
     "ingredient_philosophy": "quality, affordability and science‑based formulations",
-    "proprietary_blends": "Limited",
     "product_categories": [
       "Antioxidants",
       "Bone & Joint",
@@ -397,6 +418,14 @@
       "Sport Performance",
       "Vitamins & Minerals"
     ],
+    "product_types": [
+      "Capsules",
+      "Chewables",
+      "Gummies",
+      "Liquids",
+      "Powders",
+      "Tablets"
+    ],
     "top_products": [
       "Enzymes",
       "Essential Oils",
@@ -406,9 +435,6 @@
     "unique_offering": "long‑running family‑owned company offering a huge variety of natural supplements and foods at affordable prices with strict quality assurance (Whole Foods Magazine)",
     "glass_or_plastic": "Plastic",
     "woman_owned": false,
-    "vegan": "Some Vegan Products",
-    "allergen_free": "Most are Allergen-Free",
-    "clinically_tested": "TargetCal® Natural K2 Complex, Zyflamend®",
     "sustainability": "LEED Silver Certified Buildings, Moving to 100% PCR Bottles, Terracycle®",
     "recalls_notices": "1. 2024 Phosphatidyl Serine Extra Strength 2. 2021 Bee Products 3. 2025 Toothpaste 4.",
     "testing_qa_notes": "ISO Accredited lab (see sources for images and details)"
@@ -440,7 +466,6 @@
     ],
     "assembled_in": "United Kingdom, Germany, USA, Switzerland",
     "ingredient_sourcing": "Dr. Bach’s Original garden, European non-GMO only",
-    "proprietary_blends": "None",
     "product_categories": [
       "Emotional Wellness",
       "Kids",
@@ -448,15 +473,18 @@
       "Pet",
       "Sleep & Stress"
     ],
+    "product_types": [
+      "Flower Essences",
+      "Gummies",
+      "Liquids"
+    ],
     "top_products": [
       "Stress and Sleep"
     ],
     "unique_offering": "Iron-rich water: Spatone Sourced from original research gardens.",
     "glass_or_plastic": "Glass",
     "woman_owned": false,
-    "vegan": "Some Vegan Products",
-    "allergen_free": "Most are Allergen-Free",
-    "clinically_tested": "KSM Ashwagandha, S'affrinside",
+    "clinically_tested": "Affron Saffron, Ester-C, KSM Ashwagandha, NovaSol Curcumin, SunTheanine",
     "sustainability": "No Certifications or Claims"
   },
   {
@@ -485,7 +513,6 @@
     ],
     "assembled_in": "USA",
     "ingredient_sourcing": "International",
-    "proprietary_blends": "None",
     "product_categories": [
       "Antioxidants",
       "Bone & Joint",
@@ -495,15 +522,19 @@
       "Sleep & Stress",
       "Vitamins & Minerals"
     ],
+    "product_types": [
+      "Capsules",
+      "Gummies",
+      "Tablets"
+    ],
     "top_products": [
       "Bone & Joint Formulas"
     ],
     "unique_offering": "Special in-house tableting technology allows for complete dissolution in stomach.",
     "glass_or_plastic": "Glass",
     "woman_owned": false,
-    "vegan": "Vegan",
-    "allergen_free": "No",
-    "clinically_tested": "Ester-C, KSM Ashwagandha, Metafolin®, NovaSol Curcumin, PhytoSure®-O.C.®, PurePlantD3®, SelenoExcell®, UC‑II® Collagen",
+    "allergen_free": false,
+    "clinically_tested": "KSM Ashwagandha, S'affrinside",
     "sustainability": "100% Renewable Energy, Carbon-Neutral, Certified B-Corp",
     "testing_qa_notes": "Testing Standards: Each batch undergoes a comprehensive series of tests, including weight, physical attributes like shape and color, sterility, shelf-life and stability, melting point identification, dissolution testing for water-soluble vitamins, microbial contamination checks, and chemical analysis or potency assays for vitamins and minerals"
   }
