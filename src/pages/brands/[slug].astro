@@ -97,7 +97,19 @@ function formatLicensedIngredients(ingredients) {
   
   return `<div class="ingredient-boxes">${boxes}</div>`;
 }
----
+
+/**
+ * Generic formatter for arrays/CSV to neutral boxes
+ */
+function formatList(items) {
+  if (!items || (Array.isArray(items) && items.length === 0)) return '—';
+  const list = Array.isArray(items)
+    ? items
+    : (typeof items === 'string' ? items.split(',').map(s => s.trim()).filter(Boolean) : []);
+  if (list.length === 0) return '—';
+  const boxes = list.map(x => `<span class="cert-box">${x}</span>`).join(' ');
+  return `<div class="cert-boxes">${boxes}</div>`;
+}
 
 <Base {title} {description} {canonical}>
   <!-- Citation bubble styles -->
@@ -234,8 +246,10 @@ function formatLicensedIngredients(ingredients) {
       <section class="card">
         <h2>Products</h2>
         <dl class="kv">
-          <dt>Most popular</dt><dd>{fmt(brand.most_popular)}</dd>
+          <dt>Top products</dt><dd set:html={formatList(brand.top_products ?? brand.most_popular)}></dd>
           <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
+          <dt>Categories</dt><dd set:html={formatList(brand.product_categories)}></dd>
+          <dt>Formats</dt><dd set:html={formatList(brand.product_formats ?? brand.product_types)}></dd>
           <dt>Licensed Ingredients</dt><dd set:html={formatLicensedIngredients(brand.clinically_tested)}></dd>
         </dl>
       </section>
