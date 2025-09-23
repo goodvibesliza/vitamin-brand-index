@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { getAllBrands } from '../../lib/data.js';
 import { guidesMap } from '../../data/guidesMap';
+import extractOfficialSite from '../../lib/extractOfficialSite';
 import CertificationBoxes from '../../components/CertificationBoxes.tsx';
 
 export async function getStaticPaths() {
@@ -19,6 +20,7 @@ const { brand } = Astro.props;
 const title = `${brand.brand} - Vitamin Brand Index`;
 const description = `Quick facts, sourcing signals, and certifications for ${brand.brand}.`;
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
+const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
 
 // Format a value for display, handling nulls, empty strings, etc.
 function fmt(v) {
@@ -110,8 +112,7 @@ function formatList(items) {
   const boxes = list.map(x => `<span class="cert-box">${x}</span>`).join(' ');
   return `<div class="cert-boxes">${boxes}</div>`;
 }
----
-<Base {title} {description} {canonical}>
+
   <!-- Citation bubble styles -->
   <style>
     .guide-link {
@@ -222,7 +223,7 @@ function formatList(items) {
         <h2>Sustainability</h2>
         <dl class="kv">
           <dt>Glass or plastic</dt><dd>{fmt(brand.glass_or_plastic)}</dd>
-          <dt set:html={`Sustainability${getGuideLink('sustainability')}`}></dt><dd>{fmt(brand.sustainability)}</dd>
+          <dt set:html={`Sustainability${getGuideLink('sustainability')}`}></dt><dd set:html={formatList(brand.sustainability)}></dd>
         </dl>
       </section>
 
@@ -266,7 +267,7 @@ function formatList(items) {
         <h2>Digital Experience</h2>
         <dl class="kv">
           <dt>Website</dt><dd>
-            {brand.website ? <a href={brand.website} target="_blank" rel="noopener noreferrer">{brand.website.replace(/^https?:\/\//, '')}</a> : '—'}
+            {officialUrl ? <a href={officialUrl} target="_blank" rel="noopener noreferrer">{officialUrl.replace(/^https?:\/\//, '')}</a> : '—'}
           </dd>
           <dt>App</dt><dd>{fmt(brand.app)}</dd>
         </dl>
@@ -276,7 +277,7 @@ function formatList(items) {
     <footer class="page-footer">
       <p>
         <small>
-          Data last verified: {brand.last_verified || 'March 2024'}. 
+          Data last verified: {brand.last_verified || '—'}. 
           Found an error? <a href="mailto:hello@vitaminbrandindex.com">Let us know</a>.
         </small>
       </p>
