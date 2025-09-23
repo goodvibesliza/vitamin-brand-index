@@ -4,6 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Ensure devDependencies (e.g., @tailwindcss/vite) are installed at build time
+  NPM_CONFIG_PRODUCTION = "false"
   # Formspree endpoint for “Request an Edit” form
   FORMSPREE_EDIT_ID = "mjkeqnvy"
   # Formspree endpoint for “Submit a Brand” form
