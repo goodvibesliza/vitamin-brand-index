@@ -20,7 +20,7 @@ const { brand } = Astro.props;
 const title = `${brand.brand} - Vitamin Brand Index`;
 const description = `Quick facts, sourcing signals, and certifications for ${brand.brand}.`;
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
-const officialUrl = extractOfficialSite(brand.sources ?? [], brand.brand);
+const officialUrl = brand.website ?? extractOfficialSite(brand.sources ?? [], brand.brand);
 
 // Format a value for display, handling nulls, empty strings, etc.
 function fmt(v) {
@@ -113,7 +113,21 @@ function formatList(items) {
   return `<div class="cert-boxes">${boxes}</div>`;
 }
 
----
+/** Render source links list */
+function renderSourceLinks(sources) {
+  if (!sources || !Array.isArray(sources) || sources.length === 0) return '—';
+  const items = sources.map((u) => {
+    try {
+      const url = new URL(u);
+      const host = url.hostname.replace(/^www\./, '');
+      return `<li><a href="${url.href}" target="_blank" rel="noopener noreferrer">${host}</a></li>`;
+    } catch {
+      return `<li><a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a></li>`;
+    }
+  }).join('');
+  return `<ul class="sources-list">${items}</ul>`;
+}
+
 <Base {title} {description} {canonical}>
   <!-- Citation bubble styles -->
   <style>
@@ -271,7 +285,7 @@ function formatList(items) {
           <dt>Website</dt><dd>
             {officialUrl ? <a href={officialUrl} target="_blank" rel="noopener noreferrer">{officialUrl.replace(/^https?:\/\//, '')}</a> : '—'}
           </dd>
-          <dt>App</dt><dd>{fmt(brand.app)}</dd>
+          <dt>Source links</dt><dd set:html={renderSourceLinks(brand.sources)}></dd>
         </dl>
       </section>
     </div>

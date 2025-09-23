@@ -23,10 +23,14 @@ export function extractOfficialSite(sources: string[] = [], brandName: string): 
   
   // Known non-official hosts to penalize
   const blockedHosts = [
+    // Social / platforms
     'facebook.com', 'instagram.com', 'twitter.com', 'x.com',
     'linkedin.com', 'youtube.com', 'tiktok.com', 'wikipedia.org',
+    // Marketplaces
     'amazon.com', 'amazon.co.uk', 'amazon.ca', 'amazon.de',
-    'amazon.fr', 'amazon.es', 'amazon.it', 'amazon.jp'
+    'amazon.fr', 'amazon.es', 'amazon.it', 'amazon.jp',
+    // News / press / recall domains frequently present in sources
+    'prnewswire.com', 'publicnow.com', 'cpsc.gov', 'fda.gov'
   ];
   
   // Score and filter sources
@@ -68,7 +72,9 @@ export function extractOfficialSite(sources: string[] = [], brandName: string): 
       if (parsedUrl.protocol === 'https:') score += 1;
       
       // Penalty for blocked hosts
-      if (blockedHosts.some(host => parsedUrl.hostname.endsWith(host))) score -= 4;
+      if (blockedHosts.some(host => parsedUrl.hostname.endsWith(host))) score -= 6;
+      // Generic penalty for *.gov domains (recalls/announcements)
+      if (parsedUrl.hostname.endsWith('.gov')) score -= 6;
       
       // Path depth penalty (max -3)
       score -= Math.min(pathDepth, 3);
@@ -90,8 +96,19 @@ export function extractOfficialSite(sources: string[] = [], brandName: string): 
     return a.length - b.length;
   });
   
-  // Return the best candidate or null
-  return scored.length > 0 && scored[0].score > -5 ? scored[0].url : null;
+  // Return the best candidate only if domain contains the brand name
+  if (scored.length === 0) return null;
+  const best = scored[0];
+  try {
+    const u = new URL(best.url);
+    const hostParts = u.hostname.split('.');
+    const registrableDomain = hostParts.length >= 2 ? hostParts.slice(-2).join('.') : u.hostname;
+    const registrableNormalized = registrableDomain.toLowerCase().replace(/[^a-z0-9.]/g, '');
+    if (best.score > -5 && registrableNormalized.includes(brandNormalized)) {
+      return best.url;
+    }
+  } catch {}
+  return null;
 }
 
 // Default export for convenience
