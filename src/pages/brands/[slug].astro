@@ -20,18 +20,7 @@ const { brand } = Astro.props;
 const title = `${brand.brand} - Vitamin Brand Index`;
 const description = `Quick facts, sourcing signals, and certifications for ${brand.brand}.`;
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
-const rawOfficial = extractOfficialSite(brand.sources ?? [], brand.brand);
-const officialUrl = (() => {
-  if (!rawOfficial || typeof rawOfficial !== 'string') return null;
-  const trimmed = rawOfficial.trim();
-  const withScheme = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
-  try {
-    const u = new URL(withScheme);
-    return (u.protocol === 'http:' || u.protocol === 'https:') ? u.toString() : null;
-  } catch {
-    return null;
-  }
-})();
+const officialUrl = brand.website ?? extractOfficialSite(brand.sources ?? [], brand.brand);
 
 // Format a value for display, handling nulls, empty strings, etc.
 function fmt(v) {
@@ -139,6 +128,7 @@ function renderSourceLinks(sources) {
   return `<ul class="sources-list">${items}</ul>`;
 }
 
+---
 <Base {title} {description} {canonical}>
   <!-- Citation bubble styles -->
   <style>
