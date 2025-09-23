@@ -3,291 +3,320 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alert Investigation – Netlify build failure: brands/[slug].astro</title>
+  <title>Alert Investigation Report</title>
   <style>
+    /* Base styles */
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.6;
       color: #333;
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
-    header {
-      border-bottom: 2px solid #eee;
-      padding-bottom: 20px;
-      margin-bottom: 20px;
+    
+    h1, h2, h3 {
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+      page-break-after: avoid;
     }
+    
     h1 {
-      margin-top: 0;
-      color: #2c3e50;
+      font-size: 24px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
     }
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .meta-item {
-      background-color: #f8f9fa;
-      padding: 10px;
-      border-radius: 4px;
-    }
-    .meta-item h4 {
-      margin: 0 0 5px 0;
-      color: #6c757d;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-    }
-    .meta-item p {
-      margin: 0;
-      font-weight: 500;
-    }
-    .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: white;
-    }
-    .badge-sev2 {
-      background-color: #f39c12;
-    }
-    section {
-      margin-bottom: 30px;
-    }
+    
     h2 {
-      color: #2c3e50;
+      font-size: 20px;
       border-bottom: 1px solid #eee;
       padding-bottom: 5px;
     }
-    pre {
-      background-color: #f8f9fa;
-      border: 1px solid #e9ecef;
-      border-radius: 4px;
-      padding: 15px;
-      overflow-x: auto;
-      font-size: 0.9rem;
+    
+    /* Header styles */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #eee;
+      padding-bottom: 15px;
     }
-    code {
-      font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background-color: #f1f3f5;
-      padding: 2px 4px;
-      border-radius: 3px;
-      font-size: 0.9em;
+    
+    .header-left {
+      flex: 1;
     }
-    .code-block {
-      margin: 15px 0;
+    
+    .header-right {
+      flex: 1;
+      text-align: right;
     }
-    .code-header {
-      background-color: #e9ecef;
+    
+    /* Severity badges */
+    .severity-badge {
+      display: inline-block;
       padding: 5px 10px;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
-      font-weight: 600;
-      font-size: 0.8rem;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
-    .code-content {
-      background-color: #f8f9fa;
-      border: 1px solid #e9ecef;
-      border-top: none;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
+    
+    .sev-1 {
+      background-color: #d9534f;
+      color: white;
+    }
+    
+    .sev-2 {
+      background-color: #f0ad4e;
+      color: white;
+    }
+    
+    .sev-3 {
+      background-color: #f7e58d;
+      color: #333;
+    }
+    
+    /* Content sections */
+    .section {
+      margin-bottom: 30px;
+      page-break-inside: avoid;
+    }
+    
+    /* Code blocks */
+    pre {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
       padding: 10px;
       overflow-x: auto;
-      font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.9rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      page-break-inside: avoid;
     }
-    ul {
-      padding-left: 20px;
+    
+    /* Details/summary for collapsible sections */
+    details {
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      background-color: #f9f9f9;
     }
-    li {
-      margin-bottom: 5px;
+    
+    summary {
+      font-weight: bold;
+      cursor: pointer;
     }
+    
+    /* Images */
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ddd;
+      margin: 10px 0;
+      page-break-inside: avoid;
+    }
+    
+    /* Links */
+    a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Timeline */
     .timeline {
-      border-left: 2px solid #dee2e6;
-      padding-left: 20px;
+      margin-left: 20px;
+    }
+    
+    .timeline-item {
+      margin-bottom: 15px;
+      position: relative;
+    }
+    
+    .timeline-time {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    .timeline-content {
       margin-left: 10px;
     }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 20px;
+    
+    /* Fix proposal */
+    .fix-steps {
+      list-style-type: decimal;
+      padding-left: 20px;
     }
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      left: -26px;
-      top: 5px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: #6c757d;
+    
+    .fix-step {
+      margin-bottom: 15px;
     }
-    .timeline-time {
-      font-weight: 600;
-      color: #495057;
-    }
-    footer {
+    
+    /* Footer */
+    .footer {
       margin-top: 40px;
-      padding-top: 20px;
-      border-top: 2px solid #eee;
-      font-size: 0.9rem;
-      color: #6c757d;
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+      font-size: 12px;
+      color: #777;
       text-align: center;
     }
+    
+    /* Print styles */
+    @media print {
+      body {
+        font-size: 12pt;
+      }
+      
+      a {
+        color: #000;
+      }
+      
+      a:after {
+        content: " (" attr(href) ")";
+        font-size: 90%;
+        color: #555;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      @page {
+        margin: 1.5cm;
+      }
+    }
+    
+    /* Annotation styles */
+    .replace-note {
+      background-color: #fffacd;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-style: italic;
+      font-size: 0.9em;
+      color: #555;
+    }
   </style>
+  <script>
+    function nowUtc(){ return new Date().toISOString().replace('T',' ').replace('Z',' UTC'); }
+    document.addEventListener('DOMContentLoaded', () => {
+      const startEl = document.getElementById('start-time');
+      const genEl = document.getElementById('generation-date');
+      if(startEl) startEl.textContent = nowUtc();
+      if(genEl) genEl.textContent = nowUtc();
+    });
+  </script>
 </head>
 <body>
-  <header>
-    <h1>Alert Investigation – Netlify build failure: brands/[slug].astro</h1>
-    <div class="meta">
-      <div class="meta-item">
-        <h4>Severity</h4>
-        <p><span class="badge badge-sev2">SEV-2</span></p>
-      </div>
-      <div class="meta-item">
-        <h4>Started</h4>
-        <p id="current-time">Current UTC Time</p>
-      </div>
-      <div class="meta-item">
-        <h4>On-call</h4>
-        <p>Factory Droid (Slack: @factory-droid)</p>
+  <!-- Header Section -->
+  <div class="header" id="header">
+    <div class="header-left">
+      <h1>Alert Investigation Vitamin Brand Index: Boxes not rendering on Netlify deploy previews</h1>
+      <div>
+        <span class="severity-badge sev-2">SEV-2</span>
+        <span>Started: <span id="start-time">2025-09-23 00:00:00 UTC</span></span>
       </div>
     </div>
-  </header>
-
-  <section>
+    <div class="header-right">
+      <div>On-call: <strong id="oncall-engineer">goodvibesliza</strong></div>
+    </div>
+  </div>
+  <!-- Executive Summary Section -->
+  <div class="section" id="exec-summary">
     <h2>Executive Summary</h2>
-    <p>Because the brand page used TS-incompatible syntax in an Astro frontmatter virtual TS module (object spread in JSON.stringify and an optional-chaining call), esbuild choked early in parsing → Vite build failed at brands/[slug].astro line 2.</p>
-  </section>
-
-  <section>
+    <p>Because Netlify Deploy Previews built from an older commit lacking the new server-side formatting functions, certifications and licensed ingredients rendered as plain text on preview builds, while local builds included the correct box HTML and styles.</p>
+  </div>
+  <!-- Root Cause Analysis Section -->
+  <div class="section" id="rca">
     <h2>Root Cause Analysis</h2>
-    <h3>Primary Hypothesis</h3>
-    <p>esbuild parsing failure of Astro frontmatter/virtual TS due to modern syntax combination (object spread inside JSON.stringify and optional-chaining call), causing the "Expected '}' but found '.'" error.</p>
-    
-    <h3>Contributing Factors</h3>
-    <ul>
-      <li>Netlify's build toolchain parsing the frontmatter as lang.ts</li>
-      <li>Fragile combination of syntax in server-side evaluation</li>
-      <li>Previous fragments (&lt;&gt; ... &lt;/&gt;) in template may also upset the parser</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Evidence</h2>
-    
-    <h3>Log Snippet</h3>
-    <pre>[2m17:44:32[22m [34m[vite][39m [32m✓[39m 6 modules transformed.
-[31m[1m17:44:32[22m [ERROR] [vite][39m [31m✗[39m Build failed in 13ms
-Expected "}" but found "."
-  [1mLocation:[22m
-    [4m/opt/build/repo/src/pages/brands/[slug].astro?astro&type=script&index=0&lang.ts:2:29[24m
-  [1mStack trace:[22m
-[2m    at failureErrorWithLog (/opt/build/repo/node_modules/esbuild/lib/main.js:1467:15)
-    at responseCallbacks.&lt;computed&gt; (/opt/build/repo/node_modules/esbuild/lib/main.js:603:9)
-    at Socket.readFromStdout (/opt/build/repo/node_modules/esbuild/lib/main.js:581:7)
-    at addChunk (node:internal/streams/readable:561:12)
-    at Readable.push (node:internal/streams/readable:392:5)[22m</pre>
-
-    <h3>Code Reference</h3>
-    <p>File: <code>src/pages/brands/[slug].astro</code></p>
-    
-    <div class="code-block">
-      <div class="code-header">Before (problematic)</div>
-      <div class="code-content">
-JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: brand.brand,
-  url: `https://vitaminbrandindex.com/brands/${brand.slug}/`,
-  ...(officialUrl ? { sameAs: [officialUrl] } : {})
-})
-
-window.plausible?.('Tag Click', { props: { tag, brand } })
-
-{officialUrl && (
-  <>
-    &lt;dt>Official website&lt;/dt>
-    &lt;dd>&lt;a href={officialUrl} target="_blank" rel="noopener noreferrer">{officialUrl}&lt;/a>&lt;/dd>
-  </>
-)}
-      </div>
-    </div>
-
-    <div class="code-block">
-      <div class="code-header">After (fixed)</div>
-      <div class="code-content">
-// Pre-build JSON-LD object without spread syntax
-const ldOrg = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: brand.brand,
-  url: `https://vitaminbrandindex.com/brands/${brand.slug}/`,
-};
-if (officialUrl) {
-  ldOrg.sameAs = [officialUrl];
+    <div>
+      <p>Suspected root cause:</p>
+      <ul>
+        <li><strong>Primary Hypothesis:</strong> Deploy preview used a stale branch/commit missing <code>formatCertifications()</code> and <code>formatLicensedIngredients()</code> in <code>src/pages/brands/[slug].astro</code>.</li>
+        <li><strong>Contributing Factors:</strong> Netlify cache and/or PR source targeting the wrong commit; CSS wasn’t globally present previously (now added to <code>src/styles/base.css</code>).</li>
+      </ul>
+      
+      <h3>Evidence</h3>
+      
+      <h4>Code Reference</h4>
+      <p>Functions present in <code>src/pages/brands/[slug].astro</code>:</p>
+      <details>
+        <summary>formatCertifications</summary>
+        <pre>
+function formatCertifications(certifications) {
+  if (!certifications || !Array.isArray(certifications) || certifications.length === 0) return '—';
+  const boxes = certifications.map(cert => `<span class="cert-box">${cert}</span>`).join(' ');
+  return `<div class="cert-boxes">${boxes}</div>`;
 }
-
-// In script tag
-JSON.stringify(ldOrg)
-
-// Safe window access
-if (window && window.plausible) {
-  window.plausible('Tag Click', { props: { tag, brand } });
+        </pre>
+      </details>
+      <details>
+        <summary>formatLicensedIngredients</summary>
+        <pre>
+function formatLicensedIngredients(ingredients) {
+  if (!ingredients || typeof ingredients !== 'string' || ingredients.trim() === '') return '—';
+  const list = ingredients.split(',').map(s => s.trim()).filter(Boolean);
+  const boxes = list.map(x => `<span class="ingredient-box">${x}</span>`).join(' ');
+  return `<div class="ingredient-boxes">${boxes}</div>`;
 }
-
-// No fragment shorthand
-{officialUrl ? &lt;dt>Official website&lt;/dt> : null}
-{officialUrl ? (
-  &lt;dd>
-    &lt;a href={officialUrl} target="_blank" rel="noopener noreferrer">
-      {officialUrl}
-    &lt;/a>
-  &lt;/dd>
-) : null}
-      </div>
+        </pre>
+      </details>
+      <h4>CSS Inclusion</h4>
+      <p>Global styles for boxes added to <code>src/styles/base.css</code> to guarantee inclusion in builds.</p>
     </div>
-  </section>
-
-  <section>
+  </div>
+  <!-- Proposed Fix Section -->
+  <div class="section" id="fix-proposal">
     <h2>Proposed Fix</h2>
-    
-    <h3>Immediate Mitigation</h3>
-    <p>Remove spread/optional-chaining/fragment shorthand; rebuild.</p>
-    
-    <h3>Short-term Fix</h3>
-    <p>Prebuild ld+json object (no spread), guard Plausible call, avoid fragment shorthand; commit/push and redeploy.</p>
-    
-    <h3>Long-term Solution</h3>
-    <ul>
-      <li>Standardize Astro frontmatter to plain JS (no TS/advanced syntax) for production builds</li>
-      <li>Add CI check to bundle sample pages</li>
-      <li>Pin toolchain versions</li>
-    </ul>
-  </section>
-
-  <section>
+    <ol class="fix-steps">
+      <li class="fix-step">
+        <strong>Immediate Mitigation:</strong> Ensure SSR formatting functions and box CSS are in the feature branch (verified; CSS added globally).
+        <div>Validation: Local build shows correct box HTML; functions exist server-side.</div>
+      </li>
+      <li class="fix-step">
+        <strong>Short-term Fix:</strong> Open a PR from <code>feature/database-update-licensed-ingredients</code> to <code>main</code>; clear Netlify cache and trigger a fresh deploy preview from the PR.
+        <div>Validation: Preview page HTML contains <code>cert-box</code> and <code>ingredient-box</code> spans.</div>
+      </li>
+      <li class="fix-step">
+        <strong>Long-term Solution:</strong> Disable Netlify cached deploys for schema/code changes or add “Clear cache and deploy” to release checklist; add an HTML snapshot test for brand page boxes.
+        <div>Validation: Future previews consistently render boxes without manual cache clears.</div>
+      </li>
+    </ol>
+  </div>
+  <!-- Incident Timeline Section -->
+  <div class="section" id="timeline">
     <h2>Incident Timeline</h2>
     <div class="timeline">
       <div class="timeline-item">
-        <div class="timeline-time">17:44:32 UTC</div>
+        <span class="timeline-time">T0</span>
         <div class="timeline-content">
-          Netlify/Vite build failed with error: "Expected '}' but found '.'" in brands/[slug].astro line 2.
+          Local build confirmed box HTML present in <code>dist/brands/garden-of-life/index.html</code>.
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <span class="timeline-time">T1</span>
+        <div class="timeline-content">
+          Netlify Deploy Preview shows plain text for certifications/licensed ingredients.
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <span class="timeline-time">T2</span>
+        <div class="timeline-content">
+          Verified required functions in <code>[slug].astro</code>; added global CSS to <code>src/styles/base.css</code>.
         </div>
       </div>
     </div>
-  </section>
-
-  <footer>
-    <p>Generated: <span id="generation-date">September 16, 2025</span></p>
-  </footer>
-
-  <script>
-    // Update the current time in UTC
-    document.getElementById('current-time').textContent = new Date().toUTCString();
-    document.getElementById('generation-date').textContent = new Date().toUTCString();
-  </script>
+  </div>
+  <!-- Footer -->
+  <div class="footer">
+    <p>Generated: <span id="generation-date">2025-09-23 00:00:00 UTC</span></p>
+  </div>
 </body>
 </html>
