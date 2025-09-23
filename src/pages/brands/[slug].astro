@@ -20,7 +20,11 @@ const { brand } = Astro.props;
 const title = `${brand.brand} - Vitamin Brand Index`;
 const description = `Quick facts, sourcing signals, and certifications for ${brand.brand}.`;
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
-const officialUrl = brand.website ?? extractOfficialSite(brand.sources ?? [], brand.brand);
+// Support sources as strings or objects { url, title? }
+const sourceUrls = (brand.sources ?? [])
+  .map((s) => (typeof s === 'string' ? s : (s && typeof s.url === 'string' ? s.url : null)))
+  .filter(Boolean);
+const officialUrl = brand.website ?? extractOfficialSite(sourceUrls, brand.brand);
 
 // Basic HTML escaping helper (reuse across formatters)
 function escapeHtml(s) {
@@ -106,7 +110,7 @@ function formatLicensedIngredients(ingredients) {
  */
 function normalizeList(items) {
   if (!items || (Array.isArray(items) && items.length === 0)) return [];
-  const list = Array.isArray(items) ? items : (typeof items === 'string' ? items.split(',') : []);
+  const list = Array.isArray(items) ? items : (typeof items === 'string' ? items.split(/[,;]+/) : []);
   return list.map((s) => String(s).trim()).filter(Boolean);
 }
 
@@ -114,19 +118,21 @@ function normalizeList(items) {
 function renderSourceLinks(sources) {
   if (!sources || !Array.isArray(sources) || sources.length === 0) return '—';
   const items = sources.map((raw) => {
-    const value = (typeof raw === 'string' ? raw.trim() : String(raw));
+    const value = (typeof raw === 'string' ? raw.trim() : (raw && typeof raw.url === 'string' ? raw.url.trim() : String(raw)));
+    const title = (raw && typeof raw === 'object' && typeof raw.title === 'string' && raw.title.trim()) || null;
     try {
       const url = new URL(value);
       const isHttp = url.protocol === 'http:' || url.protocol === 'https:';
       const host = url.hostname.replace(/^www\./, '');
       if (isHttp) {
-        return `<li><a href="${url.toString()}" target="_blank" rel="noopener noreferrer nofollow">${escapeHtml(host)}</a></li>`;
+        const label = title ? escapeHtml(title) : escapeHtml(host);
+        return `<li><a href="${url.toString()}" target="_blank" rel="noopener noreferrer nofollow">${label}</a></li>`;
       }
       // Non-http(s) URL → render escaped text only
-      return `<li>${escapeHtml(value)}</li>`;
+      return `<li>${escapeHtml(title || value)}</li>`;
     } catch {
       // Not a URL — render as plain text
-      return `<li>${escapeHtml(value)}</li>`;
+      return `<li>${escapeHtml(title || value)}</li>`;
     }
   }).join('');
   return `<ul class="sources-list">${items}</ul>`;
@@ -312,7 +318,17 @@ function renderSourceLinks(sources) {
               ) : '—';
             })()}
           </dd>
-          <dt>Licensed Ingredients</dt><dd set:html={formatLicensedIngredients(brand.clinically_tested)}></dd>
+          <dt>Licensed Ingredients</dt>
+          <dd>
+            {(() => {
+              const list = normalizeList(brand.clinically_tested);
+              return list.length ? (
+                <div class="ingredient-boxes">
+                  {list.map((x) => <span class="ingredient-box">{x}</span>)}
+                </div>
+              ) : '—';
+            })()}
+          </dd>
         </dl>
       </section>
 
@@ -338,8 +354,7 @@ function renderSourceLinks(sources) {
     <footer class="page-footer">
       <p>
         <small>
-          Data last verified: {brand.last_verified || brand.last_updated || brand.latest_update || brand.updated_at || '—'}. 
-          Found an error? <a href="mailto:hello@vitaminbrandindex.com">Let us know</a>.
+          Data last verified: {brand.last_verified || brand.last_updated || brand.latest_update || brand.updated_at || '—'}.
         </small>
       </p>
     </footer>
