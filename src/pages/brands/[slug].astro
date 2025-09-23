@@ -22,6 +22,11 @@ const description = `Quick facts, sourcing signals, and certifications for ${bra
 const canonical = `https://vitaminbrandindex.com/brands/${brand.slug}/`;
 const officialUrl = brand.website ?? extractOfficialSite(brand.sources ?? [], brand.brand);
 
+// Basic HTML escaping helper (reuse across formatters)
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
 // Format a value for display, handling nulls, empty strings, etc.
 function fmt(v) {
   if (v === null || v === undefined || v === '') return '—';
@@ -46,10 +51,6 @@ function getGuideLink(key) {
  */
 function formatTestingNotes(notes) {
   if (!notes || notes.trim() === '') return '—';
-  
-  // Basic HTML escaping function
-  const escapeHtml = (s) =>
-    s.replace(/[&<>"']/g, (m) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   
   // Split on double newlines to create paragraphs
   const paragraphs = notes.split('\n\n').filter(p => p.trim() !== '');
@@ -101,28 +102,31 @@ function formatLicensedIngredients(ingredients) {
 }
 
 /**
- * Generic formatter for arrays/CSV to neutral boxes
+ * Normalize arrays/CSV into a clean list of strings
  */
-function formatList(items) {
-  if (!items || (Array.isArray(items) && items.length === 0)) return '—';
-  const list = Array.isArray(items)
-    ? items
-    : (typeof items === 'string' ? items.split(',').map(s => s.trim()).filter(Boolean) : []);
-  if (list.length === 0) return '—';
-  const boxes = list.map(x => `<span class="cert-box">${x}</span>`).join(' ');
-  return `<div class="cert-boxes">${boxes}</div>`;
+function normalizeList(items) {
+  if (!items || (Array.isArray(items) && items.length === 0)) return [];
+  const list = Array.isArray(items) ? items : (typeof items === 'string' ? items.split(',') : []);
+  return list.map((s) => String(s).trim()).filter(Boolean);
 }
 
 /** Render source links list */
 function renderSourceLinks(sources) {
   if (!sources || !Array.isArray(sources) || sources.length === 0) return '—';
-  const items = sources.map((u) => {
+  const items = sources.map((raw) => {
+    const value = (typeof raw === 'string' ? raw.trim() : String(raw));
     try {
-      const url = new URL(u);
+      const url = new URL(value);
+      const isHttp = url.protocol === 'http:' || url.protocol === 'https:';
       const host = url.hostname.replace(/^www\./, '');
-      return `<li><a href="${url.href}" target="_blank" rel="noopener noreferrer">${host}</a></li>`;
+      if (isHttp) {
+        return `<li><a href="${url.toString()}" target="_blank" rel="noopener noreferrer nofollow">${escapeHtml(host)}</a></li>`;
+      }
+      // Non-http(s) URL → render escaped text only
+      return `<li>${escapeHtml(value)}</li>`;
     } catch {
-      return `<li><a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a></li>`;
+      // Not a URL — render as plain text
+      return `<li>${escapeHtml(value)}</li>`;
     }
   }).join('');
   return `<ul class="sources-list">${items}</ul>`;
@@ -240,7 +244,17 @@ function renderSourceLinks(sources) {
         <h2>Sustainability</h2>
         <dl class="kv">
           <dt>Glass or plastic</dt><dd>{fmt(brand.glass_or_plastic)}</dd>
-          <dt set:html={`Sustainability${getGuideLink('sustainability')}`}></dt><dd set:html={formatList(brand.sustainability)}></dd>
+          <dt set:html={`Sustainability${getGuideLink('sustainability')}`}></dt>
+          <dd>
+            {(() => {
+              const list = normalizeList(brand.sustainability);
+              return list.length ? (
+                <div class="cert-boxes">
+                  {list.map((x) => <span class="cert-box">{x}</span>)}
+                </div>
+              ) : '—';
+            })()}
+          </dd>
         </dl>
       </section>
 
@@ -264,10 +278,40 @@ function renderSourceLinks(sources) {
       <section class="card">
         <h2>Products</h2>
         <dl class="kv">
-          <dt>Top products</dt><dd set:html={formatList(brand.top_products ?? brand.most_popular)}></dd>
+          <dt>Top products</dt>
+          <dd>
+            {(() => {
+              const list = normalizeList(brand.top_products ?? brand.most_popular);
+              return list.length ? (
+                <div class="cert-boxes">
+                  {list.map((x) => <span class="cert-box">{x}</span>)}
+                </div>
+              ) : '—';
+            })()}
+          </dd>
           <dt>Proprietary blends</dt><dd>{fmt(brand.proprietary_blends)}</dd>
-          <dt>Categories</dt><dd set:html={formatList(brand.product_categories)}></dd>
-          <dt>Formats</dt><dd set:html={formatList(brand.product_formats ?? brand.product_types)}></dd>
+          <dt>Categories</dt>
+          <dd>
+            {(() => {
+              const list = normalizeList(brand.product_categories);
+              return list.length ? (
+                <div class="cert-boxes">
+                  {list.map((x) => <span class="cert-box">{x}</span>)}
+                </div>
+              ) : '—';
+            })()}
+          </dd>
+          <dt>Formats</dt>
+          <dd>
+            {(() => {
+              const list = normalizeList(brand.product_formats ?? brand.product_types);
+              return list.length ? (
+                <div class="cert-boxes">
+                  {list.map((x) => <span class="cert-box">{x}</span>)}
+                </div>
+              ) : '—';
+            })()}
+          </dd>
           <dt>Licensed Ingredients</dt><dd set:html={formatLicensedIngredients(brand.clinically_tested)}></dd>
         </dl>
       </section>
@@ -281,7 +325,7 @@ function renderSourceLinks(sources) {
       </section>
 
       <section class="card">
-        <h2>Sources</h2>
+        <h2>Digital Experience</h2>
         <dl class="kv">
           <dt>Website</dt><dd>
             {officialUrl ? <a href={officialUrl} target="_blank" rel="noopener noreferrer">{officialUrl.replace(/^https?:\/\//, '')}</a> : '—'}
